@@ -20,8 +20,10 @@
   "dependencies": {
     "any-db": "^2.2.1",
     "any-db-mysql": "^2.1.2",
+    "any-db-sqlite3": "^2.1.4",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
+    "html": "^1.0.0",
     "path": "^0.12.7"
   }
 }
