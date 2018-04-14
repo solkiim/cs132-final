@@ -1,49 +1,64 @@
+// dependencies
 var express = require('express');
-var path = require('path');
+var bodyParser = require('body-parser');
+var db = require('any-db');
+var dbsql = require('any-db-mysql');
 
 // set up app
 var app = express();
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(express.static(__dirname));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/templates'));
 
-// response sendfile helper function
-function resSend(response, htmlname) {
-	var pagename = '/' + htmlname + '.html';
-	response.sendFile(path.join(__dirname + pagename));
-}
+// set up database connection
+var pool = db.createPool('sqlite3://chatroom.db', {min: 0, max: 1000});
+
+// create tables
+pool.query(
+	'CREATE TABLE IF NOT EXISTS account (' +
+		'username TEXT PRIMARY KEY, ' +
+		'password TEXT, ' +
+		'email TEXT, ' +
+		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited
+	function(err, data) {
+		if (err) {
+			console.error(err);
+		}
+	}
+);
 
 // routes
-app.get('/login', function(request, response) {
-	resSend(response, 'login');
+app.get('/', function(req, res) {
+	res.render('index.html');
 });
 
-app.post('/loginsubmit', function(request, response) {
-	app.set('username', request.body.username);
-	response.redirect('/home');
+app.post('/loginsubmit', function(req, res) {
+	var username = req.body.username;
+	response.redirect('/account');
 });
 
-app.get('/home', function(request, response) {
-	resSend(response, 'home');
+app.get('/signup', function(req, res) {
+	res.render('signup.html');
 });
 
-app.get('/getusername', function(request, response) {
-	response.json({username: app.get('username')});
+app.post('/signupsubmit', function(req, res) {
+	var username = req.body.username;
+	response.redirect('/account');
 });
 
-app.get('/market', function(request, response) {
-	resSend(response, 'market');
+app.get('/account', function(req, res) {
+	res.render('account.html');
 });
 
-app.get('/logout', function(request, response) {
-	app.set('username', '');
-	response.redirect('/login');
+app.get('*', function(req, res) {
+	res.render('404.html');
 });
 
-app.get('*', function(request, response) {
-	resSend(response, '404');
-});
+var server = app.listen(8080);
 
-app.listen(8080, function() {
-	console.log('- Server listening on port 8080');
+// app exit
+process.on('SIGINT', function() {
+	pool.close();
+	server.close();
+	process.exit();
 });
