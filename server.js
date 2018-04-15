@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/templates'));
 
 // set up database connection
-var pool = db.createPool('sqlite3://chatroom.db', {min: 0, max: 1000});
+var pool = db.createPool('sqlite3://parallel.db', {min: 0, max: 1000});
 
 // create tables
 pool.query(
@@ -22,7 +22,7 @@ pool.query(
 		'username TEXT PRIMARY KEY, ' +
 		'password TEXT NOT NULL, ' +
 		'email TEXT NOT NULL UNIQUE, ' +
-		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited
+		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited, 99: admin
 	function(err, data) {
 		if (err) {
 			console.error(err);
