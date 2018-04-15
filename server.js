@@ -34,7 +34,8 @@ pool.query(
 pool.query(
 	'CREATE TABLE IF NOT EXISTS favorite_stock (' +
 		'username TEXT, ' +
-		'stock_code TEXT)',	// 0:email not verified, 1:email verified, 2:accredited
+		'stock_code TEXT, ' +
+		'PRIMARY KEY (username, stock_code))',
 	function(err, data) {
 		if (err) {
 			console.error(err);
