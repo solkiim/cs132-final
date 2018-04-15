@@ -14,7 +14,7 @@ $(document).ready(function() {
 		$('#login-signup').show();
 	});
 	
-	// signup form submitted
+	// login form submitted
 	$('#loginform').submit(function(event) {
 		event.preventDefault();
 		

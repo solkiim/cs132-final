@@ -30,7 +30,6 @@ pool.query(
 	}
 );
 
-// TODO: setup after all stocks are set up @rhaime
 pool.query(
 	'CREATE TABLE IF NOT EXISTS favorite_stock (' +
 		'username TEXT, ' +
