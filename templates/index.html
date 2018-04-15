@@ -27,13 +27,20 @@
 <body>
 	<h1>home</h1>
 	
-	<a href="/signup">sign up</a>
+	<div id="login-signup">
+		<a href="/signup">sign up</a>
+		
+		<!-- do NOT change anything besides placeholders/values below -->
+		<form id="loginform">
+			<input name="username" type="text" placeholder="username"><br>
+			<input name="password" type="password" placeholder="password"><br>
+			<input type="submit" value="login">
+		</form>
+	</div>
 	
-	<!-- christine: please do NOT change anything besides placeholders/values below -->
-	<form id="loginform">
-		<input name="username" type="text" placeholder="username"><br>
-		<input name="password" type="password" placeholder="password"><br>
-		<input type="submit" value="login">
-	</form>
+	<div id="account-info">
+		<p>welcome, <span id="username"></span>!</p>
+		<button id="sign-out">sign out</button>
+	</div>
 </body>
 </html>
