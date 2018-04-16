@@ -1,44 +1,69 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var db = require('any-db');
-var dbsql = require('any-db-mysql');
 
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
+app.get('/account', function(req, res) {
+    res.sendFile('trade.html', {root : __dirname + '/templates'});
+});
 
 // on signupform submit
+app.post('/ordersubmit', function(req,res) {
+    
+    function(err, data) {
 
-if (buyOrSell = buy){
-	
-	// insert into buy table
-
-	conn.query('INSERT INTO Buy (room, nickname, body, time) VALUES($1, $2, $3, $4)', [roomNamee, nicknamee, message, timee], function(error, data) {
-        if (error){
-          console.log("FAILED to add to database")
-          res.sendStatus(500);
-        } else {
-          messages = data.rows;
+        if (err) {
+            console.error(err);
+            return res.status(500).send('error inserting order');
         }
-      });
 
-} else if (buyOrSell = sell){
+        if (buyOrSell = buy){
+    
+            // insert into buy table
 
-	// insert into sell table
+            pool.query('INSERT INTO Buy (tokenSymbol, buyOrSell, orderType, numTokens, price, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
+                if (error){
+                  console.log("FAILED to add to database");
+                  res.sendStatus(500);
+                } else {
+                  messages = data.rows;
+                }
+              });
 
-	conn.query('INSERT INTO Sell (room, nickname, body, time) VALUES($1, $2, $3, $4)', [roomNamee, nicknamee, message, timee], function(error, data) {
-        if (error){
-          console.log("FAILED to add to database")
-          res.sendStatus(500);
-        } else {
-          messages = data.rows;
+        } else if (buyOrSell = sell){
+
+            // insert into sell table
+            pool.query('INSERT INTO Sell (tokenSymbol, buyOrSell, orderType, numTokens, price, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
+                if (error){
+                  console.log("FAILED to add to database");
+                  res.sendStatus(500);
+                } else {
+                  messages = data.rows;
+                }
+              });
+
         }
-      });
 
-}
+        // and then trigger function to update orders
 
-      
+    }
+});
+
+
+ marketOrder(buyOrSell, price){
+
+    if (buyOrSell = Buy) {
+
+        // see what column 0 is on the buy table
+        // executed price now = col 0 price
+
+        // call executeOrder to insert into order table
+
+    }
+
+ } 
+
+ executeOrder(){
+
+    // insert into order table all the variables passed in
+
+ }    
 
 
 

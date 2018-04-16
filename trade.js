@@ -1,66 +1,27 @@
-getMarkets () {
+$(document).ready(function() {
+	// signup form submitted
+	
+	$('#orderForm').submit(function(event) {
 
-}
+		event.preventDefault();
+		
+		var tokenSym = $('#orderForm input[name=tokenSymbol]').val();
+		var buyOrSell = $('#orderForm input[name=buyOrSell]').val();
+		var orderType = $('#orderForm input[name=orderType').val();
+		var numTokens = $('#orderForm input[name=numTokens]').val();
+		var price = $('#orderForm input[name=orderType]').val();
+		var username = $('#orderForm input[name=username]').val();
+		
+		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, price, username function(data, status) {
 
-calcFee () {
+			if (data) {
 
-}
+			} else {
 
-getBalance () {
+			}
 
-}
-
-getOrderBook () {
-
-}
-
-getTicker (symbol) {
-
-}
-
-getTickers (symbols) {
-
-}
-
-getBidAsks (symbols) {
-
-}
-
-getTrades (symbol) {
-
-}
-
-getOrders (symbol) {
-
-}
-
-getOrder (id, symbol) {
-
-}
-
-createOrder () {
-
-}
-
-cancelOrder(id, symbol){
-
-}
+		});
 
 
-// extras
-
-getMyTrades (symbol, since, limit) {
-
-}
-
-getDepositAddress () {
-
-}
-
-getWithdrawalFees () {
-
-}
-
-withdraw () {
-
-}
+	});
+});
