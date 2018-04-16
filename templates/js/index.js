@@ -22,7 +22,9 @@ $(document).ready(function() {
 			'/verifypassword',
 			$('#loginform').serialize(),
 			function(data, status) {
-				if (data) {
+				if (data == 'that username does not exist') {
+					alert(data);
+				} else if (data == true) {
 					// if username and password match
 					sessionStorage.setItem('username', $('#loginform input[name=username]').val());
 					window.location.href = '/account';
