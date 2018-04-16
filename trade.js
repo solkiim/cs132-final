@@ -1,15 +1,3 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var db = require('any-db');
-var dbsql = require('any-db-mysql');
-
-var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-
-
-
-
 getMarkets () {
 
 }
@@ -76,19 +64,3 @@ getWithdrawalFees () {
 withdraw () {
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
