@@ -58,7 +58,9 @@ $(document).ready(function() {
 			'username=' + sessionStorage.getItem('username')
 				+ '&password=' + $('#update-password-form input[name=oldpassword]').val(),
 			function(data, status) {
-				if (data) {
+				if (data == 'that username does not exist') {
+					alert(data);
+				} else if (data == true) {
 					// if username and password match
 					$.post(
 						'/updatepassword',
