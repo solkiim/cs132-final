@@ -10,10 +10,15 @@ CREATE TABLE IF NOT EXISTS account (
 	zipcode TEXT,
 	telephone INTEGER,
 	acctCreationDate INTEGER,
-	portfolio TEXT,
 );
 
-CREATE TABLE IF NOT EXISTS favorite_stock (
+CREATE TABLE IF NOT EXISTS user_favorite_stock (
+	username TEXT NOT NULL,
+	tokenSymbol VARCHAR(5),
+	PRIMARY KEY (username, tokenSymbol)
+);
+
+CREATE TABLE IF NOT EXISTS user_portfolio (
 	username TEXT NOT NULL,
 	tokenSymbol VARCHAR(5),
 	PRIMARY KEY (username, tokenSymbol)
