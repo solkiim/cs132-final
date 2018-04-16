@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>trade</title>
+	
+	<!-- css -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+		crossorigin="anonymous">
+	<link rel="stylesheet" href="/css/css.css">
+	
+	<!-- js -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<script src="/js/signup.js"></script>
+</head>
+
+<body>
+	<h1>Trade</h1>
+	
+	<!-- do NOT change anything besides placeholders/values below -->
+	<form id="orderForm">
+
+		<!-- hidden: username, token symbol, username, get from page -->
+		<input name="tokenSymbol" type="hidden">
+		<input name="username" type="hidden">
+		<input name="buyOrSell" type="hidden">
+
+		<input name="orderType" type="text" placeholder="orderType"><br>
+
+		<!-- either numTokens OR price should be filled -->
+		<input name="numTokens" type="text" placeholder="orderType"><br>
+
+		<input name="price" type="text" placeholder="amount to spend"><br>
+
+
+		<!-- this should be buy or sell -->
+		<input type="submit" value="trade">
+
+	</form>
+</body>
+</html>

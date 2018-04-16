@@ -10,13 +10,35 @@ CREATE TABLE Token (
 
 );
 
-CREATE TABLE Order (
+
+-- want buy and sell to go from HIGHEST ----> to LOWEST price
+
+
+CREATE TABLE Buy (
+
+	orderID				INTEGER AUTO_INCREMENT,
+	tokenSymbol			VARCHAR(5) NOT NULL,
+	buyOrSell			TEXT NOT NULL,
+	orderType			VARCHAR(4) NOT NULL,
+	-- either num tokens OR price should be filled
+	numTokens         	INTEGER,
+	price         		INTEGER,
+	username			TEXT,
+	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
+	completed			BOOLEAN DEFAULT 0,
+	PRIMARY KEY (orderID)
+
+);
+
+CREATE TABLE Sell (
 
 	orderID				INTEGER AUTO_INCREMENT,
 	tokenSymbol			VARCHAR(5) NOT NULL,
 	orderType			VARCHAR(4) NOT NULL,
-	numTokens         	INTEGER NOT NULL,
-	customerID			INTEGER,
+	-- either num tokens OR price should be filled
+	numTokens         	INTEGER,
+	price         		INTEGER,
+	username			TEXT,
 	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
 	completed			BOOLEAN DEFAULT 0,
 	PRIMARY KEY (orderID)
