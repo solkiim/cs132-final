@@ -24,7 +24,7 @@ pool.query(
 		'username TEXT PRIMARY KEY, ' +
 		'password TEXT NOT NULL, ' +
 		'email TEXT NOT NULL UNIQUE, ' +
-		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited, 99: admin
+		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited, 99:admin
 	function(err, data) {
 		if (err) {
 			console.error(err);
@@ -98,7 +98,7 @@ app.post('/updatepassword', function(req, res) {
 
 // verify password for username
 app.post('/verifypassword', function(req, res) {
-	return account.verifypassword(pool, req, res);
+	account.verifypassword(pool, req, res);
 });
 
 app.get('*', function(req, res) {
