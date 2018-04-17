@@ -137,13 +137,34 @@ app.post('/settelephone', function(req, res) {
 	account.settelephone(pool, req, res);
 });
 
-
 // duplicate check functions
 app.post('/duplicateusername', function(req, res) {
 	account.duplicateusername(pool, req, res);
 });
 app.post('/duplicateemail', function(req, res) {
 	account.duplicateemail(pool, req, res);
+});
+
+// favorite stocks
+app.post('/getfavoritestocks', function(req, res) {
+	account.getfavoritestocks(pool, req, res);
+});
+app.post('/addfavoritestock', function(req, res) {
+	account.addfavoritestock(pool, req, res);
+});
+app.post('/removefavoritestock', function(req, res) {
+	account.removefavoritestock(pool, req, res);
+});
+
+// portfolio
+app.post('/getportfolio', function(req, res) {
+	account.getportfolio(pool, req, res);
+});
+app.post('/addtoportfolio', function(req, res) {
+	account.addtoportfolio(pool, req, res);
+});
+app.post('/removefromportfolio', function(req, res) {
+	account.removefromportfolio(pool, req, res);
 });
 
 // -------------------------------- APP: OTHER ---------------------------------

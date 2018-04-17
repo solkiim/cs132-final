@@ -1,12 +1,10 @@
 $(document).ready(function() {
 	if (sessionStorage.getItem('username')) {
-		console.log('here')
 		// if logged in
-		// $('#not-logged-in').hide();
 		$('#logged-in').show();
 		
 		// propagate values
-		$('#username').text(sessionStorage.getItem('username'));
+		$('#username-container #username').text(sessionStorage.getItem('username'));
 		$.post('/getemail','username=' + sessionStorage.getItem('username'), function(data, status) {
 			$('#email').text(data);
 		});
@@ -32,8 +30,6 @@ $(document).ready(function() {
 			$('#telephone').text(data);
 		});
 	} else {
-		console.log('here2')
-		// $('#account-info').hide();
 		$('#not-logged-in').show();
 	}
 	
