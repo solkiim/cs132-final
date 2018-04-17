@@ -61,6 +61,8 @@ app.get('/account', function(req, res) {
 	res.sendFile('account.html', {root : __dirname + '/templates'});
 });
 
+// ----------------------------- ROUTES: ACCOUNTS ------------------------------
+
 // check if username already exists
 app.post('/duplicateusername', function(req, res) {
 	account.duplicateusername(pool, req, res);
@@ -100,6 +102,8 @@ app.post('/updatepassword', function(req, res) {
 app.post('/verifypassword', function(req, res) {
 	account.verifypassword(pool, req, res);
 });
+
+// -------------------------------- APP: OTHER ---------------------------------
 
 app.get('*', function(req, res) {
 	res.sendFile('404.html', {root : __dirname + '/templates'});

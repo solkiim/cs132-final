@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS account (
 	city TEXT,
 	zipcode TEXT,
 	telephone INTEGER,
-	acctCreationDate INTEGER,
+	acctCreationDateTime INTEGER,
 );
 
 CREATE TABLE IF NOT EXISTS user_favorite_stock (
