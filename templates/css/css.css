@@ -4,8 +4,6 @@ body {
 	background-color: #F7F8F9;
 }
 
-/* --------------------------------- INDEX ---------------------------------- */
-
 /* HEADER */
 
 #header {
@@ -38,30 +36,6 @@ body {
 	vertical-align: top;
 }
 
-/* DASHBOARD */
-
-#dashboard {
-	width: 100%;
-	max-width: 100%;
-	margin: 0;
-}
-
-#dashboard [class*=col] {
-	padding: 10px;
-}
-
-#dashboard [class*=col] div {
-	background-color: #fff;
-	border: 1px solid #CBCCCB;
-	padding: 15px;
-}
-
-#dashboard [class*=col] div h3 {
-	font-size: 20px;
-	color: #345E9C;
-	font-weight: 200;
-}
-
 /* FOOTER */
 
 #footer {
@@ -91,6 +65,32 @@ body {
 	line-height: 70px;
 	color: #4A5460;
 	margin-right: 15px;
+}
+
+/* --------------------------------- INDEX ---------------------------------- */
+
+/* DASHBOARD */
+
+#dashboard {
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+}
+
+#dashboard [class*=col] {
+	padding: 10px;
+}
+
+#dashboard [class*=col] div {
+	background-color: #fff;
+	border: 1px solid #CBCCCB;
+	padding: 15px;
+}
+
+#dashboard [class*=col] div h3 {
+	font-size: 20px;
+	color: #345E9C;
+	font-weight: 200;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */
