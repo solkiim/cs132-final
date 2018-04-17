@@ -5,8 +5,6 @@ const bcrypt = require('bcrypt');
 
 // ----------------------------------- ROUTES ----------------------------------
 
-
-
 // signup form submit
 exports.signupsubmit = function(pool, req, res) {
 	// secure password
@@ -19,9 +17,9 @@ exports.signupsubmit = function(pool, req, res) {
 		// make new account
 		pool.query(
 			'INSERT INTO account '
-				+ '(username, password, email, login_tier, lastname, firstName, acctCreationDateTime) '
+				+ '(username, password, email, login_tier, firstname, lastname, acctCreationDateTime) '
 				+ 'VALUES ($1, $2, $3, $4, $5, $6, $7)',
-			[req.body.username, hash, req.body.email, 0, req.body.lastname, req.body.firstName, Date.now()],
+			[req.body.username, hash, req.body.email, 0, req.body.firstname, req.body.lastname, Date.now()],
 			function(err, data) {
 				if (err) {
 					console.error(err);
@@ -104,6 +102,75 @@ exports.getlastname = function(pool, req, res) {
 	);
 }
 
+// get address for given username
+exports.getaddress = function(pool, req, res) {
+	pool.query('SELECT address FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting address');
+			}
+			res.json(data.rows[0].address);
+		}
+	);
+}
+
+// get address line 2 for given username
+exports.getaddress2 = function(pool, req, res) {
+	pool.query('SELECT address2 FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting address line 2');
+			}
+			res.json(data.rows[0].address2);
+		}
+	);
+}
+
+// get city for given username
+exports.getcity = function(pool, req, res) {
+	pool.query('SELECT city FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting address city');
+			}
+			res.json(data.rows[0].city);
+		}
+	);
+}
+
+// get zipcode for given username
+exports.getzipcode = function(pool, req, res) {
+	pool.query('SELECT zipcode FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting address zipcode');
+			}
+			res.json(data.rows[0].zipcode);
+		}
+	);
+}
+
+// get telephone for given username
+exports.gettelephone = function(pool, req, res) {
+	pool.query('SELECT telephone FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting telephone');
+			}
+			res.json(data.rows[0].telephone);
+		}
+	);
+}
 
 // ------------------------------- SET FUNCTIONS -------------------------------
 
@@ -115,19 +182,6 @@ exports.setusername = function(pool, req, res) {
 			if (err) {
 				console.error(err);
 				return res.status(500).send('error setting username');
-			}
-		}
-	);
-}
-
-// update account's email
-exports.setemail = function(pool, req, res) {
-	pool.query('UPDATE account SET email = $1 WHERE username = $2',
-		[req.body.email, req.body.username],
-		function(err, data) {
-			if (err) {
-				console.error(err);
-				return res.status(500).send('error setting email');
 			}
 		}
 	);
@@ -155,10 +209,23 @@ exports.setpassword = function(pool, req, res) {
 	});
 }
 
+// update account's email
+exports.setemail = function(pool, req, res) {
+	pool.query('UPDATE account SET email = $1 WHERE username = $2',
+		[req.body.email, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting email');
+			}
+		}
+	);
+}
+
 // set account's first name
 exports.setfirstname = function(pool, req, res) {
 	pool.query('UPDATE account SET firstname = $1 WHERE username = $2',
-		[req.body.first, req.body.username],
+		[req.body.firstname, req.body.username],
 		function(err, data) {
 			if (err) {
 				console.error(err);
@@ -176,6 +243,71 @@ exports.setlastname = function(pool, req, res) {
 			if (err) {
 				console.error(err);
 				return res.status(500).send('error setting last name');
+			}
+		}
+	);
+}
+
+// set account's address
+exports.setaddress = function(pool, req, res) {
+	pool.query('UPDATE account SET address = $1 WHERE username = $2',
+		[req.body.address, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting address');
+			}
+		}
+	);
+}
+
+// set account's address2
+exports.setaddress2 = function(pool, req, res) {
+	pool.query('UPDATE account SET address2 = $1 WHERE username = $2',
+		[req.body.address2, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting address line 2');
+			}
+		}
+	);
+}
+
+// set account's address city
+exports.setcity = function(pool, req, res) {
+	pool.query('UPDATE account SET city = $1 WHERE username = $2',
+		[req.body.city, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting address city');
+			}
+		}
+	);
+}
+
+// set account's address zipcode
+exports.setzipcode = function(pool, req, res) {
+	pool.query('UPDATE account SET zipcode = $1 WHERE username = $2',
+		[req.body.zipcode, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting address zipcode');
+			}
+		}
+	);
+}
+
+// set account's telephone
+exports.settelephone = function(pool, req, res) {
+	pool.query('UPDATE account SET telephone = $1 WHERE username = $2',
+		[req.body.telephone, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting telephone');
 			}
 		}
 	);
