@@ -27,32 +27,79 @@
 <body>
 	<h1>account</h1>
 	
-	<p>username: <span id="username"></span></p>
-	<!-- do NOT change anything besides placeholders/values below -->
-	<form id="update-username-form">
-		<input name="username" type="text" placeholder="new username"><br>
-		<input type="submit" value="update">
-	</form>
-	<br><br> <!-- remove these before styling -->
+	<div id="not-logged-in">
+		<p><a href="/">log in</a> or <a href="/signup">sign up</a> to see account info!</p>
+	</div>
 	
-	<p>email: <span id="email"></span></p>
-	<!-- do NOT change anything besides placeholders/values below -->
-	<form id="update-email-form">
-		<input name="email" type="email" placeholder="new email"><br>
-		<input type="submit" value="update">
-	</form>
-	<br><br> <!-- remove these before styling -->
-	
-	<p>change password</p>
-	<!-- do NOT change anything besides placeholders/values below -->
-	<form id="update-password-form">
-		<input name="oldpassword" type="password" placeholder="old password"><br>
-		<input name="newpassword" type="password" placeholder="new password"><br>
-		<input type="submit" value="update">
-	</form>
-	<br><br> <!-- remove these before styling -->
-	
-	<p>favorite stocks</p>
-	<ul id="favorite_stocks"></ul>
+	<div id="logged-in">
+		<div id="username-container">
+			<p>username: <span id="username"></span></p>
+			<!-- do NOT change anything besides placeholders/values below -->
+			<form id="update-username-form">
+				<input name="username" type="text" placeholder="new username"><br>
+				<input type="submit" value="update">
+			</form>
+		</div>
+		
+		<div id="email-container">
+			<p>email: <span id="email"></span></p>
+			<!-- do NOT change anything besides placeholders/values below -->
+			<form id="update-email-form">
+				<input name="email" type="email" placeholder="new email"><br>
+				<input type="submit" value="update">
+			</form>
+		</div>
+		
+		<div id="password-container">
+			<p>change password</p>
+			<!-- do NOT change anything besides placeholders/values below -->
+			<form id="update-password-form">
+				<input name="oldpassword" type="password" placeholder="old password"><br>
+				<input name="newpassword" type="password" placeholder="new password"><br>
+				<input type="submit" value="update">
+			</form>
+		</div>
+		
+		<div id="name-container">
+			<p>name: <span id="firstname"></span> <span id="lastname"></span></p>
+			<!-- do NOT change anything besides placeholders/values below -->
+			<form id="update-name-form">
+				<input name="firstname" type="text" placeholder="first name"><br>
+				<input name="lastname" type="text" placeholder="last name"><br>
+				<input type="submit" value="update">
+			</form>
+		</div>
+		
+		<div id="address-container">
+			<p>address: <br>
+				<span id="address"></span><br>
+				<span id="address2"></span><br>
+				<span id="city"></span><br>
+				<span id="zipcode"></span>
+			 </p>
+			<!-- do NOT change anything besides placeholders/values below -->
+			<form id="update-address-form">
+				<input name="address" type="text" placeholder="address"><br>
+				<input name="address2" type="text" placeholder="address line 2"><br>
+				<input name="city" type="text" placeholder="city"><br>
+				<input name="zipcode" type="text" placeholder="zipcode"><br>
+				<input type="submit" value="update">
+			</form>
+		</div>
+		
+		<div id="telephone-container">
+			<p>telephone: <span id="telephone"></span></p>
+			<!-- do NOT change anything besides placeholders/values below -->
+			<form id="update-telephone-form">
+				<input name="telephone" type="text" placeholder="new telephone"><br>
+				<input type="submit" value="update">
+			</form>
+		</div>
+		
+		<div id="favorite-stocks-container">
+			<p>favorite stocks</p>
+			<ul id="favorite_stocks"></ul>
+		</div>
+	</div>
 </body>
 </html>

@@ -20,11 +20,20 @@ var pool = db.createPool('sqlite3://parallel.db', {min: 0, max: 1000});
 
 // create tables
 pool.query(
-	'CREATE TABLE IF NOT EXISTS account (' +
-		'username TEXT PRIMARY KEY, ' +
-		'password TEXT NOT NULL, ' +
-		'email TEXT NOT NULL UNIQUE, ' +
-		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited, 99:admin
+	'CREATE TABLE IF NOT EXISTS account ('+
+	'	username TEXT PRIMARY KEY,'+
+	'	password TEXT NOT NULL,'+
+	'	email TEXT NOT NULL,'+
+	'	login_tier INTEGER,'+
+	'	firstname TEXT,'+
+	'	lastname TEXT,'+
+	'	address TEXT,'+
+	'	address2 TEXT,'+
+	'	city TEXT,'+
+	'	zipcode TEXT,'+
+	'	telephone INTEGER,'+
+	'	acctCreationDateTime INTEGER'+
+	')',
 	function(err, data) {
 		if (err) {
 			console.error(err);
