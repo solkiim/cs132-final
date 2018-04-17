@@ -16,7 +16,7 @@ $(document).ready(function() {
 				alert('that username is already taken; please pick again');
 			} else {
 				$.post(
-					'/updateusername',
+					'/setusername',
 					'newusername=' + username + '&oldusername=' + sessionStorage.getItem('username')
 				);
 				sessionStorage.setItem('username', username);
@@ -38,7 +38,7 @@ $(document).ready(function() {
 				alert('that email is already taken; please pick again');
 			} else {
 				$.post(
-					'/updateemail',
+					'/setemail',
 					'username=' + sessionStorage.getItem('username') + '&email=' + email
 				);
 				sessionStorage.setItem('email', email);
@@ -63,7 +63,7 @@ $(document).ready(function() {
 				} else if (data == true) {
 					// if username and password match
 					$.post(
-						'/updatepassword',
+						'/setpassword',
 						'username=' + sessionStorage.getItem('username')
 							+ '&password=' + $('#update-password-form input[name=newpassword]').val()
 					);

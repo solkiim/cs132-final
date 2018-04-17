@@ -83,19 +83,39 @@ app.post('/getemail', function(req, res) {
 	account.getemail(pool, req, res);
 });
 
+// get first name for given username
+app.post('/getfirstname', function(req, res) {
+	account.getfirstname(pool, req, res);
+});
+
+// get last name for given username
+app.post('/getlastname', function(req, res) {
+	account.getlastname(pool, req, res);
+});
+
 // update account's username
-app.post('/updateusername', function(req, res) {
-	account.updateusername(pool, req, res);
+app.post('/setusername', function(req, res) {
+	account.setusername(pool, req, res);
 });
 
 // update account's email
-app.post('/updateemail', function(req, res) {
-	account.updateemail(pool, req, res);
+app.post('/setemail', function(req, res) {
+	account.setemail(pool, req, res);
 });
 
 // update account's password
-app.post('/updatepassword', function(req, res) {
-	account.updatepassword(pool, req, res);
+app.post('/setpassword', function(req, res) {
+	account.setpassword(pool, req, res);
+});
+
+// update account's first name
+app.post('/setfirstname', function(req, res) {
+	account.setfirstname(pool, req, res);
+});
+
+// update account's last name
+app.post('/setlastname', function(req, res) {
+	account.setlastname(pool, req, res);
 });
 
 // verify password for username
