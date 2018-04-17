@@ -1,4 +1,12 @@
-/* index.html */
+/* -------------------------------- GENERAL --------------------------------- */
+
+body {
+	background-color: #F7F8F9;
+}
+
+/* --------------------------------- INDEX ---------------------------------- */
+
+/* HEADER */
 
 #header {
 	width: 100%;
@@ -27,9 +35,65 @@
 
 #login-signup a, #login-signup form, #account-info p, #account-info form {
 	display: inline-block;
+	vertical-align: top;
 }
 
-/* account.html */
+/* DASHBOARD */
+
+#dashboard {
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+}
+
+#dashboard [class*=col] {
+	padding: 10px;
+}
+
+#dashboard [class*=col] div {
+	background-color: #fff;
+	border: 1px solid #CBCCCB;
+	padding: 15px;
+}
+
+#dashboard [class*=col] div h3 {
+	font-size: 20px;
+	color: #345E9C;
+	font-weight: 200;
+}
+
+/* FOOTER */
+
+#footer {
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-color: #fff;
+	height: 70px;
+}
+
+#footer #links {
+	display: inline-block;
+	position: absolute;
+	left: 15px;
+	bottom: 0;
+}
+
+#footer p {
+	margin: 0;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+#footer #links a, #footer p {
+	line-height: 70px;
+	color: #4A5460;
+	margin-right: 15px;
+}
+
+/* -------------------------------- ACCOUNT --------------------------------- */
 
 #logged-in, #not-logged-in {
 	display: none;	/* please don't change */
