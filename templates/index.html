@@ -25,22 +25,32 @@
 </head>
 
 <body>
-	<h1>home</h1>
-	
-	<div id="login-signup">
-		<a href="/signup">sign up</a>
+	<div id="header">
+		<h1>parallel</h1>
 		
-		<!-- do NOT change anything besides placeholders/values below -->
-		<form id="loginform">
-			<input name="username" type="text" placeholder="username"><br>
-			<input name="password" type="password" placeholder="password"><br>
-			<input type="submit" value="login">
-		</form>
+		<div id="account">
+			<div id="login-signup">
+				<a href="/signup">sign up</a>
+				
+				<!-- do NOT change anything besides placeholders/values below -->
+				<form id="loginform">
+					<input name="username" type="text" placeholder="username"><br>
+					<input name="password" type="password" placeholder="password"><br>
+					<input type="submit" value="login">
+				</form>
+			</div>
+			
+			<div id="account-info">
+				<p><span id="username"></span></p>
+				<button id="sign-out">sign out</button>
+			</div>
+		</div>
 	</div>
 	
-	<div id="account-info">
-		<p>welcome, <span id="username"></span>!</p>
-		<button id="sign-out">sign out</button>
-	</div>
+	<div id="listings"></div>
+	<div id="stock-graph"></div>
+	<div id="orders"></div>
+	<div id="news"></div>
+	<div id="trade"></div>
 </body>
 </html>
