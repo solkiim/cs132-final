@@ -102,4 +102,6 @@ body {
 #logged-in div {
 	border: solid 2px #000;	/* you can change this; i just wanted to show you where divs were */
 	margin: 5px;
+	display: inline-block;
+	vertical-align: top;
 }
