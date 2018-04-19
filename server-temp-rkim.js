@@ -21,21 +21,7 @@ app.post('/ordersubmit', function(req,res) {
 
         if (buyOrSell = buy){
     
-            // insert into buy table
-            pool.query('INSERT INTO Buy (tokenSymbol, buyOrSell, orderType, numTokens, price, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
-
-                if (error){
-
-                  console.log("FAILED to add to database");
-                  res.sendStatus(500);
-
-                } else {
-                  
-                  executeMarketBuy
-
-                }
-
-              });
+            executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, username); 
 
         } else if (buyOrSell = sell){
 
@@ -49,7 +35,7 @@ app.post('/ordersubmit', function(req,res) {
 
                 } else {
 
-                	executeMarketSell
+                	executeMarketSell();
                   
                 }
 
@@ -62,7 +48,10 @@ app.post('/ordersubmit', function(req,res) {
     }
 });
 
-executeMarketBuy(){
+executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, username){
+
+    var reqNumTokens = reqNumTokens;
+    var orderReqPrice = reqPrice;
 
     if (Sell table is empty){
         error;
@@ -71,9 +60,9 @@ executeMarketBuy(){
 
         // initialize first inquiry
         var row = SELECT BOTTOM 1 * FROM Sell;
-        var reqNumTokens = rows tokens;
-        var numTokens = 0;
-        var sellPrice = 0;
+        var rowNumTokens = 0;
+        var rowSellPrice = 0;
+        var newPrice = 0;
         var clearedPrices = [];
         var clearedNumTokens = [];
 
@@ -82,40 +71,54 @@ executeMarketBuy(){
             
             // check last entry in sell
             row = SELECT BOTTOM 1 * FROM Sell;
-            reqNumTokens = rows tokens;
-            var numTokens = rows numTokens;
-            sellPrice = rows price;
+            rowNumTokens = rows tokens;
+            rowNumTokens = rows numTokens;
+            rowSellPrice = rows price;
                  
             // meaning you'll need to keep climbing up
-            if (numTokens < reqNumTokens){
+            if (rowNumTokens < reqNumTokens){
                 // update however many tokens you still gotta clear
-                reqNumTokens = reqNumTokens - numTokens;
+                reqNumTokens = reqNumTokens - rowNumTokens;
                 
-                clearedPrices.push(sellPrice);
-                clearNumTokens.push(numTokens);
+                clearedPrices.push(rowSellPrice);
+                clearedNumTokens.push(rowNumTokens);
                 // since all the tokens on the order book are finished
                 DELETE row;
             }
 
             // if more tokens than you want
-            if (numTokens >= reqNumTokens){
+            if (rowNumTokens >= reqNumTokens){
 
                 // you're finished
-                numTokens = numTokens - reqNumTokens;
-                UPDATE INSERT INTO row numTokens w updated value
+                rowNumTokens = rowNumTokens - reqNumTokens;
+                clearedPrices.push(rowSellPrice);
+                clearedNumTokens.push(rowNumTokens);
+                
+                UPDATE INSERT INTO row rowNumTokens w updated value;
 
-                clearedPrices.push(sellPrice);
-                clearedNumTokens.push(numTokens);
+                newPrice = weightedPrice(clearedPrices, clearedNumTokens);
 
-                // done; no more looping
-                reqNumTokens = 0;
+                // insert into buy table
+                pool.query('INSERT INTO Buy (tokenSym, buyOrSell, orderType, reqNumTokens, newPrice, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
+
+                    if (error){
+                      console.log("FAILED to add to database");
+                      res.sendStatus(500);
+
+                    } else {
+                    
+                    // done; no more looping
+                    reqNumTokens = 0;
+                    
+                    }
+
+                });
+
+
+                
                
             }
                 
-
-            
-            
-
         }
 
     }
@@ -123,6 +126,32 @@ executeMarketBuy(){
 
  } 
 
+ weightedPrice(clearedPrices, clearedNumTokens){
+
+    if (clearedPrices.length != clearedNumTokens.length){
+        console.log("error; price & token lengths different");
+    
+    }
+
+    var length = clearedPrices.length;
+    var finalPrice = 0;
+    var totalClearedNumTokens = 0;
+    var ratio = 0;
+
+    // get total cleared tokens
+    for (i=0; i< length-1 ; i++){
+        totalClearedNumTokens += clearedNumTokens[i];
+    }
+
+    // get total weighted final price 
+    for (j=0; j < length-1, j++){
+        ratio = clearedNumTokens[j] / totalClearedNumTokens;
+        finalPrice += clearedPrices[j]*ratio;
+    }
+
+    return finalPrice;
+
+ }
 
 
  requestMarketSell(){
@@ -135,17 +164,7 @@ executeMarketBuy(){
 
 
 
-
  }   
-
-
-
-
-
-
-
-
-
 
 
 getMarkets () {
