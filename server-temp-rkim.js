@@ -8,8 +8,8 @@ app.post('/ordersubmit', function(req,res) {
     var buyOrSell = req.body.buyOrSell;
     var tokenSym = req.body.tokenSym;
     var orderType = req.body.orderType;
-    var numTokens = req.body.numTokens;
-    var price = req.body.price;
+    var reqNumTokens = req.body.numTokens;
+    var reqPrice = req.body.price;
     var username = req.body.username;
 
     function(err, data) {
@@ -31,7 +31,7 @@ app.post('/ordersubmit', function(req,res) {
 
                 } else {
                   
-                  // trigger executeMarketBuy
+                  executeMarketBuy
 
                 }
 
@@ -49,7 +49,7 @@ app.post('/ordersubmit', function(req,res) {
 
                 } else {
 
-                	// trigger executeMarketSell
+                	executeMarketSell
                   
                 }
 
@@ -62,25 +62,76 @@ app.post('/ordersubmit', function(req,res) {
     }
 });
 
- executeMarketBuy(){
+executeMarketBuy(){
 
-    // check last entry in sell
-    // dont know how
+    if (Sell table is empty){
+        error;
 
-    SELECT TOP 1 * FROM Sell
+    } else {
 
-    // send back to display
+        // initialize first inquiry
+        var row = SELECT BOTTOM 1 * FROM Sell;
+        var reqNumTokens = rows tokens;
+        var numTokens = 0;
+        var sellPrice = 0;
+        var clearedPrices = [];
+        var clearedNumTokens = [];
 
+        // for market orders gotta keep going until you execute all trades
+        while (reqNumTokens != 0 && Sell table is not empty){
+            
+            // check last entry in sell
+            row = SELECT BOTTOM 1 * FROM Sell;
+            reqNumTokens = rows tokens;
+            var numTokens = rows numTokens;
+            sellPrice = rows price;
+                 
+            // meaning you'll need to keep climbing up
+            if (numTokens < reqNumTokens){
+                // update however many tokens you still gotta clear
+                reqNumTokens = reqNumTokens - numTokens;
+                
+                clearedPrices.push(sellPrice);
+                clearNumTokens.push(numTokens);
+                // since all the tokens on the order book are finished
+                DELETE row;
+            }
 
+            // if more tokens than you want
+            if (numTokens >= reqNumTokens){
+
+                // you're finished
+                numTokens = numTokens - reqNumTokens;
+                UPDATE INSERT INTO row numTokens w updated value
+
+                clearedPrices.push(sellPrice);
+                clearedNumTokens.push()
+                executeMarketBuy(row, numTokens);
+                // done; no more looping
+                reqNumTokens = 0;
+               
+            }
+                
+
+            
+            
+
+        }
+
+    }
+    
 
  } 
 
- executeMarketSell(){
+
+
+ requestMarketSell(){
 
     // check first entry in buy
 
     SELECT TOP 1 * FROM Buy
     
+    // make sure 
 
 
 
