@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS Buy (
 	orderType			VARCHAR(4) NOT NULL,
 	-- either num tokens OR price should be filled
 	numTokens         	INTEGER,
-	price         		INTEGER,
+	-- order price from highest -> lowest
+	price         		ORDER BY INTEGER DESC,
 	username			TEXT,
 	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
 	completed			BOOLEAN DEFAULT 0,
@@ -33,7 +34,8 @@ CREATE TABLE IF NOT EXISTS Sell (
 	orderType			VARCHAR(4) NOT NULL,
 	-- either num tokens OR price should be filled
 	numTokens         	INTEGER,
-	price         		INTEGER,
+	-- order price from highest -> lowest
+	price         		ORDER BY INTEGER DESC,
 	username			TEXT,
 	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
 	completed			BOOLEAN DEFAULT 0,
