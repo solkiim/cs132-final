@@ -20,11 +20,20 @@ var pool = db.createPool('sqlite3://parallel.db', {min: 0, max: 1000});
 
 // create tables
 pool.query(
-	'CREATE TABLE IF NOT EXISTS account (' +
-		'username TEXT PRIMARY KEY, ' +
-		'password TEXT NOT NULL, ' +
-		'email TEXT NOT NULL UNIQUE, ' +
-		'login_tier INTEGER)',	// 0:email not verified, 1:email verified, 2:accredited, 99:admin
+	'CREATE TABLE IF NOT EXISTS account ('+
+	'	username TEXT PRIMARY KEY,'+
+	'	password TEXT NOT NULL,'+
+	'	email TEXT NOT NULL,'+
+	'	login_tier INTEGER,'+
+	'	firstname TEXT,'+
+	'	lastname TEXT,'+
+	'	address TEXT,'+
+	'	address2 TEXT,'+
+	'	city TEXT,'+
+	'	zipcode TEXT,'+
+	'	telephone INTEGER,'+
+	'	acctCreationDateTime INTEGER'+
+	')',
 	function(err, data) {
 		if (err) {
 			console.error(err);
@@ -63,44 +72,99 @@ app.get('/account', function(req, res) {
 
 // ----------------------------- ROUTES: ACCOUNTS ------------------------------
 
-// check if username already exists
+app.post('/signupsubmit', function(req, res) {
+	account.signupsubmit(pool, req, res);
+});
+app.post('/verifypassword', function(req, res) {
+	account.verifypassword(pool, req, res);
+});
+
+// get functions
+app.post('/getemail', function(req, res) {
+	account.getemail(pool, req, res);
+});
+app.post('/getfirstname', function(req, res) {
+	account.getfirstname(pool, req, res);
+});
+app.post('/getlastname', function(req, res) {
+	account.getlastname(pool, req, res);
+});
+app.post('/getaddress', function(req, res) {
+	account.getaddress(pool, req, res);
+});
+app.post('/getaddress2', function(req, res) {
+	account.getaddress2(pool, req, res);
+});
+app.post('/getcity', function(req, res) {
+	account.getcity(pool, req, res);
+});
+app.post('/getzipcode', function(req, res) {
+	account.getzipcode(pool, req, res);
+});
+app.post('/gettelephone', function(req, res) {
+	account.gettelephone(pool, req, res);
+});
+
+// set functions
+app.post('/setusername', function(req, res) {
+	account.setusername(pool, req, res);
+});
+app.post('/setpassword', function(req, res) {
+	account.setpassword(pool, req, res);
+});
+app.post('/setemail', function(req, res) {
+	account.setemail(pool, req, res);
+});
+app.post('/setfirstname', function(req, res) {
+	account.setfirstname(pool, req, res);
+});
+app.post('/setlastname', function(req, res) {
+	account.setlastname(pool, req, res);
+});
+app.post('/setaddress', function(req, res) {
+	account.setaddress(pool, req, res);
+});
+app.post('/setaddress2', function(req, res) {
+	account.setaddress2(pool, req, res);
+});
+app.post('/setcity', function(req, res) {
+	account.setcity(pool, req, res);
+});
+app.post('/setzipcode', function(req, res) {
+	account.setzipcode(pool, req, res);
+});
+app.post('/settelephone', function(req, res) {
+	account.settelephone(pool, req, res);
+});
+
+// duplicate check functions
 app.post('/duplicateusername', function(req, res) {
 	account.duplicateusername(pool, req, res);
 });
-
-// check if email already exists
 app.post('/duplicateemail', function(req, res) {
 	account.duplicateemail(pool, req, res);
 });
 
-// signup form submit
-app.post('/signupsubmit', function(req, res) {
-	account.signupsubmit(pool, req, res);
+// favorite stocks
+app.post('/getfavoritestocks', function(req, res) {
+	account.getfavoritestocks(pool, req, res);
+});
+app.post('/addfavoritestock', function(req, res) {
+	account.addfavoritestock(pool, req, res);
+});
+app.post('/removefavoritestock', function(req, res) {
+	account.removefavoritestock(pool, req, res);
 });
 
-// get email for given username
-app.post('/getemail', function(req, res) {
-	account.getemail(pool, req, res);
+// portfolio
+app.post('/getportfolio', function(req, res) {
+	account.getportfolio(pool, req, res);
 });
-
-// update account's username
-app.post('/updateusername', function(req, res) {
-	account.updateusername(pool, req, res);
+app.post('/addtoportfolio', function(req, res) {
+	account.addtoportfolio(pool, req, res);
 });
-
-// update account's email
-app.post('/updateemail', function(req, res) {
-	account.updateemail(pool, req, res);
-});
-
-// update account's password
-app.post('/updatepassword', function(req, res) {
-	account.updatepassword(pool, req, res);
-});
-
-// verify password for username
-app.post('/verifypassword', function(req, res) {
-	account.verifypassword(pool, req, res);
+app.post('/removefromportfolio', function(req, res) {
+	account.removefromportfolio(pool, req, res);
 });
 
 // -------------------------------- APP: OTHER ---------------------------------
