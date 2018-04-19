@@ -105,8 +105,8 @@ executeMarketBuy(){
                 UPDATE INSERT INTO row numTokens w updated value
 
                 clearedPrices.push(sellPrice);
-                clearedNumTokens.push()
-                executeMarketBuy(row, numTokens);
+                clearedNumTokens.push(numTokens);
+
                 // done; no more looping
                 reqNumTokens = 0;
                
