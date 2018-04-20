@@ -101,7 +101,7 @@ body {
 }
 
 #listings, #stock-graph, #orders, #news, #trade {
-    height: 315px;
+    height: 310px;
 }
 
 .tradetabs {
@@ -137,4 +137,8 @@ body {
 	margin: 5px;
 	display: inline-block;
 	vertical-align: top;
+}
+
+#loginform input {
+    float: left;
 }
