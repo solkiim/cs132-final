@@ -125,13 +125,21 @@ body {
 }
 
 /* --------------------------------- 404 ---------------------------------- */
+#errormessage {
+    width: 50%;
+    height: 330px;
+    margin-left: 20%;
+	top: calc(50% - 115px);
+
+}
 #errormessage h1 {
     font-weight: 300;
     font-size: 90px;
 }
 
-#errormessage h2 {
-    color: #EEEEE;
+#errormessage h2, h3 {
+    color: darkgray;
+    font-weight: 300;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */
