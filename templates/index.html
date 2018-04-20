@@ -12,8 +12,12 @@
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 		crossorigin="anonymous">
 	<link rel="stylesheet" href="/css/css.css">
+    <link href="bootstrap.min.css" rel="stylesheet" media="screen">
 	
 	<!-- js -->
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+<!--
 	<script
 		src="https://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -21,6 +25,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
+-->
 	<script src="/js/header.js"></script>
 	<script src="/js/index.js"></script>
 </head>
@@ -79,6 +84,46 @@
 			<div class="col-8">
 				<div id="trade">
 					<h3>Trade</h3>
+                    <h4 class="tradetabs">Limit</h4>
+                    <h4 class="tradetabs">Market</h4>
+                    <h4 class="tradetabs">Stop-Limit</h4>
+                    <div id="buy">
+                        <h2>Buy BNB</h2>
+                            <form id="buyForm">
+                                <!-- hidden: username, token symbol, username, get from page -->
+                                    <input name="tokenSymbol" type="hidden">
+                                    <input name="username" type="hidden">
+                                    <input name="buyOrSell" type="hidden" value="buy">
+                                    <input name="orderType" type="hidden" value="market"><br>
+
+                                <!-- either numTokens OR price should be filled -->
+                                    <input name="numTokens" type="text" placeholder="numTokens"><br>
+                                    <input name="price" type="text" placeholder="amount to spend"><br>
+
+                                <!-- this should be buy or sell -->
+                                    <input type="submit" value="trade">
+                            </form>
+                    </div>
+                    
+                    <div id="sell">
+                        <h2>Sell BNB</h2>
+                            <form id="sellForm">
+
+                                <!-- hidden: username, token symbol, username, get from page -->
+                                <input name="tokenSymbol" type="hidden">
+                                <input name="username" type="hidden">
+                                <input name="buyOrSell" type="hidden" value="sell">
+                                <input name="orderType" type="hidden" value="market"><br>
+                                <input name="orderType" type="text" placeholder="orderType"><br>
+
+                                <!-- either numTokens OR price should be filled -->
+                                <input name="numTokens" type="text" placeholder="numTokens"><br>
+                                <input name="price" type="text" placeholder="amount to spend"><br>
+
+                                <!-- this should be buy or sell -->
+                                <input type="submit" value="trade">
+                            </form>
+                    </div>
 				</div>
 			</div>
 		</div>

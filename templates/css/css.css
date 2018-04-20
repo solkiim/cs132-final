@@ -2,6 +2,12 @@
 
 body {
 	background-color: #F7F8F9;
+    font-family: "Avenir Next", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 /* HEADER */
@@ -34,6 +40,10 @@ body {
 #login-signup a, #login-signup form, #account-info p, #account-info form {
 	display: inline-block;
 	vertical-align: top;
+}
+
+#loginform input {
+    float:
 }
 
 /* FOOTER */
@@ -90,18 +100,124 @@ body {
 #dashboard [class*=col] div h3 {
 	font-size: 20px;
 	color: #345E9C;
-	font-weight: 200;
+	font-weight: 300;
+}
+
+#listings, #stock-graph, #orders, #news, #trade {
+    height: 310px;
+}
+
+.tradetabs {
+    font-size: 15px;
+    font-weight: 300;
+    float: left;
+    padding-right: 15px;
+    clear: 
+}
+
+#buy {
+    clear: left;
+    width: 45%;
+}
+
+#sell {
+    width: 45%;
+}
+
+#buy h2, #sell h2 {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+/* --------------------------------- 404 ---------------------------------- */
+#errormessage {
+    width: 50%;
+    height: 330px;
+    margin-left: 15%;
+    margin-top: 11%;
+}
+
+#errormessage h1 {
+    font-weight: 200;
+    font-size: 90px;
+    margin-bottom: 0px;
+}
+
+#errormessage h2, h3 {
+    color: darkgray;
+    font-weight: 200;
+    font-size: 25px
+}
+
+#errormessage h4 {
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 10px;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */
+
+#account-header {
+	text-align: center;
+}
 
 #logged-in, #not-logged-in {
 	display: none;	/* please don't change */
 }
 
-#logged-in div {
-	border: solid 2px #000;	/* you can change this; i just wanted to show you where divs were */
-	margin: 5px;
-	display: inline-block;
-	vertical-align: top;
+#logged-in [class*=col] div {
+	width: 100%;
+	margin-bottom: 20px;
 }
+
+<<<<<<< HEAD
+#loginform input {
+    float: 
+}
+
+/* -------------------------------- SIGNUP --------------------------------- */
+#signup h1 {
+    font-weight: 200;
+    font-size: 90px;
+    margin-bottom: 0px;
+}
+
+#signup {
+    width: 50%;
+    height: 330px;
+    margin-left: 15%;
+    margin-top: 9%;
+}
+
+#signupform input {
+    width: 200px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 15px;
+    margin: 5px;
+    margin-left: 4%;
+}
+
+#signupform #signupsubmit {
+    width: 100px;
+    align-items: center;
+}
+=======
+#logged-in [class*=col] div p {
+	font-weight: bold;
+}
+
+#logged-in [class*=col] div p span {
+	font-weight: normal;
+}
+
+.edit-button {
+	font-size: 12px;
+	color: #b5b5b5;
+	cursor: pointer;
+}
+
+.update-form {
+	display: none;
+}
+>>>>>>> db47eda6e8e0e2992947745cd437b9be2f6870ee

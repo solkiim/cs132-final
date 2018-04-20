@@ -11,6 +11,10 @@
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 		crossorigin="anonymous">
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.0.10/css/all.css"
+		integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg"
+		crossorigin="anonymous">
 	<link rel="stylesheet" href="/css/css.css">
 	
 	<!-- js -->
@@ -47,85 +51,110 @@
 		</div>
 	</div>
 	
-	<h1>account</h1>
+	<h1 id="account-header">account</h1>
 	
 	<div id="not-logged-in">
 		<p>log in or sign up to see account info!</p>
 	</div>
 	
-	<div id="logged-in">
-		<div id="username-container">
-			<p>username: <span id="username"></span></p>
-			<!-- do NOT change anything besides placeholders/values below -->
-			<form id="update-username-form">
-				<input name="username" type="text" placeholder="new username"><br>
-				<input type="submit" value="update">
-			</form>
+	<div class="container" id="logged-in">
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-4">
+				<div id="username-container">
+					<p>username: <span id="username"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+					<!-- do NOT change anything besides placeholders/values below -->
+					<form class="update-form" id="update-username-form">
+						<input name="username" type="text" placeholder="new username"><br>
+						<input type="submit" value="update">
+					</form>
+				</div>
+			</div>
+			<div class="col-4">
+				<div id="name-container">
+					<p>name: <span id="firstname"></span> <span id="lastname"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+					<!-- do NOT change anything besides placeholders/values below -->
+					<form class="update-form" id="update-name-form">
+						<input name="firstname" type="text" placeholder="first name"><br>
+						<input name="lastname" type="text" placeholder="last name"><br>
+						<input type="submit" value="update">
+					</form>
+				</div>
+			</div>
+			<div class="col-2"></div>
 		</div>
-		
-		<div id="email-container">
-			<p>email: <span id="email"></span></p>
-			<!-- do NOT change anything besides placeholders/values below -->
-			<form id="update-email-form">
-				<input name="email" type="email" placeholder="new email"><br>
-				<input type="submit" value="update">
-			</form>
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-4">
+				<div id="email-container">
+					<p>email: <span id="email"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+					<!-- do NOT change anything besides placeholders/values below -->
+					<form class="update-form" id="update-email-form">
+						<input name="email" type="email" placeholder="new email"><br>
+						<input type="submit" value="update">
+					</form>
+				</div>
+			</div>
+			<div class="col-4">
+				<div id="password-container">
+					<p>password <i class="fas fa-pencil-alt edit-button"></i></p>
+					<!-- do NOT change anything besides placeholders/values below -->
+					<form class="update-form" id="update-password-form">
+						<input name="oldpassword" type="password" placeholder="old password"><br>
+						<input name="newpassword" type="password" placeholder="new password"><br>
+						<input type="submit" value="update">
+					</form>
+				</div>
+			</div>
+			<div class="col-2"></div>
 		</div>
-		
-		<div id="password-container">
-			<p>change password</p>
-			<!-- do NOT change anything besides placeholders/values below -->
-			<form id="update-password-form">
-				<input name="oldpassword" type="password" placeholder="old password"><br>
-				<input name="newpassword" type="password" placeholder="new password"><br>
-				<input type="submit" value="update">
-			</form>
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-4">
+				<div id="address-container">
+					<p>address: <i class="fas fa-pencil-alt edit-button"></i><br>
+						<span id="address"></span><br>
+						<span id="address2"></span><br>
+						<span id="city"></span><br>
+						<span id="zipcode"></span>
+					 </p>
+					<!-- do NOT change anything besides placeholders/values below -->
+					<form class="update-form" id="update-address-form">
+						<input name="address" type="text" placeholder="address"><br>
+						<input name="address2" type="text" placeholder="address line 2"><br>
+						<input name="city" type="text" placeholder="city"><br>
+						<input name="zipcode" type="text" placeholder="zipcode"><br>
+						<input type="submit" value="update">
+					</form>
+				</div>
+			</div>
+			<div class="col-4">
+				<div id="telephone-container">
+					<p>telephone: <span id="telephone"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+					<!-- do NOT change anything besides placeholders/values below -->
+					<form class="update-form" id="update-telephone-form">
+						<input name="telephone" type="text" placeholder="new telephone"><br>
+						<input type="submit" value="update">
+					</form>
+				</div>
+			</div>
+			<div class="col-2"></div>
 		</div>
-		
-		<div id="name-container">
-			<p>name: <span id="firstname"></span> <span id="lastname"></span></p>
-			<!-- do NOT change anything besides placeholders/values below -->
-			<form id="update-name-form">
-				<input name="firstname" type="text" placeholder="first name"><br>
-				<input name="lastname" type="text" placeholder="last name"><br>
-				<input type="submit" value="update">
-			</form>
-		</div>
-		
-		<div id="address-container">
-			<p>address: <br>
-				<span id="address"></span><br>
-				<span id="address2"></span><br>
-				<span id="city"></span><br>
-				<span id="zipcode"></span>
-			 </p>
-			<!-- do NOT change anything besides placeholders/values below -->
-			<form id="update-address-form">
-				<input name="address" type="text" placeholder="address"><br>
-				<input name="address2" type="text" placeholder="address line 2"><br>
-				<input name="city" type="text" placeholder="city"><br>
-				<input name="zipcode" type="text" placeholder="zipcode"><br>
-				<input type="submit" value="update">
-			</form>
-		</div>
-		
-		<div id="telephone-container">
-			<p>telephone: <span id="telephone"></span></p>
-			<!-- do NOT change anything besides placeholders/values below -->
-			<form id="update-telephone-form">
-				<input name="telephone" type="text" placeholder="new telephone"><br>
-				<input type="submit" value="update">
-			</form>
-		</div>
-		
-		<div id="portfolio-container">
-			<p>portfolio</p>
-			<ul id="portfolio"></ul>
-		</div>
-		
-		<div id="favorite-stocks-container">
-			<p>favorite stocks</p>
-			<ul id="favorite_stocks"></ul>
+		<div class="row">
+			<div class="col-2"></div>
+			<div class="col-4">
+				<div id="portfolio-container">
+					<p>portfolio</p>
+					<ul id="portfolio"></ul>
+				</div>
+			</div>
+			<div class="col-4">
+				<div id="favorite-stocks-container">
+					<p>favorite stocks</p>
+					<ul id="favorite_stocks"></ul>
+				</div>
+			</div>
+			<div class="col-2"></div>
 		</div>
 	</div>
 	
