@@ -85,10 +85,6 @@ app.get('/account', function(req, res) {
     res.sendFile('account.html', {root : __dirname + '/templates'});
 });
 
-app.get('/ordersubmit', function(req, res) {
-    res.sendFile('trading-platform.html', {root : __dirname + '/templates'});
-});
-
 // ----------------------------- ROUTES: ACCOUNTS ------------------------------
 
 app.post('/signupsubmit', function(req, res) {
@@ -209,7 +205,7 @@ process.on('SIGINT', function() {
 io.sockets.on('connection', function(socket){
 
 // on signupform submit
-app.post('/ordersubmit', function(req, res) {
+app.get('/ordersubmit', function(req, res) {
     
     var buyOrSell = req.body.buyOrSell;
     var tokenSym = req.body.tokenSym;
@@ -328,6 +324,8 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
         }
 
     });
+
+    // if Sell table is empty, post the market order as 
     
 
  } 

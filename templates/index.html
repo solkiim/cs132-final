@@ -28,6 +28,7 @@
 -->
 	<script src="/js/header.js"></script>
 	<script src="/js/index.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 
 <body>
@@ -62,14 +63,19 @@
 				</div>
 			</div>
 			<div class="col-6">
-				<div id="stock-graph">
+				<div id="stock-graphs">
 					<h3>Stock Name</h3>
+					<canvas id="stock-graph" width="300" height="150"></canvas>
+					<script src="js/index.js"></script>
 					<hr>
 				</div>
 			</div>
 			<div class="col-4">
+				<!-- There should be Orders tab and Trades tab -->
 				<div id="orders">
-					<h3>Orders</h3>
+					<!-- <h3>Orders</h3> -->
+					<h3>Trades</h3>
+					<ul id="trades"></ul>
 					<hr>
 				</div>
 			</div>
@@ -116,7 +122,7 @@
 	                                <input name="username" type="hidden">
 	                                <input name="buyOrSell" type="hidden" value="sell">
 	                                <input name="orderType" type="hidden" value="market"><br>
-	                                <input name="orderType" type="text" placeholder="orderType"><br>
+<!-- 	                                <input name="orderType" type="text" placeholder="orderType"><br> -->
 
 	                                <!-- either numTokens OR price should be filled -->
 	                                <input name="numTokens" type="text" placeholder="numTokens"><br>
