@@ -39,6 +39,11 @@ $(document).ready(function() {
 		$('#not-logged-in').show();
 	}
 	
+	// toggle form visibility
+	$('.edit-button').click(function(event) {
+		$(this).parent().parent().find('form').slideToggle();
+	});
+	
 	// edit username form submitted
 	$('#update-username-form').submit(function(event) {
 		event.preventDefault();
@@ -54,7 +59,10 @@ $(document).ready(function() {
 					'newusername=' + username + '&oldusername=' + sessionStorage.getItem('username')
 				);
 				sessionStorage.setItem('username', username);
-				$('#username').text(username);
+				$('#account-info #username, #username-container #username').text(username);
+				
+				// toggle form
+				$('#update-username-form').slideToggle();
 			}
 			// clear form
 			$('#update-username-form input[name=username]').val('');
@@ -76,6 +84,9 @@ $(document).ready(function() {
 					'username=' + sessionStorage.getItem('username') + '&email=' + email
 				);
 				$('#email').text(email);
+				
+				// toggle form
+				$('#update-email-form').slideToggle();
 			}
 			// clear form
 			$('#update-email-form input[name=email]').val('');
@@ -100,6 +111,9 @@ $(document).ready(function() {
 						'username=' + sessionStorage.getItem('username')
 							+ '&password=' + $('#update-password-form input[name=newpassword]').val()
 					);
+					
+					// toggle form
+					$('#update-password-form').slideToggle();
 				} else {
 					alert('incorrect old password; please retry');
 				}
@@ -126,6 +140,9 @@ $(document).ready(function() {
 			'username=' + sessionStorage.getItem('username') + '&lastname=' + lastname
 		);
 		$('#lastname').text(lastname);
+		
+		// toggle form
+		$('#update-name-form').slideToggle();
 		
 		// clear form
 		$('#update-name-form')[0].reset();
@@ -164,6 +181,9 @@ $(document).ready(function() {
 		);
 		$('#zipcode').html(zipcode);
 		
+		// toggle form
+		$('#update-address-form').slideToggle();
+		
 		// clear form
 		$('#update-address-form')[0].reset();
 	});
@@ -179,6 +199,9 @@ $(document).ready(function() {
 			'username=' + sessionStorage.getItem('username') + '&telephone=' + telephone
 		);
 		$('#telephone').text(telephone);
+		
+		// toggle form
+		$('#update-telephone-form').slideToggle();
 		
 		// clear form
 		$('#update-telephone-form input[name=telephone]').val('');

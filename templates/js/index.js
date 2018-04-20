@@ -13,7 +13,7 @@ $(document).ready(function() {
 		var price = $('#orderForm input[name=orderType]').val();
 		var username = $('#orderForm input[name=username]').val();
 
-		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, price, username function(data, status) {
+		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, price, username, function(data, status) {
 
 			if (data) {
 

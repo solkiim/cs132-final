@@ -42,6 +42,10 @@ body {
 	vertical-align: top;
 }
 
+#loginform input {
+    float:
+}
+
 /* FOOTER */
 
 #footer {
@@ -152,17 +156,20 @@ body {
 
 /* -------------------------------- ACCOUNT --------------------------------- */
 
+#account-header {
+	text-align: center;
+}
+
 #logged-in, #not-logged-in {
 	display: none;	/* please don't change */
 }
 
-#logged-in div {
-	border: solid 2px #000;	/* you can change this; i just wanted to show you where divs were */
-	margin: 5px;
-	display: inline-block;
-	vertical-align: top;
+#logged-in [class*=col] div {
+	width: 100%;
+	margin-bottom: 20px;
 }
 
+<<<<<<< HEAD
 #loginform input {
     float: 
 }
@@ -194,3 +201,22 @@ body {
     width: 100px;
     align-items: center;
 }
+=======
+#logged-in [class*=col] div p {
+	font-weight: bold;
+}
+
+#logged-in [class*=col] div p span {
+	font-weight: normal;
+}
+
+.edit-button {
+	font-size: 12px;
+	color: #b5b5b5;
+	cursor: pointer;
+}
+
+.update-form {
+	display: none;
+}
+>>>>>>> db47eda6e8e0e2992947745cd437b9be2f6870ee
