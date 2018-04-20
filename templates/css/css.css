@@ -128,18 +128,25 @@ body {
 #errormessage {
     width: 50%;
     height: 330px;
-    margin-left: 20%;
-	top: calc(50% - 115px);
-
+    margin-left: 15%;
+    margin-top: 11%;
 }
 #errormessage h1 {
-    font-weight: 300;
+    font-weight: 200;
     font-size: 90px;
+    margin-bottom: 0px;
 }
 
 #errormessage h2, h3 {
     color: darkgray;
-    font-weight: 300;
+    font-weight: 200;
+    font-size: 25px
+}
+
+#errormessage h4 {
+    font-weight: 400;
+    font-size: 18px;
+    margin-top: 10px;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */
