@@ -177,11 +177,6 @@ body {
 	margin-bottom: 20px;
 }
 
-<<<<<<< HEAD
-#loginform input {
-    float:
-}
-
 /* -------------------------------- SIGNUP --------------------------------- */
 #signup h1 {
     font-weight: 200;
@@ -209,7 +204,7 @@ body {
     width: 100px;
     align-items: center;
 }
-=======
+
 #logged-in [class*=col] div p {
 	font-weight: bold;
 }
@@ -227,4 +222,3 @@ body {
 .update-form {
 	display: none;
 }
->>>>>>> db47eda6e8e0e2992947745cd437b9be2f6870ee
