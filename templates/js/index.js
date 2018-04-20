@@ -13,16 +13,23 @@ $(document).ready(function() {
 		var price = $('#orderForm input[name=orderType]').val();
 		var username = $('#orderForm input[name=username]').val();
 
-		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, price, username function(data, status) {
+		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, price, username function(res, error) {
 
-			if (data) {
+			if (error) {
+				console.log("error posting order")
+			} 
 
-			} else {
+		});
 
-			}
+	});
+
+	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, newPrice, username){
+
+			var ul = $('#trades');
+    		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + newPrice + ', ' + username));
 
 		});
 
 
-	});
+
 });

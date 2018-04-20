@@ -1,28 +1,31 @@
-// ----------------------------------- SETUP -----------------------------------
-
-// dependencies
-var express = require('express');
-var bodyParser = require('body-parser');
-var db = require('any-db');
-var dbsql = require('any-db-mysql');
-
 // other files
-var account = require('./account.js');
+var account = require('./index.js');
 
-// set up app
+var http = require('http'); // this is new
+var express = require('express');
 var app = express();
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
-app.use(express.static(__dirname + '/templates'));
+var server = http.createServer(app); // this is new
+// add socket.io
+var io = require('socket.io').listen(server);
+// send to one user
 
-// set up database connection
-var pool = db.createPool('sqlite3://parallel.db', {min: 0, max: 1000});
+var path = require("path");
+var bodyParser = require('body-parser');
+var anyDB = require('any-db');
 
-// RKIM
+var engines = require('consolidate');
+app.use('/js', express.static('js'));
+app.engine('html', engines.hogan);
+app.set('views', __dirname + '/templates');
+app.set('view engine', 'html');
+
 
 app.get('/account', function(req, res) {
     res.sendFile('trading-platform.html', {root : __dirname + '/templates'});
 });
+
+
+io.sockets.on('connection', function(socket){
 
 // on signupform submit
 app.post('/ordersubmit', function(req, res) {
@@ -38,27 +41,9 @@ app.post('/ordersubmit', function(req, res) {
 
         executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, username); 
 
-    }
+    } else if (buyOrSell = sell) {
 
-
-    else if (buyOrSell = sell) {
-
-        // insert into sell table
-        pool.query('INSERT INTO Sell (tokenSymbol, buyOrSell, orderType, numTokens, price, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
-
-            if (error){
-
-              console.log("FAILED to add to database");
-              res.sendStatus(500);
-
-            } else {
-
-            	executeMarketSell();
-              
-            }
-
-
-          });
+        // execute market sell
 
     }
 
@@ -70,29 +55,36 @@ executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, usernam
     var reqNumTokens = reqNumTokens;
     var orderReqPrice = reqPrice;
 
-    // don't run this functino if no rows in Sell
+    // don't run this function if no rows in Sell
     pool.query('IF EXISTS (SELECT * FROM Sell),' function(err, data) {
+        
         if (err) {
-            console.error(err);
+            console.log("no sell orders; cannot execute market buy");
         }
-    });
 
-        // initialize first inquiry
-        var row = SELECT BOTTOM 1 * FROM Sell;
-        var rowNumTokens = 0;
-        var rowSellPrice = 0;
+        var reqNumTokens = reqNumTokens;
         var newPrice = 0;
         var clearedPrices = [];
         var clearedNumTokens = [];
 
         // for market orders gotta keep going until you execute all trades
-        while (reqNumTokens != 0 && Sell table is not empty){
+        // and sell table is not empty!
+        while (reqNumTokens != 0){
             
             // check last entry in sell
-            row = SELECT TOP 1 * FROM Sell ORDER BY orderID DESC;
-            rowNumTokens = rows tokens;
-            rowNumTokens = rows numTokens;
-            rowSellPrice = rows price;
+            var row = pool.query('SELECT TOP 1 * FROM Sell ORDER BY orderID DESC,' function(err,data){
+                if (err){
+                    console.error(err);
+                }
+            });
+
+            var rowNumTokens = rows numTokens;
+
+
+
+            var rowSellPrice = rows price; 
+
+            
                  
             // meaning you'll need to keep climbing up
             if (rowNumTokens < reqNumTokens){
@@ -118,14 +110,16 @@ executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, usernam
                 newPrice = weightedPrice(clearedPrices, clearedNumTokens);
 
                 // insert into buy table
-                pool.query('INSERT INTO Buy (tokenSym, buyOrSell, orderType, reqNumTokens, newPrice, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
+                pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, newPrice, username) VALUES($1, $2, $3, $4)', [tokenSym, buyOrSell, orderType, numTokens, price, username], function(error, data) {
 
                     if (error){
                       console.log("FAILED to add to database");
                       res.sendStatus(500);
-
                     } 
                     
+                    // trigger function updatingOrders
+                    io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, numTokens, newPrice, username);
+
                     // done; no more looping
                     reqNumTokens = 0;  
 
@@ -134,6 +128,8 @@ executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, usernam
             }
                 
         }
+
+    });
     
 
  } 
@@ -165,6 +161,11 @@ executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, usernam
 
  }
 
+
+ });
+
+
+// RKIM TO DO
 
  requestMarketSell(){
 
