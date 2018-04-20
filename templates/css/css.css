@@ -2,6 +2,13 @@
 
 body {
 	background-color: #F7F8F9;
+    font-family: "Avenir Next", sans-serif;
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 /* HEADER */
@@ -90,8 +97,34 @@ body {
 #dashboard [class*=col] div h3 {
 	font-size: 20px;
 	color: #345E9C;
-	font-weight: 200;
+	font-weight: 300;
 }
+
+#listings, #stock-graph, #orders, #news, #trade {
+    height: 315px;
+}
+
+.tradetabs {
+    font-size: 15px;
+    font-weight: 300;
+    float: left;
+    padding-right: 15px;
+}
+
+#buy {
+    clear: left;
+    width: 45%;
+}
+
+#sell {
+    width: 45%;
+}
+
+#buy h2, #sell h2 {
+    font-size: 15px;
+    font-weight: 300;
+}
+
 
 /* -------------------------------- ACCOUNT --------------------------------- */
 
