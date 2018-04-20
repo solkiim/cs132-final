@@ -122,6 +122,7 @@ body {
 
 #sell {
     width: 45%;
+    float: left;
 }
 
 #buy h2, #sell h2 {
