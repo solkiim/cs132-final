@@ -87,43 +87,46 @@
                     <h4 class="tradetabs">Limit</h4>
                     <h4 class="tradetabs">Market</h4>
                     <h4 class="tradetabs">Stop-Limit</h4>
-                    <div id="buy">
-                        <h2>Buy BNB</h2>
-                            <form id="buyForm">
-                                <!-- hidden: username, token symbol, username, get from page -->
-                                    <input name="tokenSymbol" type="hidden">
-                                    <input name="username" type="hidden">
-                                    <input name="buyOrSell" type="hidden" value="buy">
-                                    <input name="orderType" type="hidden" value="market"><br>
+					<br>
+					<div id="buy-sell">
+						<div id="buy">
+	                        <h2>Buy BNB</h2>
+	                            <form id="buyForm">
+	                                <!-- hidden: username, token symbol, username, get from page -->
+	                                    <input name="tokenSymbol" type="hidden">
+	                                    <input name="username" type="hidden">
+	                                    <input name="buyOrSell" type="hidden" value="buy">
+	                                    <input name="orderType" type="hidden" value="market"><br>
 
-                                <!-- either numTokens OR price should be filled -->
-                                    <input name="numTokens" type="text" placeholder="numTokens"><br>
-                                    <input name="price" type="text" placeholder="amount to spend"><br>
+	                                <!-- either numTokens OR price should be filled -->
+	                                    <input name="numTokens" type="text" placeholder="numTokens"><br>
+	                                    <input name="price" type="text" placeholder="amount to spend"><br>
 
-                                <!-- this should be buy or sell -->
-                                    <input type="submit" value="trade">
-                            </form>
-                    </div>
-                    
-                    <div id="sell">
-                        <h2>Sell BNB</h2>
-                            <form id="sellForm">
+	                                <!-- this should be buy or sell -->
+	                                    <input type="submit" value="trade">
+	                            </form>
+	                    </div>
+						
+						<div id="sell">
+	                        <h2>Sell BNB</h2>
+	                            <form id="sellForm">
 
-                                <!-- hidden: username, token symbol, username, get from page -->
-                                <input name="tokenSymbol" type="hidden">
-                                <input name="username" type="hidden">
-                                <input name="buyOrSell" type="hidden" value="sell">
-                                <input name="orderType" type="hidden" value="market"><br>
-                                <input name="orderType" type="text" placeholder="orderType"><br>
+	                                <!-- hidden: username, token symbol, username, get from page -->
+	                                <input name="tokenSymbol" type="hidden">
+	                                <input name="username" type="hidden">
+	                                <input name="buyOrSell" type="hidden" value="sell">
+	                                <input name="orderType" type="hidden" value="market"><br>
+	                                <input name="orderType" type="text" placeholder="orderType"><br>
 
-                                <!-- either numTokens OR price should be filled -->
-                                <input name="numTokens" type="text" placeholder="numTokens"><br>
-                                <input name="price" type="text" placeholder="amount to spend"><br>
+	                                <!-- either numTokens OR price should be filled -->
+	                                <input name="numTokens" type="text" placeholder="numTokens"><br>
+	                                <input name="price" type="text" placeholder="amount to spend"><br>
 
-                                <!-- this should be buy or sell -->
-                                <input type="submit" value="trade">
-                            </form>
-                    </div>
+	                                <!-- this should be buy or sell -->
+	                                <input type="submit" value="trade">
+	                            </form>
+	                    </div>
+					</div>
 				</div>
 			</div>
 		</div>

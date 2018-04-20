@@ -91,7 +91,7 @@ body {
 	padding: 10px;
 }
 
-#dashboard [class*=col] div {
+#dashboard [class*=col] > div {
 	background-color: #fff;
 	border: 1px solid #CBCCCB;
 	padding: 15px;
@@ -112,16 +112,23 @@ body {
     font-weight: 300;
     float: left;
     padding-right: 15px;
-    clear: 
+    clear:
+}
+
+#buy-sell {
+	margin: 0;
+	padding: 0;
+}
+
+#buy-sell > div {
+	width: 45%;
+	border: 1px solid #CBCCCB;
+	display: inline-block;
+	vertical-align: top;
 }
 
 #buy {
-    clear: left;
-    width: 45%;
-}
-
-#sell {
-    width: 45%;
+	margin-left: -200px;
 }
 
 #buy h2, #sell h2 {
@@ -172,7 +179,7 @@ body {
 
 <<<<<<< HEAD
 #loginform input {
-    float: 
+    float:
 }
 
 /* -------------------------------- SIGNUP --------------------------------- */
