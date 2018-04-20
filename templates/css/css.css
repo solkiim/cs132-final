@@ -3,7 +3,6 @@
 body {
 	background-color: #F7F8F9;
     font-family: "Avenir Next", sans-serif;
-    
 }
 
 * {
@@ -125,6 +124,15 @@ body {
     font-weight: 300;
 }
 
+/* --------------------------------- 404 ---------------------------------- */
+#errormessage h1 {
+    font-weight: 300;
+    font-size: 90px;
+}
+
+#errormessage h2 {
+    color: #EEEEE;
+}
 
 /* -------------------------------- ACCOUNT --------------------------------- */
 
@@ -140,5 +148,5 @@ body {
 }
 
 #loginform input {
-    float: left;
+    float: 
 }
