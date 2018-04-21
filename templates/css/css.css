@@ -194,15 +194,30 @@ body {
 #signupform input {
     width: 200px;
     height: 30px;
-    border-radius: 5px;
     font-size: 15px;
     margin: 5px;
     margin-left: 4%;
+    background-color: #F7F7F7;
+    outline: none;
+    border: 2px solid #BDBDBD;
+}
+
+#signupform input:focus, input:active {
+    outline: none;
+}
+
+::placeholder {
+    color: #BDBDBD;
+    padding-left: 7px;
 }
 
 #signupform #signupsubmit {
+    
     width: 100px;
     align-items: center;
+    margin-left: 75px; 
+    background-color: #B3DBE2;
+    color: white;
 }
 
 #logged-in [class*=col] div p {
