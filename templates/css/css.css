@@ -185,10 +185,9 @@ body {
 }
 
 #signup {
-    width: 50%;
-    height: 330px;
-    margin-left: 15%;
-    margin-top: 9%;
+    width: 270px;
+    margin: 0 auto;
+    margin-top: 10%;
 }
 
 #signupform input {
@@ -196,10 +195,11 @@ body {
     height: 30px;
     font-size: 15px;
     margin: 5px;
-    margin-left: 4%;
+    margin-left: 12%;
     background-color: #F7F7F7;
     outline: none;
-    border: 2px solid #BDBDBD;
+    border: 1px solid #BDBDBD;
+    text-align: center;
 }
 
 #signupform input:focus, input:active {
@@ -209,10 +209,10 @@ body {
 ::placeholder {
     color: #BDBDBD;
     padding-left: 7px;
+    text-align: center;
 }
 
 #signupform #signupsubmit {
-    
     width: 100px;
     align-items: center;
     margin-left: 75px; 
