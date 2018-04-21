@@ -211,12 +211,12 @@ app.get('/ordersubmit', function(req, res) {
     var tokenSym = req.body.tokenSym;
     var orderType = req.body.orderType;
     var reqNumTokens = req.body.numTokens;
-    var reqPrice = req.body.price;
+    var reqByAmount = req.body.reqByAmount;
     var username = req.body.username;
 
     if (buyOrSell = buy){
 
-        executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqPrice, username); 
+        executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username); 
 
     } else if (buyOrSell = sell) {
 
@@ -227,7 +227,7 @@ app.get('/ordersubmit', function(req, res) {
     
 });
 
-function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username){
+function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqByAmount, username){
 
     var originalReqNumTokens = reqNumTokens;
     var reqNumTokens = reqNumTokens;
@@ -304,7 +304,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
                 price = weightedPrice(clearedPrices, clearedNumTokens);
 
                 // insert into trades history table
-                pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
+                pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, reqByAmount, username], function(error, data) {
 
                     if (error){
                       console.log("FAILED to add to database");
@@ -312,7 +312,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
                     } 
                     
                     // trigger function updatingOrders
-                    io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username);
+                    io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, reqByAmount, username);
 
                     // done; no more looping
                     reqNumTokens = 0;  
