@@ -312,7 +312,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, reqByAmo
                     } 
                     
                     // trigger function updatingOrders
-                    io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, reqByAmount, username);
+                    io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username);
 
                     // done; no more looping
                     reqNumTokens = 0;  
