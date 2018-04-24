@@ -2,6 +2,7 @@
 
 // dependencies
 const bcrypt = require('bcrypt');
+var fs = require('fs');
 
 // ----------------------------------- ROUTES ----------------------------------
 
@@ -69,6 +70,11 @@ exports.getemail = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting email');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].email);
 		}
 	);
@@ -83,6 +89,11 @@ exports.getfirstname = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting first name');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].firstname);
 		}
 	);
@@ -97,6 +108,11 @@ exports.getlastname = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting last name');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].lastname);
 		}
 	);
@@ -111,6 +127,11 @@ exports.getaddress = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting address');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].address);
 		}
 	);
@@ -125,6 +146,11 @@ exports.getaddress2 = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting address line 2');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].address2);
 		}
 	);
@@ -139,6 +165,11 @@ exports.getcity = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting address city');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].city);
 		}
 	);
@@ -153,6 +184,11 @@ exports.getzipcode = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting address zipcode');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].zipcode);
 		}
 	);
@@ -167,6 +203,11 @@ exports.gettelephone = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error getting telephone');
 			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
 			res.json(data.rows[0].telephone);
 		}
 	);
@@ -437,4 +478,68 @@ exports.removefromportfolio = function(pool, req, res) {
 			res.sendStatus(204);
 		}
 	);
+}
+
+// --------------------------------- PORTFOLIO ---------------------------------
+
+// get login tier
+exports.getlogintier = function(pool, req, res) {
+	pool.query('SELECT login_tier FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting login tier');
+			}
+			
+			if (data.rows.length == 0) {
+				return res.json('that username does not exist');
+			}
+			
+			var logintier_text;
+			switch (data.rows[0].login_tier) {
+				case 1:
+					logintier_text = "email verified";
+					break;
+				case 2:
+					logintier_text = "accredited";
+					break;
+				case 99:
+					logintier_text = "admin";
+					break;
+				default:
+					logintier_text = "email not verified";
+			}
+			res.json(logintier_text);
+		}
+	);
+}
+
+// set login tier
+exports.setlogintier = function(pool, req, res) {
+	pool.query('UPDATE account SET zipcode = $1 WHERE username = $2',
+		[req.body.zipcode, req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error setting address zipcode');
+			}
+		}
+	);
+}
+
+// save login tier file upload
+exports.logintierfileupload = function(pool, req, res) {
+	// move to folder accreditation-uploads
+	var dir = 'accreditation-uploads/' + req.body.username;
+	if (!fs.existsSync(dir)){
+		fs.mkdirSync(dir);
+	}
+	req.files.uploadedfile.mv(dir + '/' + req.files.uploadedfile.name, function(err) {
+		if (err) {
+			console.error(err);
+			return res.status(500).send('error uploading file');
+		}
+		res.sendStatus(204);
+	});
 }

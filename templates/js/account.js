@@ -29,6 +29,9 @@ $(document).ready(function() {
 		$.post('/gettelephone','username=' + sessionStorage.getItem('username'), function(data, status) {
 			$('#telephone').text(data);
 		});
+		$.post('/getlogintier','username=' + sessionStorage.getItem('username'), function(data, status) {
+			$('#login-tier').text(data);
+		});
 		$.post('/getportfolio','username=' + sessionStorage.getItem('username'), function(data, status) {
 			// put as li items into '#portfolio'
 		});
@@ -44,7 +47,7 @@ $(document).ready(function() {
 		$(this).parent().parent().find('form').slideToggle();
 	});
 	
-	// edit username form submitted
+	// update username form submitted
 	$('#update-username-form').submit(function(event) {
 		event.preventDefault();
 		
@@ -69,7 +72,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	// edit email form submitted
+	// update email form submitted
 	$('#update-email-form').submit(function(event) {
 		event.preventDefault();
 		
@@ -122,7 +125,7 @@ $(document).ready(function() {
 		);
 	});
 	
-	// edit name form submitted
+	// update name form submitted
 	$('#update-name-form').submit(function(event) {
 		event.preventDefault();
 		
@@ -148,7 +151,7 @@ $(document).ready(function() {
 		$('#update-name-form')[0].reset();
 	});
 	
-	// edit address form submitted
+	// update address form submitted
 	$('#update-address-form').submit(function(event) {
 		event.preventDefault();
 		
@@ -188,7 +191,7 @@ $(document).ready(function() {
 		$('#update-address-form')[0].reset();
 	});
 	
-	// edit telephone form submitted
+	// update telephone form submitted
 	$('#update-telephone-form').submit(function(event) {
 		event.preventDefault();
 		
@@ -205,5 +208,31 @@ $(document).ready(function() {
 		
 		// clear form
 		$('#update-telephone-form input[name=telephone]').val('');
+	});
+	
+	// update login tier form submitted
+	$('#update-login-tier-form').submit(function(event) {
+		event.preventDefault();
+		
+		var fd = new FormData();
+		fd.append('username', sessionStorage.getItem('username'));
+		fd.append('uploadedfile', $('#update-login-tier-form input[name="uploadedfile"]')[0].files[0]);
+		
+		$.ajax({
+			url: '/logintierfileupload',
+			data: fd,
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data){
+				alert('file successfully uploaded');
+			}
+		});
+		
+		// toggle form
+		$('#update-login-tier-form').slideToggle();
+		
+		// clear form
+		$('#update-login-tier-form')[0].reset();
 	});
 });
