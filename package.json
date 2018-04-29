@@ -9,7 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solkiim/cs132-final.git"
+    "url": "git+https://github.com/solkiim/cs132-final.git",
+    "test": "jasmine"
   },
   "author": "skim52 chk2 (rhaime username)",
   "license": "ISC",
@@ -29,5 +30,8 @@
     "html": "^1.0.0",
     "path": "^0.12.7",
     "save": "^2.3.2"
+  },
+  "devDependencies": {
+    "jasmine": "^3.1.0"
   }
 }
