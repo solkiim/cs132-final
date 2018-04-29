@@ -1,13 +1,16 @@
 /* -------------------------------- GENERAL --------------------------------- */
-
-body {
-	background-color: #F7F8F9;
-}
-
 * {
     margin: 0;
     padding: 0;
     font-family: "Avenir Next", sans-serif;
+}
+
+*:focus {
+    outline: none;
+}
+
+#background {
+    background-color: #F4F7FA;
 }
 
 /* HEADER */
@@ -49,6 +52,14 @@ body {
     margin-top: 2px;
 }
 
+#loginform input {
+    padding-left: 5px;
+}
+
+#loginform input::placeholder {
+    padding-left: 0px;
+}
+
 #loginform input[type=submit] {
     width: 60px;
     border-color: white;
@@ -63,6 +74,7 @@ body {
     font-size: 13px;
     margin-top: 4px;
 }
+
 /* FOOTER */
 
 #footer {
