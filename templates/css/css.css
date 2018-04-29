@@ -160,6 +160,16 @@ body {
     font-weight: 400;
     font-size: 18px;
     margin-top: 10px;
+    text-decoration: none;
+}
+
+#errormessage a:active, #errormessage a:link, #errormessage a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+#errormessage a:hover {
+    color: #B3DBE2;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */

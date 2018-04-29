@@ -17,15 +17,6 @@
 	<!-- js -->
     <script src="jquery-3.3.1.min.js"></script>
     <script src="bootstrap.min.js"></script>
-<!--
-	<script
-		src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
--->
 	<script src="/http://socket.io/socket.io.js"></script>
 	<script src="/js/header.js"></script>
 	<script src="/js/index.js"></script>
@@ -67,7 +58,7 @@
 			<div class="col-6">
 				<div id="stock-graphs">
 					<h3>Stock Name</h3>
-					<canvas id="stock-graph" width="300" height="150"></canvas>
+					<canvas id="stock-graph" width="250" height="123"></canvas>
 					<script src="js/index.js"></script>
 					<hr>
 				</div>
@@ -145,13 +136,20 @@
 			<div class="col-4">
 				<div id="news">
 					<h3>News</h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">time</div>
+                        <div class="col-sm-8 headline">headline</div>
+                    </div>
+                    
+<!--
 					<ul style="list-style-type: none">
 					<hr><li> 14:00:09 Uber's Peace Process, Tesla's Tantrum, and More </li>
 					<hr><li> 14:00:09 Uber, Lyft and the 'snake bill' in the Louisiana </li>
 					<hr><li> 14:00:09 Uber's Peace Process, Tesla's Tantrum, and More </li>
 					<hr><li> 14:00:09 Uber, Lyft and the 'snake bill' in the Louisiana </li>
 					</ul>
-					<hr>
+-->
 				</div>
 			</div>
 			<div class="col-8">
