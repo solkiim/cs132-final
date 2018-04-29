@@ -5,12 +5,14 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var db = require('any-db');
 var dbsql = require('any-db-mysql');
+const fileUpload = require('express-fileupload');
 
 // other files
 var account = require('./account.js');
 
 // set up app
 var app = express();
+app.use(fileUpload());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/templates'));
@@ -165,6 +167,17 @@ app.post('/addtoportfolio', function(req, res) {
 });
 app.post('/removefromportfolio', function(req, res) {
 	account.removefromportfolio(pool, req, res);
+});
+
+// login tier
+app.post('/getlogintier', function(req, res) {
+	account.getlogintier(pool, req, res);
+});
+app.post('/setlogintier', function(req, res) {
+	account.setlogintier(pool, req, res);
+});
+app.post('/logintierfileupload', function(req, res) {
+	account.logintierfileupload(pool, req, res);
 });
 
 // -------------------------------- APP: OTHER ---------------------------------

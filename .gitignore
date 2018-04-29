@@ -1,2 +1,4 @@
 node_modules/
 parallel.db
+accreditation-uploads/*
+!accreditation-uploads/placeholder.png
