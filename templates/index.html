@@ -24,20 +24,22 @@
 </head>
 
 <body>
+<!-----HEADER----->
 	<div id="header">
 		<a href="/"><h1>parallel</h1></a>
 		
+<!-----ACCOUNT----->
 		<div id="account">
 			<div id="login-signup">
-				<a href="/signup">sign up</a>
-				
 				<!-- do NOT change anything besides placeholders/values below -->
 				<form id="loginform">
-					<input name="username" type="text" placeholder="username"><br>
-					<input name="password" type="password" placeholder="password"><br>
+					<input name="username" type="text" placeholder="username">
+					<input name="password" type="password" placeholder="password">
 					<input type="submit" value="login">
 				</form>
 			</div>
+            
+            <a href="/signup">Don't have an account? Sign up!</a>
 			
 			<div id="account-info">
 				<p><span id="username"></span></p>
@@ -48,6 +50,8 @@
 	</div>
 	
 	<div class="container" id="dashboard">
+
+<!-----LISTINGS----->
 		<div class="row">
 			<div class="col-2">
 				<div id="listings">
@@ -55,6 +59,8 @@
 					<hr>
 				</div>
 			</div>
+
+<!-----STOCK GRAPHS----->
 			<div class="col-6">
 				<div id="stock-graphs">
 					<h3>Stock Name</h3>
@@ -63,6 +69,8 @@
 					<script src="js/index.js"></script>
 				</div>
 			</div>
+
+<!-----ORDERS AND TRADES----->
 			<div class="col-4">
 				<!-- There should be Orders tab and Trades tab -->
 				<div id="orders">
@@ -71,7 +79,7 @@
                     <hr>
 					<ul id="trades"></ul>
 
-					<table style="width:95%">
+					<table style="width:100%">
 					  <tr>
 					    <th>Time (EST)</th>
 					    <th>Type</th>
@@ -130,6 +138,8 @@
 				</div>
 			</div>
 		</div>
+
+<!-----NEWS----->
 		<div class="row">
 			<div class="col-4">
 				<div id="news">
@@ -141,6 +151,8 @@
                     </div>
 				</div>
 			</div>
+
+<!-----TRADE----->
 			<div class="col-8">
 				<div id="trade">
 					<h3>Trade</h3>
@@ -193,6 +205,7 @@
 		</div>
 	</div>
 	
+<!-----FOOTER----->
 	<div id="footer">
 		<div id="links">
 			<a href="">Home</a>

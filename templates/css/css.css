@@ -2,12 +2,12 @@
 
 body {
 	background-color: #F7F8F9;
-    font-family: "Avenir Next", sans-serif;
 }
 
 * {
     margin: 0;
     padding: 0;
+    font-family: "Avenir Next", sans-serif;
 }
 
 /* HEADER */
@@ -24,6 +24,12 @@ body {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+    font-weight: 300;
+}
+
+#header a:active, #header a:link, #header a:visited, #header a:hover {
+    text-decoration: none;
+    color: black;
 }
 
 #header #account {
@@ -39,13 +45,24 @@ body {
 
 #login-signup a, #login-signup form, #account-info p, #account-info form {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
+    margin-top: 2px;
 }
 
-#loginform input {
-    float:
+#loginform input[type=submit] {
+    width: 60px;
+    border-color: white;
+    border-width: 1px;
+    background-color: #75C9D8;
+    color: white;
+    font-weight: 200;
 }
 
+#account a {
+    float: right;
+    font-size: 13px;
+    margin-top: 4px;
+}
 /* FOOTER */
 
 #footer {
@@ -107,12 +124,16 @@ body {
     height: 310px;
 }
 
+#trade hr {
+    margin-bottom: 4px;
+}
+
 .tradetabs {
     font-size: 15px;
     font-weight: 300;
     float: left;
     padding-right: 15px;
-    clear:
+    margin-top: -0px;
 }
 
 #buy-sell {
@@ -122,13 +143,12 @@ body {
 
 #buy-sell > div {
 	width: 45%;
-	border: 1px solid #CBCCCB;
 	display: inline-block;
 	vertical-align: top;
 }
 
 #buy {
-	margin-left: -200px;
+	margin-left: -195px;
 }
 
 #buy h2, #sell h2 {
