@@ -12,6 +12,10 @@ $(document).ready(function() {
 		sessionStorage.removeItem('username');
 		$('#account-info').hide();
 		$('#login-signup').show();
+		
+		if (document.title == 'account') {
+			window.location.href = '/';
+		}
 	});
 	
 	// login form submitted
