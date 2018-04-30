@@ -39,7 +39,7 @@ exports.verifypassword = function(pool, req, res) {
 		function(err, data) {
 			if (err) {
 				console.error(err);
-				return res.status(500).send('error checking duplicate email');
+				return res.status(500).send('error verifying password');
 			}
 			
 			if (data.rows.length == 0) {
@@ -49,12 +49,27 @@ exports.verifypassword = function(pool, req, res) {
 			bcrypt.compare(req.body.password, data.rows[0].password, function(hasherr, hashres) {
 				if (hasherr) {
 					console.error(err);
-					return res.status(500).send('error checking duplicate email');
+					return res.status(500).send('error verifying password');
 				}
 				
 				// return true if password and username match, false otherwise
 				return res.json(hashres);
 			});
+		}
+	);
+}
+
+// delete account
+exports.deleteaccount = function(pool, req, res) {
+	pool.query('DELETE FROM account WHERE username=$1',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error deleting account');
+			}
+			
+			res.sendStatus(204);
 		}
 	);
 }
@@ -224,6 +239,7 @@ exports.setusername = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting username');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -245,6 +261,7 @@ exports.setpassword = function(pool, req, res) {
 					console.error(err);
 					return res.status(500).send('error setting password');
 				}
+				res.sendStatus(204);
 			}
 		);
 	});
@@ -259,6 +276,7 @@ exports.setemail = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting email');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -272,6 +290,7 @@ exports.setfirstname = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting first name');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -285,6 +304,7 @@ exports.setlastname = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting last name');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -298,6 +318,7 @@ exports.setaddress = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting address');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -311,6 +332,7 @@ exports.setaddress2 = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting address line 2');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -324,6 +346,7 @@ exports.setcity = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting address city');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -337,6 +360,7 @@ exports.setzipcode = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting address zipcode');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -350,6 +374,7 @@ exports.settelephone = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting telephone');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
@@ -524,6 +549,7 @@ exports.setlogintier = function(pool, req, res) {
 				console.error(err);
 				return res.status(500).send('error setting address zipcode');
 			}
+			res.sendStatus(204);
 		}
 	);
 }
