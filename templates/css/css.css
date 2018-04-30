@@ -1,13 +1,18 @@
 /* -------------------------------- GENERAL --------------------------------- */
-
-body {
-	background-color: #F7F8F9;
-    font-family: "Avenir Next", sans-serif;
-}
-
 * {
     margin: 0;
     padding: 0;
+    font-family: "Avenir Next", sans-serif;
+}
+
+*:focus {
+    outline: none;
+}
+
+.background {
+    background-color: #F4F7FA;
+    width: 100%;
+    height: 100%;
 }
 
 /* HEADER */
@@ -24,6 +29,12 @@ body {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+    font-weight: 300;
+}
+
+#header a:active, #header a:link, #header a:visited, #header a:hover {
+    text-decoration: none;
+    color: black;
 }
 
 #header #account {
@@ -39,11 +50,32 @@ body {
 
 #login-signup a, #login-signup form, #account-info p, #account-info form {
 	display: inline-block;
-	vertical-align: top;
+	vertical-align: middle;
+    margin-top: 2px;
 }
 
 #loginform input {
-    float:
+    padding-left: 5px;
+}
+
+#loginform input::placeholder {
+    padding-left: 0px;
+}
+
+#loginform input[type=submit] {
+    width: 60px;
+    border-color: white;
+    border-width: 1px;
+    background-color: #75C9D8;
+    color: white;
+    font-weight: 200;
+    padding-left: 0px;
+}
+
+#account a {
+    float: right;
+    font-size: 13px;
+    margin-top: 4px;
 }
 
 /* FOOTER */
@@ -79,7 +111,7 @@ body {
 
 /* --------------------------------- INDEX ---------------------------------- */
 
-/* DASHBOARD */
+/*-------DASHBOARD-------*/
 
 #dashboard {
 	width: 100%;
@@ -107,12 +139,17 @@ body {
     height: 310px;
 }
 
+/* BUY AND SELL */
+#trade hr {
+    margin-bottom: 4px;
+    margin-top: 40px
+}
+
 .tradetabs {
     font-size: 15px;
     font-weight: 300;
     float: left;
     padding-right: 15px;
-    clear:
 }
 
 #buy-sell {
@@ -122,17 +159,71 @@ body {
 
 #buy-sell > div {
 	width: 45%;
-	border: 1px solid #CBCCCB;
 	display: inline-block;
 	vertical-align: top;
 }
 
 #buy {
-	margin-left: -200px;
+	margin-left: -195px;
+}
+
+#sell {
+    margin-left: 30px;
 }
 
 #buy h2, #sell h2 {
     font-size: 15px;
+    font-weight: 300;
+    margin-top: 10px
+}
+
+#buyForm input, #sellForm input {
+    float: right;
+    width: 300px;
+}
+
+#buyForm input::placeholder, #sellForm input::placeholder {
+    text-align: right;
+    padding-right: 5px;
+}
+
+#buyForm input[type=submit], #sellForm input[type=submit] {
+    width: 400px;
+    padding: 5px;
+    margin-top: 10px;
+    border: none;
+    color: white;
+    font-weight: 200;
+    padding-left: 0px;
+}
+
+#buyForm input[type=submit] {
+    background-color: #AEF4B1;
+}
+
+#sellForm input[type=submit] {
+    background-color: #E4C1C0;
+}
+
+#wallet {
+    display: inline;
+}
+
+#wallet img {
+    float: right;
+    width: 30px;
+    margin-right: 53px;
+}
+
+#wallet h3 {
+    width: 100px;
+    position: absolute;
+}
+
+#wallet h4 {
+    font-size: 14px;
+    position: absolute;
+    right: 30px;
     font-weight: 300;
 }
 
@@ -160,12 +251,24 @@ body {
     font-weight: 400;
     font-size: 18px;
     margin-top: 10px;
+    text-decoration: none;
+}
+
+#errormessage a:active, #errormessage a:link, #errormessage a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+#errormessage a:hover {
+    color: #B3DBE2;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */
 
 #account-header {
 	text-align: center;
+    margin-top: 5%;
+    font-weight: 300;
 }
 
 #logged-in, #not-logged-in {
@@ -175,6 +278,20 @@ body {
 #logged-in [class*=col] div {
 	width: 100%;
 	margin-bottom: 20px;
+}
+
+#sign-out {
+    width: 75px;
+    border-color: white;
+    border-width: 1px;
+    background-color: #75C9D8;
+    color: white;
+    font-weight: 200;
+    padding-left: 0px;
+}
+
+#not-logged-in p {
+    text-align: center;
 }
 
 /* -------------------------------- SIGNUP --------------------------------- */
@@ -196,7 +313,7 @@ body {
     font-size: 15px;
     margin: 5px;
     margin-left: 12%;
-    background-color: #F7F7F7;
+    background-color: white;
     outline: none;
     border: 1px solid #BDBDBD;
     text-align: center;
