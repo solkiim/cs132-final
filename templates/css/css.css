@@ -280,6 +280,20 @@
 	margin-bottom: 20px;
 }
 
+#sign-out {
+    width: 75px;
+    border-color: white;
+    border-width: 1px;
+    background-color: #75C9D8;
+    color: white;
+    font-weight: 200;
+    padding-left: 0px;
+}
+
+#not-logged-in p {
+    text-align: center;
+}
+
 /* -------------------------------- SIGNUP --------------------------------- */
 #signup h1 {
     font-weight: 200;
