@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// signup form submitted
 
 	// send all the data over
-	$('#market-buy-form').submit(function(event) {
+	$('#buyForm').submit(function(event) {
 
 		event.preventDefault();
 

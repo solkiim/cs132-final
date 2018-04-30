@@ -9,7 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solkiim/cs132-final.git"
+    "url": "git+https://github.com/solkiim/cs132-final.git",
+    "test": "jasmine"
   },
   "author": "skim52 chk2 (rhaime username)",
   "license": "ISC",
@@ -21,10 +22,16 @@
     "any-db": "^2.2.1",
     "any-db-mysql": "^2.1.2",
     "any-db-sqlite3": "^2.1.4",
-    "bcrypt": "^2.0.0",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
+    "express-fileupload": "^0.4.0",
+    "fs": "0.0.1-security",
     "html": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "save": "^2.3.2"
+  },
+  "devDependencies": {
+    "jasmine": "^3.1.0"
   }
 }

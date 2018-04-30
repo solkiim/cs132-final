@@ -17,15 +17,6 @@
 	<!-- js -->
     <script src="jquery-3.3.1.min.js"></script>
     <script src="bootstrap.min.js"></script>
-<!--
-	<script
-		src="https://code.jquery.com/jquery-3.3.1.min.js"
-		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-		crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
--->
 	<script src="/http://socket.io/socket.io.js"></script>
 	<script src="/js/header.js"></script>
 	<script src="/js/index.js"></script>
@@ -33,180 +24,210 @@
 </head>
 
 <body>
-	<div id="header">
-		<h1>parallel</h1>
-		
-		<div id="account">
-			<div id="login-signup">
-				<a href="/signup">sign up</a>
-				
-				<!-- do NOT change anything besides placeholders/values below -->
-				<form id="loginform">
-					<input name="username" type="text" placeholder="username"><br>
-					<input name="password" type="password" placeholder="password"><br>
-					<input type="submit" value="login">
-				</form>
-			</div>
-			
-			<div id="account-info">
-				<p><span id="username"></span></p>
-				<a href="/account">account</a>
-				<button id="sign-out">sign out</button>
-			</div>
-		</div>
-	</div>
-	
-	<div class="container" id="dashboard">
-		<div class="row">
-			<div class="col-2">
-				<div id="listings">
-					<h3>Listings</h3>
-					<hr>
-				</div>
-			</div>
-			<div class="col-6">
-				<div id="stock-graphs">
-					<h3>Stock Name</h3>
-					<canvas id="stock-graph" width="300" height="150"></canvas>
-					<script src="js/index.js"></script>
-					<hr>
-				</div>
-			</div>
-			<div class="col-4">
-				<!-- There should be Orders tab and Trades tab -->
-				<div id="orders">
-					<!-- <h3>Orders</h3> -->
-					<h3>Trades</h3>
-					<ul id="trades"></ul>
+    <!-- HEADER -->
 
-					<table style="width:100%">
-					  <tr>
-					    <th>Time (EST)</th>
-					    <th>Type</th> 
-					    <th>Price (USD)</th>
-					    <th>Volume</th>
-					  </tr>
-					  <tr>
-					    <td>14:29:48</td>
-					    <td>Sell</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  <tr>
-					    <td>14:29:48</td>
-					    <td>Sell</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  	<tr>
-					    <td>14:29:48</td>
-					    <td>Sell</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  	<tr>
-					    <td>14:29:48</td>
-					    <td>Sell</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  	<tr>
-					    <td>14:29:48</td>
-					    <td>Buy</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  <tr>
-					    <td>14:29:48</td>
-					    <td>Buy</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  <tr>
-					    <td>14:29:48</td>
-					    <td>Buy</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					  <tr>
-					    <td>14:29:48</td>
-					    <td>Buy</td>
-					    <td>7905</td>
-					    <td>1.00</td>
-					  </tr>
-					</table>
+    <div class="background">
+        <div id="header">
+            <a href="/"><h1>parallel</h1></a>
 
+    <!-- ACCOUNT -->
+            <div id="account">
+                <div id="login-signup">
+                    <!-- do NOT change anything besides placeholders/values below  -->
+                    <form id="loginform">
+                        <input name="username" type="text" placeholder="username">
+                        <input name="password" type="password" placeholder="password">
+                        <input type="submit" value="login">
+                    </form>
+                </div>
 
-					<hr>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-4">
-				<div id="news">
-					<h3>News</h3>
-					<ul style="list-style-type: none">
-					<hr><li> 14:00:09 Uber's Peace Process, Tesla's Tantrum, and More </li>
-					<hr><li> 14:00:09 Uber, Lyft and the 'snake bill' in the Louisiana </li>
-					<hr><li> 14:00:09 Uber's Peace Process, Tesla's Tantrum, and More </li>
-					<hr><li> 14:00:09 Uber, Lyft and the 'snake bill' in the Louisiana </li>
-					</ul>
-					<hr>
-				</div>
-			</div>
-			<div class="col-8">
-				<div id="trade">
-					<h3>Trade</h3>
-                    <h4 class="tradetabs">Limit</h4>
-                    <h4 class="tradetabs">Market</h4>
-                    <h4 class="tradetabs">Stop-Limit</h4>
-					<br>
-					<div id="buy-sell">
-						<div id="buy">
-	                        <h2>Buy BNB</h2>
-	                            <form id="market-buy-form">
+                <a href="/signup">Don't have an account? Sign up!</a>
 
-	                            	<!-- CANNOT type in a price for market orders (for Christine, could you make the box grey to imply that as well please) -->
-                                	<input name="price" type="text" disabled="disabled" placeholder="Amount in USD"><br>
+                <div id="account-info">
+                    <p><span id="username"></span></p>
+                    <a href="/account">account</a>
+                    <button id="sign-out">sign out</button>
+                </div>
+            </div>
+        </div>
 
-                                	<input name="numTokens" type="text" placeholder="Amount in BNB"><br>
-                                    <input name="tokenSymbol" type="hidden">
-                                    <input name="username" type="hidden">
-                                    <input name="buyOrSell" type="hidden" value="buy">
-                                    <input name="orderType" type="hidden" value="market"><br>
-                                    <input type="submit" value="Buy">
-	                            </form>
-	                    </div>
-						
-						<div id="sell">
-	                        <h2>Sell BNB</h2>
-	                            <form id="market-sell-form">
-	                            	
-	                            	<!-- CANNOT type in a price for market orders (for Christine, could you make the box grey to imply that as well please) -->
-                                	<input name="price" type="text" disabled="disabled" placeholder="Amount in USD"><br>
+        <div class="container" id="dashboard">
 
-                                	<input name="numTokens" type="text" placeholder="Amount in BNB"><br>
-                                    <input name="tokenSymbol" type="hidden">
-                                    <input name="username" type="hidden">
-                                    <input name="buyOrSell" type="hidden" value="sell">
-                                    <input name="orderType" type="hidden" value="market"><br>
-	                                <input type="submit" value="Sell">
-	                            </form>
-	                    </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div id="footer">
-		<div id="links">
-			<a href="">Home</a>
-			<a href="">Careers</a>
-			<a href="">Legal & Privacy</a>
-		</div>
-		
-		<p>2017 Parallel</p>
-	</div>
+    <!-- LISTINGS -->
+            <div class="row">
+                <div class="col-2">
+                    <div id="listings">
+                        <h3>Listings</h3>
+                        <hr>
+                    </div>
+                </div>
+
+    <!-- STOCK GRAPHS -->
+                <div class="col-6">
+                    <div id="stock-graphs">
+                        <h3>Stock Name</h3>
+                        <hr>
+                        <canvas id="stock-graph" width="250" height="123"></canvas>
+                        <script src="js/index.js"></script>
+                    </div>
+                </div>
+
+    <!--- ORDERS AND TRADES-->
+                <div class="col-4">
+                    <!-- There should be Orders tab and Trades tab -->
+                    <div id="orders">
+                        
+                        <h3>Trades</h3>
+                        <hr>
+                        <ul id="trades"></ul>
+
+                        <table style="width:100%">
+                          <tr>
+                            <th>Time (EST)</th>
+                            <th>Type</th>
+                            <th>Price (USD)</th>
+                            <th>Volume</th>
+                          </tr>
+                          <tr>
+                            <td>14:29:48</td>
+                            <td>Sell</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                          <tr>
+                            <td>14:29:48</td>
+                            <td>Sell</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                            <tr>
+                            <td>14:29:48</td>
+                            <td>Sell</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                            <tr>
+                            <td>14:29:48</td>
+                            <td>Sell</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                            <tr>
+                            <td>14:29:48</td>
+                            <td>Buy</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                          <tr>
+                            <td>14:29:48</td>
+                            <td>Buy</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                          <tr>
+                            <td>14:29:48</td>
+                            <td>Buy</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                          <tr>
+                            <td>14:29:48</td>
+                            <td>Buy</td>
+                            <td>7905</td>
+                            <td>1.00</td>
+                          </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    <!--NEWS-->
+            <div class="row">
+                <div class="col-4">
+                    <div id="news">
+                        <h3>News</h3>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4">time</div>
+                            <div class="col-sm-8 headline">headline</div>
+                        </div>
+                    </div>
+                </div>
+
+    <!--TRADE-->
+                <div class="col-8">
+                    <div id="trade">
+                        <div id="wallet">
+                            <h3>Trade</h3>
+                            <img src="images/wallet.svg"/>
+                            <div id="money">
+                                <h4>Wallet<br>$$$</h4>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h4 class="tradetabs">Limit</h4>
+                        <h4 class="tradetabs">Market</h4>
+                        <h4 class="tradetabs">Stop-Limit</h4>
+                        <br>
+                        <div id="buy-sell">
+                            <div id="buy">
+                                <h2>Buy BNB</h2>
+                                    <form id="buyForm">
+                                        <!-- hidden: username, token symbol, username, get from page -->
+                                            <input name="tokenSymbol" type="hidden">
+                                            <input name="username" type="hidden">
+                                            <input name="buyOrSell" type="hidden" value="buy">
+                                            <input name="orderType" type="hidden" value="market"><br>
+
+                                        <!-- either numTokens OR price should be filled -->
+                                            <label for="currency1">Price:</label>
+                                            <input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1" disabled="disabled"><br>
+                                            <label for="currency2">Amount:</label>
+                                            <input name="reqByAmount" type="text" placeholder="Amount in USD" class="currency2"><br>
+
+                                        <!-- this should be buy or sell -->
+                                            <input type="submit" value="Buy">
+                                    </form>
+                            </div>
+
+                            <div id="sell">
+                                <h2>Sell BNB</h2>
+                                    <form id="sellForm">
+
+                                        <!-- hidden: username, token symbol, username, get from page -->
+                                        <input name="tokenSymbol" type="hidden">
+                                        <input name="username" type="hidden">
+                                        <input name="buyOrSell" type="hidden" value="sell">
+                                        <input name="orderType" type="hidden" value="market"><br>
+    <!-- 	                                <input name="orderType" type="text" placeholder="orderType"><br> -->
+
+                                        <!-- either numTokens OR price should be filled -->
+                                        <label for="currency1">Price:</label>
+                                        <input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1" disabled="disabled"><br>
+                                        <label for="currency2">Amount:</label>
+                                        <input name="reqByAmount" type="text" placeholder="Amount in USD" class="currency2"><br>
+
+                                        <!-- this should be buy or sell -->
+                                        <input type="submit" value="Sell">
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--FOOTER-->
+        <div id="footer">
+            <div id="links">
+                <a href="">Home</a>
+                <a href="">Careers</a>
+                <a href="">Legal & Privacy</a>
+            </div>
+
+            <p>2017 Parallel</p>
+        </div>
+    </div>
 </body>
 </html>
