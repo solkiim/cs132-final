@@ -1,23 +1,23 @@
 // var socket = io.connect();
 
+// const io = require('socket.io-client');
+// const socket = io.connect('http://localhost:8080');
+
 $(document).ready(function() {
 	// signup form submitted
 
 	// send all the data over
-	$('#buyForm').submit(function(event) {
-
-		console.log("entering");
+	$('#market-buy-form').submit(function(event) {
 
 		event.preventDefault();
 
+		var numTokens = $('#orderForm input[name=numTokens]').val();
 		var tokenSym = $('#orderForm input[name=tokenSymbol]').val();
 		var buyOrSell = $('#orderForm input[name=buyOrSell]').val();
 		var orderType = $('#orderForm input[name=orderType').val();
-		var numTokens = $('#orderForm input[name=numTokens]').val();
-		var reqByAmount = $('#orderForm input[name=reqByAmount]').val();
 		var username = $('#orderForm input[name=username]').val();
 
-		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, reqByAmount, username, function(res, error) {
+		$.post('/ordersubmit', tokenSym, buyOrSell, orderType, numTokens, username, function(res, error) {
 
 			if (error){
 				console.error(err);

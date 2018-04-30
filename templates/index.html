@@ -164,38 +164,32 @@
 					<div id="buy-sell">
 						<div id="buy">
 	                        <h2>Buy BNB</h2>
-	                            <form id="buyForm">
-	                                <!-- hidden: username, token symbol, username, get from page -->
-	                                    <input name="tokenSymbol" type="hidden">
-	                                    <input name="username" type="hidden">
-	                                    <input name="buyOrSell" type="hidden" value="buy">
-	                                    <input name="orderType" type="hidden" value="market"><br>
+	                            <form id="market-buy-form">
 
-	                                <!-- either numTokens OR price should be filled -->
-	                                    <input name="numTokens" type="text" placeholder="Amount in BNB"><br>
-	                                    <input name="reqByAmount" type="text" placeholder="Amount in USD"><br>
+	                            	<!-- CANNOT type in a price for market orders (for Christine, could you make the box grey to imply that as well please) -->
+                                	<input name="price" type="text" disabled="disabled" placeholder="Amount in USD"><br>
 
-	                                <!-- this should be buy or sell -->
-	                                    <input type="submit" value="Buy">
+                                	<input name="numTokens" type="text" placeholder="Amount in BNB"><br>
+                                    <input name="tokenSymbol" type="hidden">
+                                    <input name="username" type="hidden">
+                                    <input name="buyOrSell" type="hidden" value="buy">
+                                    <input name="orderType" type="hidden" value="market"><br>
+                                    <input type="submit" value="Buy">
 	                            </form>
 	                    </div>
 						
 						<div id="sell">
 	                        <h2>Sell BNB</h2>
-	                            <form id="sellForm">
+	                            <form id="market-sell-form">
+	                            	
+	                            	<!-- CANNOT type in a price for market orders (for Christine, could you make the box grey to imply that as well please) -->
+                                	<input name="price" type="text" disabled="disabled" placeholder="Amount in USD"><br>
 
-	                                <!-- hidden: username, token symbol, username, get from page -->
-	                                <input name="tokenSymbol" type="hidden">
-	                                <input name="username" type="hidden">
-	                                <input name="buyOrSell" type="hidden" value="sell">
-	                                <input name="orderType" type="hidden" value="market"><br>
-<!-- 	                                <input name="orderType" type="text" placeholder="orderType"><br> -->
-
-	                                <!-- either numTokens OR price should be filled -->
-	                                <input name="numTokens" type="text" placeholder="Amount in BNB"><br>
-	                                <input name="reqByAmount" type="text" placeholder="Amount in USD"><br>
-
-	                                <!-- this should be buy or sell -->
+                                	<input name="numTokens" type="text" placeholder="Amount in BNB"><br>
+                                    <input name="tokenSymbol" type="hidden">
+                                    <input name="username" type="hidden">
+                                    <input name="buyOrSell" type="hidden" value="sell">
+                                    <input name="orderType" type="hidden" value="market"><br>
 	                                <input type="submit" value="Sell">
 	                            </form>
 	                    </div>
