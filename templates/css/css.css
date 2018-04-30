@@ -139,17 +139,36 @@
     height: 310px;
 }
 
+/* LISTINGS */
+#example img {
+    width: 60px;
+    float: left;
+    margin-right: 15px;
+}
+
+#listing-info h5, #listing-info h6 {
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 2px;
+}
+
+#example {
+    border: 1px solid lightgray;
+    padding: 10px;
+    padding-left: 20px;
+    width: 216px;
+    margin-left: -16px;
+    margin-top: -17px;
+}
+
+#pricechange {
+    color: #AEF4B1;
+}
+
 /* BUY AND SELL */
 #trade hr {
     margin-bottom: 4px;
     margin-top: 40px
-}
-
-.tradetabs {
-    font-size: 15px;
-    font-weight: 300;
-    float: left;
-    padding-right: 15px;
 }
 
 #buy-sell {
@@ -164,7 +183,7 @@
 }
 
 #buy {
-	margin-left: -195px;
+	margin-left: 5px;
 }
 
 #sell {
