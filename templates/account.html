@@ -30,157 +30,162 @@
 </head>
 
 <body>
-	<div id="header">
-		<a href="/"><h1>parallel</h1></a>
-		
-		<div id="account">
-			<div id="login-signup">
-				<a href="/signup">sign up</a>
-				
-				<form id="loginform">
-					<input name="username" type="text" placeholder="username"><br>
-					<input name="password" type="password" placeholder="password"><br>
-					<input type="submit" value="login">
-				</form>
-			</div>
-			
-			<div id="account-info">
-				<p><span id="username"></span></p>
-				<a href="/account">account</a>
-				<button id="sign-out">sign out</button>
-			</div>
-		</div>
-	</div>
-	
-	<h1 id="account-header">account</h1>
-	
-	<div id="not-logged-in">
-		<p>log in or sign up to see account info!</p>
-	</div>
-	
-	<div class="container" id="logged-in">
-		<div class="row">
-			<div class="col-2"></div>
-			<div class="col-4">
-				<div id="username-container">
-					<p>username: <span id="username"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-username-form">
-						<input name="username" type="text" placeholder="new username"><br>
-						<input type="submit" value="update">
-					</form>
-				</div>
-			</div>
-			<div class="col-4">
-				<div id="name-container">
-					<p>name: <span id="firstname"></span> <span id="lastname"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-name-form">
-						<input name="firstname" type="text" placeholder="first name"><br>
-						<input name="lastname" type="text" placeholder="last name"><br>
-						<input type="submit" value="update">
-					</form>
-				</div>
-			</div>
-			<div class="col-2"></div>
-		</div>
-		<div class="row">
-			<div class="col-2"></div>
-			<div class="col-4">
-				<div id="email-container">
-					<p>email: <span id="email"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-email-form">
-						<input name="email" type="email" placeholder="new email"><br>
-						<input type="submit" value="update">
-					</form>
-				</div>
-			</div>
-			<div class="col-4">
-				<div id="password-container">
-					<p>password <i class="fas fa-pencil-alt edit-button"></i></p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-password-form">
-						<input name="oldpassword" type="password" placeholder="old password"><br>
-						<input name="newpassword" type="password" placeholder="new password"><br>
-						<input type="submit" value="update">
-					</form>
-				</div>
-			</div>
-			<div class="col-2"></div>
-		</div>
-		<div class="row">
-			<div class="col-2"></div>
-			<div class="col-4">
-				<div id="address-container">
-					<p>address: <i class="fas fa-pencil-alt edit-button"></i><br>
-						<span id="address"></span><br>
-						<span id="address2"></span><br>
-						<span id="city"></span><br>
-						<span id="zipcode"></span>
-					 </p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-address-form">
-						<input name="address" type="text" placeholder="address"><br>
-						<input name="address2" type="text" placeholder="address line 2"><br>
-						<input name="city" type="text" placeholder="city"><br>
-						<input name="zipcode" type="text" placeholder="zipcode"><br>
-						<input type="submit" value="update">
-					</form>
-				</div>
-			</div>
-			<div class="col-4">
-				<div id="telephone-container">
-					<p>telephone: <span id="telephone"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-telephone-form">
-						<input name="telephone" type="text" placeholder="new telephone"><br>
-						<input type="submit" value="update">
-					</form>
-				</div>
-			</div>
-			<div class="col-2"></div>
-		</div>
-		<div class="row">
-			<div class="col-2"></div>
-			<div class="col-4">
-				<div id="login-tier-container">
-					<p>login tier: <span id="login-tier"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
-					<!-- do NOT change anything besides placeholders/values below -->
-					<form class="update-form" id="update-login-tier-form" encType="multipart/form-data">
-						<input type="file" name="uploadedfile" required>
-						<input type="submit" value="upload">
-					</form>
-				</div>
-			</div>
-			<div class="col-6"></div>
-		</div>
-		<div class="row">
-			<div class="col-2"></div>
-			<div class="col-4">
-				<div id="portfolio-container">
-					<p>portfolio</p>
-					<ul id="portfolio"></ul>
-				</div>
-			</div>
-			<div class="col-4">
-				<div id="favorite-stocks-container">
-					<p>favorite stocks</p>
-					<ul id="favorite_stocks"></ul>
-				</div>
-			</div>
-			<div class="col-2"></div>
-		</div>
-	</div>
-	
-	<div id="footer">
-		<div id="links">
-			<a href="">Home</a>
-			<a href="">Careers</a>
-			<a href="">Legal & Privacy</a>
-		</div>
-		
-		<p>2017 Parallel</p>
-	</div>
+    <div class="background">
+        <div id="header">
+            <a href="/"><h1>parallel</h1></a>
+
+            <div id="account">
+                <div id="login-signup">
+                    <!-- do NOT change anything besides placeholders/values below -->
+                    <form id="loginform">
+                        <input name="username" type="text" placeholder="username">
+                        <input name="password" type="password" placeholder="password">
+                        <input type="submit" value="login">
+                    </form>
+                </div>
+
+                <a href="/signup">Don't have an account? Sign up!</a>
+
+                <div id="account-info">
+                    <p><span id="username"></span></p>
+                    <a href="/account">account</a>
+                    <button id="sign-out">sign out</button>
+                </div>
+            </div>
+        </div>
+
+        <h1 id="account-header">account</h1>
+
+        <div id="not-logged-in">
+            <p>log in or sign up to see account info!</p>
+        </div>
+
+        <div class="container" id="logged-in">
+            <h4>Account Information</h4>
+            <hr>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <div id="username-container">
+                        <p>username: <span id="username"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-username-form">
+                            <input name="username" type="text" placeholder="new username"><br>
+                            <input type="submit" value="update">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="name-container">
+                        <p>name: <span id="firstname"></span> <span id="lastname"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-name-form">
+                            <input name="firstname" type="text" placeholder="first name"><br>
+                            <input name="lastname" type="text" placeholder="last name"><br>
+                            <input type="submit" value="update">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <div id="email-container">
+                        <p>email: <span id="email"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-email-form">
+                            <input name="email" type="email" placeholder="new email"><br>
+                            <input type="submit" value="update">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="password-container">
+                        <p>password <i class="fas fa-pencil-alt edit-button"></i></p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-password-form">
+                            <input name="oldpassword" type="password" placeholder="old password"><br>
+                            <input name="newpassword" type="password" placeholder="new password"><br>
+                            <input type="submit" value="update">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <div id="address-container">
+                        <p>address: <i class="fas fa-pencil-alt edit-button"></i><br>
+                            <span id="address"></span><br>
+                            <span id="address2"></span><br>
+                            <span id="city"></span><br>
+                            <span id="zipcode"></span>
+                         </p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-address-form">
+                            <input name="address" type="text" placeholder="address"><br>
+                            <input name="address2" type="text" placeholder="address line 2"><br>
+                            <input name="city" type="text" placeholder="city"><br>
+                            <input name="zipcode" type="text" placeholder="zipcode"><br>
+                            <input type="submit" value="update">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="telephone-container">
+                        <p>telephone: <span id="telephone"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-telephone-form">
+                            <input name="telephone" type="text" placeholder="new telephone"><br>
+                            <input type="submit" value="update">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <div id="login-tier-container">
+                        <p>login tier: <span id="login-tier"></span> <i class="fas fa-pencil-alt edit-button"></i></p>
+                        <!-- do NOT change anything besides placeholders/values below -->
+                        <form class="update-form" id="update-login-tier-form" encType="multipart/form-data">
+                            <input type="file" name="uploadedfile" required>
+                            <input type="submit" value="upload">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-6"></div>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <div id="portfolio-container">
+                        <p>portfolio</p>
+                        <ul id="portfolio"></ul>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div id="favorite-stocks-container">
+                        <p>favorite stocks</p>
+                        <ul id="favorite_stocks"></ul>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+
+        <div id="footer">
+            <div id="links">
+                <a href="">Home</a>
+                <a href="">Careers</a>
+                <a href="">Legal & Privacy</a>
+            </div>
+
+            <p>2017 Parallel</p>
+        </div>
+    </div>
 </body>
 </html>

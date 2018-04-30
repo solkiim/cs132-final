@@ -9,8 +9,10 @@
     outline: none;
 }
 
-#background {
+.background {
     background-color: #F4F7FA;
+    width: 100%;
+    height: 100%;
 }
 
 /* HEADER */
@@ -166,17 +168,18 @@
 }
 
 #sell {
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
 #buy h2, #sell h2 {
     font-size: 15px;
     font-weight: 300;
+    margin-top: 10px
 }
 
 #buyForm input, #sellForm input {
     float: right;
-    width: 300px
+    width: 300px;
 }
 
 #buyForm input::placeholder, #sellForm input::placeholder {
@@ -264,6 +267,8 @@
 
 #account-header {
 	text-align: center;
+    margin-top: 5%;
+    font-weight: 300;
 }
 
 #logged-in, #not-logged-in {
@@ -294,7 +299,7 @@
     font-size: 15px;
     margin: 5px;
     margin-left: 12%;
-    background-color: #F7F7F7;
+    background-color: white;
     outline: none;
     border: 1px solid #BDBDBD;
     text-align: center;
