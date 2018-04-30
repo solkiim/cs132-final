@@ -67,6 +67,7 @@
     background-color: #75C9D8;
     color: white;
     font-weight: 200;
+    padding-left: 0px;
 }
 
 #account a {
@@ -108,7 +109,7 @@
 
 /* --------------------------------- INDEX ---------------------------------- */
 
-/* DASHBOARD */
+/*-------DASHBOARD-------*/
 
 #dashboard {
 	width: 100%;
@@ -136,8 +137,10 @@
     height: 310px;
 }
 
+/* BUY AND SELL */
 #trade hr {
     margin-bottom: 4px;
+    margin-top: 40px
 }
 
 .tradetabs {
@@ -145,7 +148,6 @@
     font-weight: 300;
     float: left;
     padding-right: 15px;
-    margin-top: -0px;
 }
 
 #buy-sell {
@@ -163,8 +165,62 @@
 	margin-left: -195px;
 }
 
+#sell {
+    margin-left: 20px;
+}
+
 #buy h2, #sell h2 {
     font-size: 15px;
+    font-weight: 300;
+}
+
+#buyForm input, #sellForm input {
+    float: right;
+    width: 300px
+}
+
+#buyForm input::placeholder, #sellForm input::placeholder {
+    text-align: right;
+    padding-right: 5px;
+}
+
+#buyForm input[type=submit], #sellForm input[type=submit] {
+    width: 400px;
+    padding: 5px;
+    margin-top: 10px;
+    border: none;
+    color: white;
+    font-weight: 200;
+    padding-left: 0px;
+}
+
+#buyForm input[type=submit] {
+    background-color: #AEF4B1;
+}
+
+#sellForm input[type=submit] {
+    background-color: #E4C1C0;
+}
+
+#wallet {
+    display: inline;
+}
+
+#wallet img {
+    float: right;
+    width: 30px;
+    margin-right: 53px;
+}
+
+#wallet h3 {
+    width: 100px;
+    position: absolute;
+}
+
+#wallet h4 {
+    font-size: 14px;
+    position: absolute;
+    right: 30px;
     font-weight: 300;
 }
 
