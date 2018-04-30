@@ -9,28 +9,10 @@ CREATE TABLE IF NOT EXISTS Token (
 
 -- want buy and sell to go from HIGHEST ----> to LOWEST price
 
-CREATE TABLE IF NOT EXISTS Buy (
-
-	orderID				INTEGER AUTO_INCREMENT,
-	tokenSymbol			VARCHAR(5) NOT NULL,
-	buyOrSell			TEXT NOT NULL,
-	orderType			VARCHAR(4) NOT NULL,
-	-- either num tokens OR price should be filled
-	numTokens         	INTEGER,
-	-- order price from highest -> lowest
-	price         		ORDER BY INTEGER DESC,
-	username			TEXT,
-	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
-	completed			BOOLEAN DEFAULT 0,
-	PRIMARY KEY (orderID)
-
-);
-
 CREATE TABLE IF NOT EXISTS Sell (
 
 	orderID				INTEGER AUTO_INCREMENT,
 	tokenSymbol			VARCHAR(5) NOT NULL,
-	buyOrSell			TEXT NOT NULL,
 	orderType			VARCHAR(4) NOT NULL,
 	-- either num tokens OR price should be filled
 	numTokens         	INTEGER,
@@ -38,7 +20,21 @@ CREATE TABLE IF NOT EXISTS Sell (
 	price         		ORDER BY INTEGER DESC,
 	username			TEXT,
 	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
-	completed			BOOLEAN DEFAULT 0,
+	PRIMARY KEY (orderID)
+
+);
+
+CREATE TABLE IF NOT EXISTS Buy (
+
+	orderID				INTEGER AUTO_INCREMENT,
+	tokenSymbol			VARCHAR(5) NOT NULL,
+	orderType			VARCHAR(4) NOT NULL,
+	-- either num tokens OR price should be filled
+	numTokens         	INTEGER,
+	-- order price from highest -> lowest
+	price         		ORDER BY INTEGER DESC,
+	username			TEXT,
+	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
 	PRIMARY KEY (orderID)
 
 );
@@ -53,7 +49,6 @@ CREATE TABLE IF NOT EXISTS Trades (
 	price         		INTEGER,
 	username			TEXT,
 	timestamp_			DATETIME DEFAULT NOW() NOT NULL,
-	completed			BOOLEAN DEFAULT 0,
 	PRIMARY KEY (orderID)
 );
 
