@@ -80,6 +80,9 @@ app.post('/signupsubmit', function(req, res) {
 app.post('/verifypassword', function(req, res) {
 	account.verifypassword(pool, req, res);
 });
+app.post('/deleteaccount', function(req, res) {
+	account.deleteaccount(pool, req, res);
+});
 
 // get functions
 app.post('/getemail', function(req, res) {
