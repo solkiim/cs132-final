@@ -346,9 +346,6 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
                       console.log("FAILED to add to database");
                       res.sendStatus(500);
                     } 
-                    
-                    // trigger function updatingOrders
-                    io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username);
 
                     // done; no more looping
                     reqNumTokens = 0;  
@@ -405,6 +402,9 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
                     if (error){
                         console.log(err);
                     }
+
+                    // update orders table
+                    // io.sockets.emit('updateOrders', tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username);
 
                 });
 

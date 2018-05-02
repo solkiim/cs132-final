@@ -17,12 +17,12 @@ $(document).ready(function() {
 
 	// get function for prices SQL
 
-	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+	// socket.on('updateOrders', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
 
-		var ul = $('#trades');
-		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+	// 	var ul = $('#trades');
+	// 	ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
 
-		});
+	// 	});
 
 	$('#buyForm').submit(function(event) {
 
@@ -136,10 +136,10 @@ $(document).ready(function() {
 				if (news_arr.length < num_news) {
 					news_arr.splice(0, 0, text);
 					if(day == today) {
-						$('#news').append("<ul> " + time + " : " + text + " ...");
+						$('#news').append("<ul> " + time + " " + text + " ...");
 					}
 					if (day != today) {
-						$('#news').append("<ul> " + day + " : " + text + " ...");
+						$('#news').append("<ul> " + day + " " + text + " ...");
 					}
 				}
 
@@ -151,11 +151,11 @@ $(document).ready(function() {
 					$('#news ul:last-child').remove(); //remove last element from list
 					// if article is from current day, print the time
 					if(day == today) {
-						$('#news').append("<ul> " + time + " : " + text + " ...");
+						$('#news').append("<ul> " + time + " " + text + " ...");
 					}
 					// if article is not from current day, print the day
 					if (day != today) {
-						$('#news').append("<ul> " + day + " : " + text + " ...");
+						$('#news').append("<ul> " + day + " " + text + " ...");
 					}
 				}
 				// console.log()
