@@ -1,8 +1,7 @@
-
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 6;
-var current_token = "time";
+var current_token = "Uber";
 
 
 $(document).ready(function() {
@@ -14,15 +13,16 @@ $(document).ready(function() {
 	var username;
 	var price;
 
+	// each time you click, update the current_token
 
-	// socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+	// get function for prices SQL
 
-	// 	var ul = $('#trades');
-	// 	ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
 
-	// 	});
+		var ul = $('#trades');
+		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
 
-
+		});
 
 	$('#buyForm').submit(function(event) {
 
@@ -67,12 +67,15 @@ $(document).ready(function() {
 
 	});
 
+	var times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
+	var prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
+
 	new Chart(document.getElementById("stock-graph"), {
 	  type: 'line',
 	  data: {
-	    labels: ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"],
+	    labels: times,
 	    datasets: [{
-	        data: [100,114,106,106,107,111, 129, 97,89, 105, 106, 122], //price
+	        data : prices, //price
 	        backgroundColor: '#ffe4b3', //orange
 	        borderColor: '#ffc966',
 	        fill: true,
@@ -101,7 +104,6 @@ $(document).ready(function() {
 		Req.addEventListener("load", function(e){
 			var content = Req.responseText;
 			var objresponse = JSON.parse(content);
-			console.log(objresponse);
 			var articles = objresponse.articles;
 
 			for (var i = 0; i < articles.length; i++) {
@@ -136,10 +138,10 @@ $(document).ready(function() {
 				if (news_arr.length < num_news) {
 					news_arr.splice(0, 0, text);
 					if(day == today) {
-						$('#news').append("<ul> " + time + " : " + text + " ...");
+						$('#news').append("<li> " + time + " : " + text + " ...");
 					}
 					if (day != today) {
-						$('#news').append("<ul> " + day + " : " + text + " ...");
+						$('#news').append("<li> " + day + " : " + text + " ...");
 					}
 				}
 
@@ -151,11 +153,11 @@ $(document).ready(function() {
 					$('#news ul:last-child').remove(); //remove last element from list
 					// if article is from current day, print the time
 					if(day == today) {
-						$('#news').append("<ul> " + time + " : " + text + " ...");
+						$('#news').append("<li> " + time + " : " + text + " ...");
 					}
 					// if article is not from current day, print the day
 					if (day != today) {
-						$('#news').append("<ul> " + day + " : " + text + " ...");
+						$('#news').append("<li> " + day + " : " + text + " ...");
 					}
 				}
 				// console.log()

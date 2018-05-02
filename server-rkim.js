@@ -78,7 +78,7 @@ pool.query(
 
 // ------------------------------- ROUTES: PAGES -------------------------------
 
- io.sockets.on('connection',function(socket){    
+ io.sockets.on('connection',function(socket){
     console.log("connection made");
  });
 
@@ -210,6 +210,72 @@ process.on('SIGINT', function() {
 });
 
 
+//-------------------------lauti
+
+// post request
+// get the bottom row of sell
+// get the top row of buy
+// and find the weightedPriceForPrices
+// then insert into prices table
+
+app.post('/price-graph', function(req, res) {
+	getPrices(req, res);
+});
+
+function getPrices(req, res){
+
+  var sell = pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC', function(err,data){
+
+      if (err){
+          console.error(err);
+      }
+
+      // get that bottom row's numtokens and posted price
+      var tokenSymbol_sell = data.rows[0].tokenSymbol;
+      var price_sell = data.rows[0].price;
+      var numTokens_sell = data.rows[0].numTokens;
+  });
+
+  var buy = pool.query('SELECT LIMIT 1 * FROM Buy ORDER BY price, timestamp DESC', function(err,data){
+
+      if (err){
+          console.error(err);
+      }
+
+      // get that bottom row's numtokens and posted price
+      var tokenSymbol_buy = data.rows[0].tokenSymbol;
+      var price_buy = data.rows[0].price;
+      var numTokens_buy = data.rows[0].numTokens;
+  });
+
+  var price = weightedforPriceTable(price_sell, price_buy, numTokens_sell, numTokens_buy);
+
+  pool.query('INSERT INTO PriceHistory (tokenSymbol, tokenPrice) VALUES($1, $2)', [tokenSymbol_sell, price], function(error, data) {
+
+      if (error){
+        console.log("FAILED to add to database");
+        res.sendStatus(500);
+      }
+      res.json();
+
+  });
+
+
+}
+
+
+function weightedforPriceTable(sell_price, buy_price, sell_num, buy_num){
+  var totaltokens = sell_num + buy_num;
+  var sell_ratio = sell_num / total_tokens;
+  var buy_ratio = buy_num / total_tokens;
+  var w_price = sell_price * sell_ratio + buy_price * buy_ratio;
+  return w_price;
+}
+
+
+
+
+
 
 // ------------------------ rhaime
 
@@ -227,7 +293,7 @@ io.sockets.on('connection', function(socket){
 
 // on signupform submit
 app.post('/marketsubmit', function(req, res) {
-    
+
     reqNumTokens = req.body.numTokens;
     tokenSym = req.body.tokenSym;
     buyOrSell = req.body.buyOrSell;
@@ -236,7 +302,7 @@ app.post('/marketsubmit', function(req, res) {
 
     if (buyOrSell = buy){
 
-        executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username); 
+        executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username);
 
     } else if (buyOrSell = sell) {
 
@@ -244,7 +310,7 @@ app.post('/marketsubmit', function(req, res) {
 
     }
 
-    
+
 });
 
 app.post('/limitsubmit', function(req, res){
@@ -270,7 +336,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 
     // don't run this function if no rows in Sell
     pool.query('IF EXISTS (SELECT * FROM Sell)', function(err, data) {
-        
+
         if (err) {
             console.log("no sell orders; cannot execute market buy");
         }
@@ -286,10 +352,10 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
         // for market orders gotta keep going until you execute all trades
         // and sell table is not empty!
         while (reqTokens != 0){
-            
+
             // check last entry in sell (cheapest)
             var row = pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC', function(err,data){
-                
+
                 if (err){
                     console.error(err);
                 }
@@ -300,15 +366,15 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
                 var rowSellPrice = data.rows[0].price;
 
             });
-  
+
             // meaning you'll need to keep climbing up
             if (rowTokens < reqTokens){
                 // update however many tokens you still gotta clear
                 reqTokens = reqTokens - rowTokens;
-                
+
                 clearedPrices.push(rowSellPrice);
                 clearedNumTokens.push(rowTokens);
-                
+
                 // delete, since all tokens for that order have been cleared
                 pool.query('DELETE from Sell by price DESC, timestamp DESC, LIMIT 1', function(err,data){
                     if(err){
@@ -345,26 +411,26 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
                     if (error){
                       console.log("FAILED to add to database");
                       res.sendStatus(500);
-                    } 
-                    
+                    }
+
                     // trigger function updatingOrders
                     io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username);
 
                     // done; no more looping
-                    reqNumTokens = 0;  
+                    reqNumTokens = 0;
 
                 });
-               
+
             }
-                
+
         }
 
     });
 
-    // if Sell table is empty, post the market order as 
-    
+    // if Sell table is empty, post the market order as
 
- } 
+
+ }
 
  function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, username){
 
@@ -422,9 +488,9 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
         if (error){
             console.log(err);
             }
-                    
+
         });
-   
+
 
  };
 
@@ -432,7 +498,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 
     if (clearedPrices.length != clearedNumTokens.length){
         console.log("error; price & token lengths different");
-    
+
     }
 
     var length = clearedPrices.length;
@@ -445,7 +511,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
         totalClearedNumTokens += clearedNumTokens[i];
     }
 
-    // get total weighted final price 
+    // get total weighted final price
     for (j=0; j < length-1; j++){
         ratio = clearedNumTokens[j] / totalClearedNumTokens;
         finalPrice += clearedPrices[j]*ratio;
@@ -458,3 +524,79 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 
  });
 
+
+// // RKIM TO DO
+
+// requestMarketSell(){
+
+//     // check first entry in buy
+
+//     // SELECT TOP 1 * FROM Buy
+
+//     // make sure
+
+//  }
+
+
+// getMarkets () {
+
+// }
+
+// calcFee () {
+
+// }
+
+// getBalance () {
+
+// }
+
+// getOrderBook () {
+
+// }
+
+// getTicker (symbol) {
+
+// }
+
+// getBidAsks (symbols) {
+
+// }
+
+// getTrades (symbol) {
+
+// }
+
+// getOrders (symbol) {
+
+// }
+
+// getOrder (id, symbol) {
+
+// }
+
+// createOrder () {
+
+// }
+
+// cancelOrder(id, symbol){
+
+// }
+
+
+// // later
+
+// getMyTrades (symbol, since, limit) {
+
+// }
+
+// getDepositAddress () {
+
+// }
+
+// getWithdrawalFees () {
+
+// }
+
+// withdraw () {
+
+// }
