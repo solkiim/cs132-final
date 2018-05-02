@@ -315,18 +315,7 @@ process.on('SIGINT', function() {
 // ------------------------------- SOCKET EVENTS -------------------------------
 
 io.sockets.on('connection',function(socket){
-	console.log("connection made");
-	
-	var reqNumTokens;
-	var tokenSym;
-	var buyOrSell;
-	var orderType;
-	var username;
-	var price;
-	
-	var reqTokens;
-	
-	
+	// put socket events here
 });
 
 // ----------------------------- HELPER FUNCTIONS ------------------------------

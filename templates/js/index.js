@@ -92,82 +92,73 @@ $(document).ready(function() {
 	  }
 	});
 
-	function func () {
-		var url = 'https://newsapi.org/v2/top-headlines?' +
-								// whatever the current stock is should go in place of "korea" below
-		          'q=' + current_token + '&' +
-		          'apiKey=692f54e4a0c34c678519cc1407b10bf1';
-		var Req = new XMLHttpRequest();
-
-		Req.open("GET", url, true);
-
-		Req.addEventListener("load", function(e){
-			var content = Req.responseText;
-			var objresponse = JSON.parse(content);
-			var articles = objresponse.articles;
-
-			for (var i = 0; i < articles.length; i++) {
-
-				//get the whole article data
-				var news = articles[i];
-
-				// get the title of article
-				var text = news.title;
-				text = text.substring(0, 47);
-				text = text.fontsize(2);
-
-				// get the day and time of article in standard time
-				var time_stamp = news.publishedAt;
-				var day = time_stamp.substring(0, 10);
-				var time = time_stamp.substring(11, 19);
-
-				// generate the current date
-				var today = new Date();
-				var dd = today.getDate();
-				var mm = today.getMonth()+1; //January is 0!
-				var yyyy = today.getFullYear();
-				if(dd<10){
-	    		dd='0'+dd;
-				}
-				if(mm<10){
-	    		mm='0'+mm;
-				}
-				var today = yyyy+'-'+mm+'-'+dd;
-
-				// if array is not full, just add the title to array and add to html list
-				if (news_arr.length < num_news) {
-					news_arr.splice(0, 0, text);
-					if(day == today) {
-						$('#news').append("<li> " + time + " : " + text + " ...");
-					}
-					if (day != today) {
-						$('#news').append("<li> " + day + " : " + text + " ...");
-					}
-				}
-
-				// if array is  full, take away last element from array, add title to array,
-				// delete last element from html list and add new element to html list
-				if (news_arr.length == num_news) {
-					news_arr.splice(num_news, 1); // delete last element from array
-					news_arr.splice(0, 0, text); // add new element from array
-					$('#news ul:last-child').remove(); //remove last element from list
-					// if article is from current day, print the time
-					if(day == today) {
-						$('#news').append("<li> " + time + " : " + text + " ...");
-					}
-					// if article is not from current day, print the day
-					if (day != today) {
-						$('#news').append("<li> " + day + " : " + text + " ...");
-					}
-				}
-				// console.log()
-			}
-		})
-		Req.send();
-	}
-
-	func();
-	setInterval(func, 10000); //every 10 seconds
-
+	news_function();
+	setInterval(news_function, 10000); //every 10 seconds
 
 });
+
+function news_function () {
+	console.log('called')
+	var url = 'https://newsapi.org/v2/top-headlines?' +
+							// whatever the current stock is should go in place of "korea" below
+			  'q=' + current_token + '&' +
+			  'apiKey=692f54e4a0c34c678519cc1407b10bf1';
+	var Req = new XMLHttpRequest();
+
+	Req.open("GET", url, true);
+
+	Req.addEventListener("load", function(e){
+		var content = Req.responseText;
+		var objresponse = JSON.parse(content);
+		var articles = objresponse.articles;
+		
+		articles.map(function(news) {
+			//get the whole article data
+
+			// get the title of article
+			var text = news.title;
+			text = text.substring(0, 47);
+			text = text.fontsize(2);
+
+			// get the day and time of article in standard time
+			var time_stamp = news.publishedAt;
+			var day = time_stamp.substring(0, 10);
+			var time = time_stamp.substring(11, 19);
+
+			// generate the current date
+			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+			if(dd<10){
+			dd='0'+dd;
+			}
+			if(mm<10){
+			mm='0'+mm;
+			}
+			var today = yyyy+'-'+mm+'-'+dd;
+			
+			// prevent repeats
+			if (!news_arr.includes(text)) {
+				// if array is  full, take away last element from array, add title to array,
+				// delete last element from html list and add new element to html list
+				if (news_arr.length >= num_news) {
+					news_arr.pop(); // delete last element from array
+					$('#articles li:last-child').remove(); //remove last element from list
+				}
+				
+				// add title to beginning of array
+				news_arr.unshift(text);
+				
+				// add to html list
+				if(day == today) {
+					$('#articles').append("<li> " + time + " : " + text + " ...");
+				}
+				if (day != today) {
+					$('#articles').append("<li> " + day + " : " + text + " ...");
+				}
+			}
+		});
+	})
+	Req.send();
+}
