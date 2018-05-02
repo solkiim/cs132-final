@@ -9,12 +9,12 @@ $(document).ready(function() {
 	var username;
 	var price;
 
-	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
-
-		var ul = $('#trades');
-		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
-
-		});
+//	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+//
+//		var ul = $('#trades');
+//		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+//
+//		});
 
 	$('#buyForm').submit(function(event) {
 

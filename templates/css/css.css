@@ -82,6 +82,11 @@
     margin-top: 15px;
 }
 
+#account-info a {
+    background-color: #75C9D8;
+    padding: 2px;
+}
+
 #sign-out {
     float: right;
     margin-top: 13px;
