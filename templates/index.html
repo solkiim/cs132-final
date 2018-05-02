@@ -17,7 +17,8 @@
 	<!-- js -->
 	<script src="jquery-3.3.1.min.js"></script>
 	<script src="bootstrap.min.js"></script>
-	<script src="/http://socket.io/socket.io.js"></script>
+	<!-- <script src="/http://socket.io/socket.io.js"></script> -->
+	<script src="https://cdn.socket.io/socket.io-1.4.0.js"></script>
 	<script src="/js/header.js"></script>
 	<script src="/js/index.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -195,9 +196,9 @@
 									
 									<!-- either numTokens OR price should be filled -->
 									<label for="currency1">Price:</label>
-									<input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1"><br>
-									<label for="currency2">Amount:</label>
 									<input name="price" type="text" placeholder="Amount in USD" class="currency2" disabled="disabled"><br>
+									<label for="currency1">Amount:</label>
+									<input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1"><br>
 									
 									<!-- this should be buy or sell -->
 									<input type="submit" value="Buy">
@@ -217,9 +218,9 @@
 									
 									<!-- either numTokens OR price should be filled -->
 									<label for="currency1">Price:</label>
-									<input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1"><br>
-									<label for="currency2">Amount:</label>
 									<input name="price" type="text" placeholder="Amount in USD" class="currency2" disabled="disabled"><br>
+									<label for="currency1">Amount:</label>
+									<input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1"><br>
 									
 									<!-- this should be buy or sell -->
 									<input type="submit" value="Sell">
@@ -239,10 +240,11 @@
 									<input name="orderType" type="hidden" value="limit"><br>
 									
 									<!-- either numTokens OR price should be filled -->
-									<label for="currency1">Price:</label>
-									<input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1"><br>
-									<label for="currency2">Amount:</label>
+									<label for="currency2">Price:</label>
 									<input name="price" type="text" placeholder="Amount in USD" class="currency2"><br>
+									<label for="currency1">Amount:</label>
+									<input name="numTokens" type="text" placeholder="Amount in BNB" class="currency1"><br>
+									
 									
 									<!-- this should be buy or sell -->
 									<input type="submit" value="Buy">

@@ -1,7 +1,4 @@
-// var socket = io.connect();
-
-// const io = require('socket.io-client');
-// const socket = io.connect('http://localhost:8080');
+//var socket = io.connect('http://localhost:8080');
 
 $(document).ready(function() {
 	
@@ -12,28 +9,30 @@ $(document).ready(function() {
 	var username;
 	var price;
 
+	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+
+		var ul = $('#trades');
+		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+
+		});
+
 	$('#buyForm').submit(function(event) {
 
 		event.preventDefault();
 
-		numTokens = $('#orderForm input[name=numTokens]').val();
-		tokenSym = $('#orderForm input[name=tokenSymbol]').val();
-		buyOrSell = $('#orderForm input[name=buyOrSell]').val();
-		orderType = $('#orderForm input[name=orderType').val();
-		username = $('#orderForm input[name=username]').val();
+		numTokens = $('#buyForm input[name=numTokens]').val();
+		tokenSym = $('#buyForm input[name=tokenSymbol]').val();
+		buyOrSell = $('#buyForm input[name=buyOrSell]').val();
+		orderType = $('#buyForm input[name=orderType').val();
+		username = $('#buyForm input[name=username]').val();
+
+		console.log(numTokens);
 
 		$.post('/marketsubmit', tokenSym, buyOrSell, orderType, numTokens, username, function(res, error) {
-
+			console.log("enteringgg");
 			if (error){
 				console.error(err);
 			}
-
-		});
-
-	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
-
-			var ul = $('#trades');
-    		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
 
 		});
 
@@ -43,12 +42,12 @@ $(document).ready(function() {
 
 		event.preventDefault();
 
-		numTokens = $('#orderForm input[name=numTokens]').val();
-		price = $('#orderForm input[name=price]').val();
-		tokenSym = $('#orderForm input[name=tokenSymbol]').val();
-		buyOrSell = $('#orderForm input[name=buyOrSell]').val();
-		orderType = $('#orderForm input[name=orderType').val();
-		username = $('#orderForm input[name=username]').val();
+		numTokens = $('#limit-buy-form input[name=numTokens]').val();
+		price = $('#limit-buy-form input[name=price]').val();
+		tokenSym = $('#limit-buy-form input[name=tokenSymbol]').val();
+		buyOrSell = $('#limit-buy-form input[name=buyOrSell]').val();
+		orderType = $('#limit-buy-form input[name=orderType').val();
+		username = $('#limit-buy-form input[name=username]').val();
 
 		$.post('/limitsubmit', numTokens, price, tokenSym, buyOrSell, orderType, username, function(res, error){
 
