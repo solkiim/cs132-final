@@ -1,7 +1,9 @@
-//var socket = io.connect('http://localhost:8080');
+
+var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 6;
 var current_token = "time";
+
 
 $(document).ready(function() {
 
@@ -12,12 +14,15 @@ $(document).ready(function() {
 	var username;
 	var price;
 
-//	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
-//
-//		var ul = $('#trades');
-//		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
-//
-//		});
+
+	// socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+
+	// 	var ul = $('#trades');
+	// 	ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+
+	// 	});
+
+
 
 	$('#buyForm').submit(function(event) {
 
@@ -31,9 +36,9 @@ $(document).ready(function() {
 
 		console.log(numTokens);
 
-		$.post('/marketsubmit', tokenSym, buyOrSell, orderType, numTokens, username, function(res, error) {
+		$.post('/marketsubmit', tokenSym, buyOrSell, orderType, numTokens, username, function(err, res) {
 			console.log("enteringgg");
-			if (error){
+			if (err){
 				console.error(err);
 			}
 
@@ -52,9 +57,9 @@ $(document).ready(function() {
 		orderType = $('#limit-buy-form input[name=orderType').val();
 		username = $('#limit-buy-form input[name=username]').val();
 
-		$.post('/limitsubmit', numTokens, price, tokenSym, buyOrSell, orderType, username, function(res, error){
+		$.post('/limitsubmit', numTokens, price, tokenSym, buyOrSell, orderType, username, function(err, res){
 
-			if(error){
+			if(err){
 				console.error(err);
 			}
 

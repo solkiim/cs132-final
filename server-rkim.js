@@ -1,13 +1,22 @@
+
+var http = require('http'); // this is new
+var express = require('express');
+var app = express();
+var server = http.createServer(app); // this is new
+
+// add socket.io
+var io = require('socket.io').listen(server);
+
+
+
+
 // ----------------------------------- SETUP -----------------------------------
-var http = require('http');
-var server = http.createServer(app);
 
 // dependencies
 var express = require('express');
 var bodyParser = require('body-parser');
 var db = require('any-db');
 var dbsql = require('any-db-mysql');
-var io = require('socket.io').listen(server);
 var path = require("path");
 var bodyParser = require('body-parser');
 var anyDB = require('any-db');
@@ -17,7 +26,6 @@ var engines = require('consolidate');
 var account = require('./account.js');
 
 // set up app
-var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/templates'));
@@ -69,6 +77,10 @@ pool.query(
 );
 
 // ------------------------------- ROUTES: PAGES -------------------------------
+
+ io.sockets.on('connection',function(socket){    
+    console.log("connection made");
+ });
 
 // home page
 app.get('/', function(req, res) {
@@ -188,12 +200,12 @@ app.get('*', function(req, res) {
     res.sendFile('404.html', {root : __dirname + '/templates'});
 });
 
-var server = app.listen(8080);
+var serverlistener = app.listen(8080);
 
 // app exit
 process.on('SIGINT', function() {
     pool.close();
-    server.close();
+    serverlistener.close();
     process.exit();
 });
 
@@ -214,7 +226,7 @@ io.sockets.on('connection', function(socket){
     var reqTokens;
 
 // on signupform submit
-app.get('/marketsubmit', function(req, res) {
+app.post('/marketsubmit', function(req, res) {
     
     reqNumTokens = req.body.numTokens;
     tokenSym = req.body.tokenSym;
@@ -235,7 +247,7 @@ app.get('/marketsubmit', function(req, res) {
     
 });
 
-app.get('/limitsubmit', function(req, res){
+app.post('/limitsubmit', function(req, res){
 
     reqTokens = req.body.numTokens;
     price = req.body.price;
@@ -445,84 +457,4 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 
 
  });
-
-
-// // RKIM TO DO
-
-// requestMarketSell(){
-
-//     // check first entry in buy
-
-//     // SELECT TOP 1 * FROM Buy
-    
-//     // make sure 
-
-//  }   
-
-
-// getMarkets () {
-
-// }
-
-// calcFee () {
-
-// }
-
-// getBalance () {
-
-// }
-
-// getOrderBook () {
-
-// }
-
-// getTicker (symbol) {
-
-// }
-
-// getBidAsks (symbols) {
-
-// }
-
-// getTrades (symbol) {
-
-// }
-
-// getOrders (symbol) {
-
-// }
-
-// getOrder (id, symbol) {
-
-// }
-
-// createOrder () {
-
-// }
-
-// cancelOrder(id, symbol){
-
-// }
-
-
-// // later
-
-// getMyTrades (symbol, since, limit) {
-
-// }
-
-// getDepositAddress () {
-
-// }
-
-// getWithdrawalFees () {
-
-// }
-
-// withdraw () {
-
-// }
-
-
-
 
