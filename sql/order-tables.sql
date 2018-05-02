@@ -61,9 +61,17 @@ CREATE TABLE IF NOT EXISTS Transaction (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS TokenOrderHistory (
+CREATE TABLE IF NOT EXISTS PriceHistory (
+	orderID				INTEGER AUTO_INCREMENT,
 	tokenSymbol			VARCHAR(5),
-	orderID				INTEGER,
+	tokenPrice			FLOAT(2),
+	timestamp_			DATETIME DEFAULT NOW().
+	PRIMARY KEY (tokenSymbol, timestamp_)
+);
+
+CREATE TABLE IF NOT EXISTS pricetest (
+	orderID				INTEGER AUTO_INCREMENT,
+	tokenSymbol			VARCHAR(5),
 	tokenPrice			FLOAT(2),
 	timestamp_			DATETIME DEFAULT NOW().
 	PRIMARY KEY (tokenSymbol, timestamp_)

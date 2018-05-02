@@ -19,9 +19,9 @@
 	<script src="bootstrap.min.js"></script>
 	<!-- <script src="/http://socket.io/socket.io.js"></script> -->
 	<script src="https://cdn.socket.io/socket.io-1.4.0.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 	<script src="/js/header.js"></script>
 	<script src="/js/index.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 
 <body>
@@ -115,10 +115,14 @@
 					<div id="news">
 						<h3>News</h3>
 						<hr>
-						<div class="row">
-							<!-- <div class="col-sm-4">time</div> -->
-							<!-- <div class="col-sm-8 headline">headline</div> -->
+						<div id="news-container">
+							<ul id="articles">
+							</ul>
 						</div>
+						<!-- <div class="row">
+							<div class="col-sm-4">time</div>
+							<div class="col-sm-8 headline">headline</div>
+						</div> -->
 					</div>
 				</div>
 
