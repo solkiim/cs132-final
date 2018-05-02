@@ -4,7 +4,7 @@ $(document).ready(function() {
 		$('#logged-in').show();
 		
 		// propagate values
-		$('#username-container #username').text(sessionStorage.getItem('username'));
+		$('#username-container #username-field').text(sessionStorage.getItem('username'));
 		$.post('/getemail','username=' + sessionStorage.getItem('username'), function(data, status) {
 			$('#email').text(data);
 		});
@@ -62,7 +62,7 @@ $(document).ready(function() {
 					'newusername=' + username + '&oldusername=' + sessionStorage.getItem('username')
 				);
 				sessionStorage.setItem('username', username);
-				$('#account-info #username, #username-container #username').text(username);
+				$('#account-info #username, #username-container #username-field').text(username);
 				
 				// toggle form
 				$('#update-username-form').slideToggle();
