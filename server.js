@@ -204,14 +204,14 @@ app.post('/marketsubmit', function(req, res) {
 			req.body.numTokens,
 			req.body.username
 		);
-	} else if (buyOrSell == 'sell') {
+	} else if (req.body.buyOrSell == 'sell') {
 		// execute market sell
 	}
 });
 
 // on limit submit
 app.post('/limitsubmit', function(req, res){
-	if (buyOrSell = buy){
+	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
 			req.body.numTokens,
 			req.body.price,
@@ -220,7 +220,7 @@ app.post('/limitsubmit', function(req, res){
 			req.body.orderType,
 			req.body.username
 		);
-	} else if (buyOrSell = sell){
+	} else if (req.body.buyOrSell == 'sell'){
 		
 	}
 });

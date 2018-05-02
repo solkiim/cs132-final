@@ -85,67 +85,9 @@
 				<div class="col-4">
 					<!-- There should be Orders tab and Trades tab -->
 					<div id="orders">
-
-						<h3>Trades</h3>
 						<hr>
-						<ul id="trades"></ul>
+						<ul id="order-list"></ul>
 
-						<table style="width:100%">
-							<tr>
-								<th>Time (EST)</th>
-								<th>Type</th>
-								<th>Price (USD)</th>
-								<th>Volume</th>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Sell</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Sell</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Sell</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Sell</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Buy</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Buy</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Buy</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-							<tr>
-								<td>14:29:48</td>
-								<td>Buy</td>
-								<td>7905</td>
-								<td>1.00</td>
-							</tr>
-						</table>
 					</div>
 				</div>
 			</div>
@@ -177,14 +119,14 @@
 						<hr>
 						<ul class="nav nav-tabs">
 							<li class="nav-item">
-								<a class="nav-link active" href="#">Limit</a>
+								<a class="nav-link active" href="#">Market</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Market</a>
+								<a class="nav-link" href="#">Limit</a>
 							</li>
 						</ul>
 
-						<div id="buy-sell">
+						<div id="buy-sell" class="tab-content">
 							<div id="buy">
 								<h2>Buy BNB</h2>
 								<form id="buyForm">
@@ -228,7 +170,7 @@
 							</div>
 						</div>
 
-						<div id="limit">
+						<div id="limit" class="tab-content">
 							<div id="limit-buy">
 
 								<h2>Buy BNB</h2>

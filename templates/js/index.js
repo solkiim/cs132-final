@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 	socket.on('updateOrders', function(time, buyOrSell, price, numTokens){
 
-		var ul = $('#orders');
+		var ul = $('#order-list');
 		ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
 
 		});
