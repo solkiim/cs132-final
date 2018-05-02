@@ -17,12 +17,12 @@ $(document).ready(function() {
 
 	// get function for prices SQL
 
-	// socket.on('updateOrders', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+	socket.on('updateOrders', function(time, buyOrSell, price, numTokens){
 
-	// 	var ul = $('#trades');
-	// 	ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+		var ul = $('#orders');
+		ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
 
-	// 	});
+		});
 
 	$('#buyForm').submit(function(event) {
 
