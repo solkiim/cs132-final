@@ -72,10 +72,20 @@
     padding-left: 0px;
 }
 
-#account a {
+#login-signup a {
     float: right;
     font-size: 13px;
     margin-top: 4px;
+}
+
+#account-info p {
+    margin-top: 15px;
+}
+
+#sign-out {
+    float: right;
+    margin-top: 13px;
+    margin-left: 10px;
 }
 
 /* FOOTER */
@@ -290,6 +300,10 @@
     font-weight: 300;
 }
 
+#logged-in {
+    margin-top: 2%;
+}
+
 #logged-in, #not-logged-in {
 	display: none;	/* please don't change */
 }
@@ -311,6 +325,20 @@
 
 #not-logged-in p {
     text-align: center;
+}
+
+#username-container input[type=submit], #name-container input[type=submit], #email-container input[type=submit], #password-container input[type=submit], #address-container input[type=submit], #telephone-container input[type=submit], #login-tier-container input[type=submit] {
+    width: 70px;
+    border-color: white;
+    border-width: 1px;
+    background-color: #75C9D8;
+    color: white;
+    font-weight: 200;
+    padding-left: 0px;
+}
+
+#logged-in input {
+    margin-bottom: 5px;
 }
 
 /* -------------------------------- SIGNUP --------------------------------- */
