@@ -197,6 +197,17 @@ html {
     color: #AEF4B1;
 }
 
+/* ORDERS */
+#orders {
+    overflow: scroll;
+}
+
+/* NEWS */
+#news {
+    overflow: scroll;
+    list-style-type: none;
+}
+
 /* BUY AND SELL */
 #trade hr {
     margin-bottom: 4px;

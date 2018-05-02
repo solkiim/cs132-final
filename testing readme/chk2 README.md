@@ -34,7 +34,13 @@ I essentially asked questions about the visual hierarchy of information and how 
  - Why there was a Trade and Trades panel
  - Seeing more of the headline/the full headline
  - How we were going to display different dates for older news / is there a way to look at archives of news?
+ - There are more headlines outside of the div
+ - Why there were dates mixed in with the times - which is newer or is it random?
  - Having the trades highlight in red or green like other platforms
  - Whether or not there would be more listings
+
+ Some issues I was able to fix myself included:
+ - Changed Trade to Orders
+ - Set the overflow to scroll in the News panel
 
 Overall, users commented on how simple the platform was an gave feedback on various details of the platform.

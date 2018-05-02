@@ -401,9 +401,6 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 						res.sendStatus(500);
 					}
 					
-					// trigger function updatingOrders
-					io.sockets.emit('updateTrades', tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username);
-					
 					// done; no more looping
 					reqNumTokens = 0;
 					
@@ -458,6 +455,11 @@ function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, usern
 					if (error){
 						console.log(err);
 					}
+
+					var time = date.getHours() + ":" + date.getMinutes();
+					
+					// trigger function updatingOrders
+					io.sockets.emit('updateOrders', time, buyOrSell, price, numTokens);
 					
 				});
 				
