@@ -1,8 +1,7 @@
-
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 6;
-var current_token = "time";
+var current_token = "Uber";
 
 
 $(document).ready(function() {
@@ -14,15 +13,16 @@ $(document).ready(function() {
 	var username;
 	var price;
 
+	// each time you click, update the current_token
 
-	// socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
+	// get function for prices SQL
 
-	// 	var ul = $('#trades');
-	// 	ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
+	socket.on('updateTrades', function(tokenSym, buyOrSell, orderType, numTokens, price, username){
 
-	// 	});
+		var ul = $('#trades');
+		ul.append($('<li></li>').text(tokenSym + ', ' + buyOrSell + ', ' + orderType + ', ' + numTokens + ', ' + price + ', ' + username));
 
-
+		});
 
 	$('#buyForm').submit(function(event) {
 
