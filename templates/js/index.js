@@ -101,7 +101,6 @@ $(document).ready(function() {
 		Req.addEventListener("load", function(e){
 			var content = Req.responseText;
 			var objresponse = JSON.parse(content);
-			console.log(objresponse);
 			var articles = objresponse.articles;
 
 			for (var i = 0; i < articles.length; i++) {
