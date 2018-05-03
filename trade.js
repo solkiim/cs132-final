@@ -44,8 +44,6 @@ exports.limitsubmit = function(pool, req, res) {
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
 function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
-	console.log("entering");
-
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -59,80 +57,70 @@ function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, us
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
 		}
-	
-		// for market orders gotta keep going until you execute all trades
-		// and sell table is not empty!
-		while (reqTokens != 0){
-			
-			// check last entry in sell (cheapest)
-			pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC', function(err,data){
-				
-				if (err){
-					console.error(err);
-				}
-				
-				// get that bottom row's numtokens and posted price
-				var sellOrderID = data.rows[0].orderID;
-				var rowTokens = data.rows[0].numTokens;
-				var rowSellPrice = data.rows[0].price;
-				
-			});
-			
-			// meaning you'll need to keep climbing up
-			if (rowTokens < reqTokens){
-				// update however many tokens you still gotta clear
-				reqTokens = reqTokens - rowTokens;
-				
-				clearedPrices.push(rowSellPrice);
-				clearedNumTokens.push(rowTokens);
-				
-				// delete, since all tokens for that order have been cleared
-				pool.query('DELETE from Sell by price DESC, timestamp DESC, LIMIT 1', function(err,data){
-					if(err){
-						console.error(err);
-					}
-				});
-				
-				
-			}
-			
-			// if more tokens than you want
-			else if (rowTokens >= reqTokens){
-				
-				// you're finished
-				rowTokens = rowTokens - reqTokens;
-				clearedPrices.push(rowSellPrice);
-				clearedNumTokens.push(rowNumTokens);
-				
-				// exposed to sql injection attacks
-				// Update Sell bottom row SET numTokens = rowNumTokens;
-				pool.query("UPDATE Sell SET numTokens = '" + rowTokens, function(error,data){
-					if(error){
-						console.error(err);
-					}
-				});
-				
-				
-				// actual price is the actually transacted price; the price can slip in a market order since it just depends on what orders are on the book
-				var price = weightedPrice(clearedPrices, clearedNumTokens);
-				
-				// insert into trades history table
-				pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
-					
-					if (error){
-						console.log("FAILED to add to database");
-						res.sendStatus(500);
-					}
-					
-					// done; no more looping
-					reqNumTokens = 0;
-					
-				});
-				
-			}
-			
-		}
 		
+		// until all trades are executed and sell table not empty
+		async.whilst(
+			function() { return reqTokens != 0; },
+			function(callback) {
+				// check last entry in sell (cheapest)
+				pool.query(
+					'SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC',
+					function(err,data) {
+						if (err){
+							console.error(err);
+						}
+						
+						// get that bottom row's numtokens and posted price
+						var sellOrderID = data.rows[0].orderID;
+						var rowTokens = data.rows[0].numTokens;
+						var rowSellPrice = data.rows[0].price;
+						
+						// meaning you'll need to keep climbing up
+						if (rowTokens < reqTokens){
+							// update however many tokens you still gotta clear
+							reqTokens = reqTokens - rowTokens;
+							
+							clearedPrices.push(rowSellPrice);
+							clearedNumTokens.push(rowTokens);
+							
+							// delete, since all tokens for that order have been cleared
+							pool.query('DELETE from Sell by price DESC, timestamp DESC, LIMIT 1', function(err,data){
+								if(err){
+									console.error(err);
+								}
+							});
+						} else if (rowTokens >= reqTokens){
+							// if more tokens than you want
+							
+							// you're finished
+							rowTokens = rowTokens - reqTokens;
+							clearedPrices.push(rowSellPrice);
+							clearedNumTokens.push(rowNumTokens);
+							
+							// exposed to sql injection attacks
+							// Update Sell bottom row SET numTokens = rowNumTokens;
+							pool.query("UPDATE Sell SET numTokens = '" + rowTokens, function(error,data){
+								if(error){
+									console.error(err);
+								}
+							});
+							
+							// actual price is the actually transacted price; the price can slip in a market order since it just depends on what orders are on the book
+							var price = weightedPrice(clearedPrices, clearedNumTokens);
+							
+							// insert into trades history table
+							pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
+								if (error){
+									console.log("FAILED to add to database");
+									res.sendStatus(500);
+								}
+								// done; no more looping
+								reqNumTokens = 0;
+							});
+						}
+					});
+				}
+		);
 	});
 	
 	// if Sell table is empty, post the market order as
@@ -200,7 +188,7 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 				}
 				
 			});
-		}		
+		}
 	});
 	
 	pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, orderType, reqTokens, price, username], function(error, data) {
