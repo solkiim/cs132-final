@@ -44,15 +44,17 @@ $(document).ready(function() {
 });
 
 function token_dashboard (token_symbol) {
-	// get stock graph
-	stock_graph(token_symbol);
-	
 	// get news
+	$('#articles').empty();
+	news_arr = [];
 	if (news_refresh) {
 		clearInterval(news_refresh);
 	}
 	refresh_news(token_symbol);
 	news_refresh = setInterval(function() { refresh_news(token_symbol); }, 10000); //every 10 seconds
+
+	// get stock graph
+	stock_graph(token_symbol);
 }
 
 // populate stock graph
@@ -107,6 +109,8 @@ function refresh_news (token_symbol) {
 		var content = Req.responseText;
 		var objresponse = JSON.parse(content);
 		var articles = objresponse.articles;
+		
+		console.log(articles)	// @ LAUTI CHECK HERE
 		
 		articles.map(function(news) {
 			// get the title of article
