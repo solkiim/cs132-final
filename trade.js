@@ -25,6 +25,7 @@ exports.marketsubmit = function(pool, req, res) {
 exports.limitsubmit = function(pool, req, res) {
 	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
+			pool,
 			req.body.numTokens,
 			req.body.price,
 			req.body.tokenSym,
@@ -41,8 +42,9 @@ exports.limitsubmit = function(pool, req, res) {
 
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
-function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username){
-	
+function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
+	console.log("entering");
+
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -137,21 +139,21 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 	
 }
 
-function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, username){
+function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 	
 	var rowSellPrice;
 	
 	// if price exists on sell table, it is essentially a marketBuy
-	pool.query("WHERE EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
+	pool.query("WHERE EXISTS SELECT Sell WHERE price = $1", [price], function(error, data){
 		
-		executeMarketBuy(buyOrSell, tokenSym, orderType, reqTokens, username);
+		executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqTokens, username);
 		
 		return;
 		
 	});
 	
 	// if exact price does not exist on sell
-	pool.query("IF NOT EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
+	pool.query("IF NOT EXISTS SELECT Sell WHERE price = $1", [price], function(error, data){
 
 		if (error){
 			console.log(error);
