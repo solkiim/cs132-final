@@ -53,7 +53,7 @@ function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, us
 	var clearedNumTokens = [];
 
 	// don't run this function if no rows in Sell
-	pool.query('WHERE EXISTS (SELECT * FROM Sell)', function(err, data) {
+	pool.query('WHERE EXISTS (SELECT * FROM Sell)', function(pool, err, data) {
 
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
@@ -144,11 +144,19 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 	var rowSellPrice;
 	
 	// if price exists on sell table, it is essentially a marketBuy
-	pool.query("WHERE EXISTS SELECT Sell WHERE price = $1", [price], function(error, data){
+	// not clearing since sell is empty right now; so data is undefined
+	// need another way to check
+	pool.query("SELECT * FROM Sell WHERE EXISTS price = $1", [price], function(error, data){
 		
-		executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqTokens, username);
+		if (error){
+			console.log(error);
+		}
+
+		if (data.rows.length > 0){
+			executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqTokens, username);
 		
-		return;
+			return;
+		}
 		
 	});
 	
