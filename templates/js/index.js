@@ -120,7 +120,6 @@ function refresh_news (token_symbol) {
 			// get the date of article in standard time
 			var time_stamp = news.publishedAt;
 			var date = time_stamp.substring(0, 10);
-			console.log(day);
 			var year = date.substring(0, 4);
 			var month = date.substring(5, 7);
 			var day = date.substring(8, 10);
