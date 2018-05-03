@@ -17,8 +17,18 @@ $(document).ready(function() {
 	// get function for prices SQL
 
 	socket.on('updateOrders', function(time, buyOrSell, price, numTokens){
-		var ul = $('#order-list');
+
+		var ul;
+
+		if (buyOrSell == "sell"){
+			ul = $('#sell-list');
+			
+		} else if (buyOrSell == "buy"){
+			ul = $('#buy-list');
+		}
+
 		ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
+		
 	});
 
 	$('#buyForm').submit(function(event) {
