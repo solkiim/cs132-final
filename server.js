@@ -11,6 +11,7 @@ var http = require('http');
 
 // other files
 var account = require('./account.js');
+var createtables = require('./createtables.js');
 
 // set up app
 var app = express();
@@ -30,106 +31,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 // create tables
-
-pool.query(
-	'CREATE TABLE IF NOT EXISTS account ('+
-	'   username TEXT PRIMARY KEY,'+
-	'   password TEXT NOT NULL,'+
-	'   email TEXT NOT NULL,'+
-	'   login_tier INTEGER,'+
-	'   firstname TEXT,'+
-	'   lastname TEXT,'+
-	'   address TEXT,'+
-	'   address2 TEXT,'+
-	'   city TEXT,'+
-	'   zipcode TEXT,'+
-	'   telephone INTEGER,'+
-	'   acctCreationDateTime INTEGER'+
-	')',
-	function(err, data) {
-		if (err) {
-			console.error(err);
-		}
-	}
-);
-
-pool.query(
-	'CREATE TABLE IF NOT EXISTS favorite_stock (' +
-	'username TEXT, ' +
-	'stock_code TEXT, ' +
-	'PRIMARY KEY (username, stock_code))',
-	function(err, data) {
-		if (err) {
-			console.error(err);
-		}
-	}
-);
-
-pool.query(
-	'CREATE TABLE IF NOT EXISTS Sell (' +
-	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-	'   tokenSymbol		TEXT,  '  +
-	'   orderType		TEXT,  '  +
-	'   numTokens       INTEGER,  '  +
-	'   price         	INTEGER,  '  +
-	'   username		TEXT,  '  +
-	'   timestamp_		INTEGER,  '  +
-	')',
-	function(err, data) {
-		if (err) {
-			console.error(err);
-		}
-	}
-);
-
-pool.query(
-	'CREATE TABLE IF NOT EXISTS Buy (' +
-	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-	'   tokenSymbol		TEXT,  '  +
-	'   orderType		TEXT,  '  +
-	'   numTokens       INTEGER,  '  +
-	'   price         	INTEGER,  '  +
-	'   username		TEXT,  '  +
-	'   timestamp_		INTEGER,  '  +
-	')',
-	function(err, data) {
-		if (err) {
-			console.error(err);
-		}
-	}
-);
-
-pool.query(
-	'CREATE TABLE IF NOT EXISTS Trades (' +
-	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-	'   tokenSymbol		TEXT,  '  +
-	'   orderType		TEXT,  '  +
-	'   numTokens       INTEGER,  '  +
-	'   price         	INTEGER,  '  +
-	'   username		TEXT,  '  +
-	'   timestamp_		INTEGER,  '  +
-	')',
-	function(err, data) {
-		if (err) {
-			console.error(err);
-		}
-	}
-);
-
-pool.query(
-	'CREATE TABLE IF NOT EXISTS PriceHistory (' +
-	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-	'   tokenSymbol		TEXT,  '  +
-	'   tokenPrice      INTEGER,  '  +
-	'   timestamp_		INTEGER,  '  +
-	')',
-	function(err, data) {
-		if (err) {
-			console.error(err);
-		}
-	}
-);
-
+createtables.createsqltables(pool);
 
 // ------------------------------- ROUTES: PAGES -------------------------------
 
