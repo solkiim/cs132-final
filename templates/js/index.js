@@ -1,7 +1,7 @@
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 6;
-var current_token = "Uber";
+var current_token = "time";
 
 
 $(document).ready(function() {
@@ -54,8 +54,9 @@ $(document).ready(function() {
 	});
 
 	// get stock graph
+
 	stock_graph(current_token);
-	
+
 	// get news
 	refresh_news(current_token);
 	setInterval(function() { refresh_news(current_token); }, 10000); //every 10 seconds
@@ -63,8 +64,16 @@ $(document).ready(function() {
 
 // populate stock graph
 function stock_graph (token_symbol) {
-	var times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
-	var prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
+	var times = [];
+	var prices = [];
+
+	// $.post('/price-graph', function(err, res){
+	// 	prices = res.prices;
+	// 	times = res.times;
+	// });
+
+	times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
+	prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
 
 	new Chart(document.getElementById("stock-graph"), {
 	  type: 'line',
@@ -103,7 +112,7 @@ function refresh_news (token_symbol) {
 		var content = Req.responseText;
 		var objresponse = JSON.parse(content);
 		var articles = objresponse.articles;
-		
+
 		articles.map(function(news) {
 			// get the title of article
 			var text = news.title;
@@ -127,7 +136,7 @@ function refresh_news (token_symbol) {
 			mm='0'+mm;
 			}
 			var today = yyyy+'-'+mm+'-'+dd;
-			
+
 			// prevent repeats
 			if (!news_arr.includes(text)) {
 				// if array is  full, take away last element from array, add title to array,
@@ -136,10 +145,10 @@ function refresh_news (token_symbol) {
 					news_arr.pop(); // delete last element from array
 					$('#articles li:last-child').remove(); //remove last element from list
 				}
-				
+
 				// add title to beginning of array
 				news_arr.unshift(text);
-				
+
 				// add to html list
 				if(day == today) {
 					$('#articles').append("<li> " + time + " : " + text + " ...");

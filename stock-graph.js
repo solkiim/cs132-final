@@ -1,51 +1,56 @@
-// post request
-// get the bottom row of sell
-// get the top row of buy
-// and find the weightedPriceForPrices
-// then insert into prices table
-
 exports.getPrices = function(pool, req, res) {
-	var sell = pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC', function(err,data){
-		
+
+	var sell_p;
+	var buy_p;
+	var num_sell;
+	var num_buy;
+
+	var sell = pool.query('SELECT * FROM Sell WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ DESC', [req.body.current_token], function(err,data){
+
 		if (err){
 			console.error(err);
 		}
-		
 		// get that bottom row's numtokens and posted price
-		var tokenSymbol_sell = data.rows[0].tokenSymbol;
-		var price_sell = data.rows[0].price;
-		var numTokens_sell = data.rows[0].numTokens;
+		sell_p = data.rows[0].price;
+		// sell_p = price_sell;
+		num_sell  = data.rows[0].numTokens;
+		// num_sell = numTokens_sell;
 	});
-	
-	var buy = pool.query('SELECT LIMIT 1 * FROM Buy ORDER BY price, timestamp DESC', function(err,data){
-		
+
+	var buy = pool.query('SELECT * FROM Buy WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ DESC', [req.body.current_token], function(err,data){
+
 		if (err){
 			console.error(err);
 		}
-		
+
 		// get that bottom row's numtokens and posted price
-		var tokenSymbol_buy = data.rows[0].tokenSymbol;
-		var price_buy = data.rows[0].price;
-		var numTokens_buy = data.rows[0].numTokens;
+		buy_p = data.rows[0].price;
+		// buy_p = price_buy;
+		num_buy= data.rows[0].numTokens;
+		// num_buy = numTokens_buy;
 	});
-	
-	var price = weightedforPriceTable(price_sell, price_buy, numTokens_sell, numTokens_buy);
-	
-	pool.query('INSERT INTO PriceHistory (tokenSymbol, tokenPrice) VALUES($1, $2)', [tokenSymbol_sell, price], function(error, data) {
-		
-		if (error){
+
+	var price = weightedforPriceTable(sell_p, buy_p, num_sell, num_buy);
+
+	pool.query('INSERT INTO PriceHistory (tokenSymbol, tokenPrice) VALUES($1, $2)', [req.body.current_token, price], function(err, data) {
+
+		if (err){
 			console.log("FAILED to add to database");
 			res.sendStatus(500);
 		}
-		res.json();
-		
 	});
-}
 
-function weightedforPriceTable(sell_price, buy_price, sell_num, buy_num){
-	var totaltokens = sell_num + buy_num;
-	var sell_ratio = sell_num / total_tokens;
-	var buy_ratio = buy_num / total_tokens;
-	var w_price = sell_price * sell_ratio + buy_price * buy_ratio;
-	return w_price;
+	pool.query('SELECT * from PriceHistory WHERE tokenSymbol = $1 ORDER by timestamp_ DESC', [req.body.current_token], function(err, data) {
+		console.log(data)
+
+		res.json({prices: data.rows.map(item => item.tokenPrice), times: data.rows.map(item => item.timestamp_)});
+	});
+
+	function weightedforPriceTable(sell_price, buy_price, sell_num, buy_num){
+		var totaltokens = sell_num + buy_num;
+		var sell_ratio = sell_num / totaltokens;
+		var buy_ratio = buy_num / totaltokens;
+		var w_price = sell_price * sell_ratio + buy_price * buy_ratio;
+		return w_price;
+	}
 }
