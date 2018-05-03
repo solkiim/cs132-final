@@ -30,6 +30,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 // create tables
+
 pool.query(
 	'CREATE TABLE IF NOT EXISTS account ('+
 	'   username TEXT PRIMARY KEY,'+
