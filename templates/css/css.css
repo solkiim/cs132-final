@@ -1,27 +1,27 @@
 /* -------------------------------- GENERAL --------------------------------- */
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Avenir Next", sans-serif;
+	margin: 0;
+	padding: 0;
+	font-family: "Avenir Next", sans-serif;
 }
 
 *:focus {
-    outline: none;
+	outline: none;
 }
 
 body {
-    background-color: #F4F7FA;
-    background-size: 100% 100%;
+	background-color: #F4F7FA;
+	background-size: 100% 100%;
 }
 
 html {
-    height: 100%;
+	height: 100%;
 }
 
 .background {
-    background-color: #F4F7FA;
-    width: 100%;
-    height: 100%;
+	background-color: #F4F7FA;
+	width: 100%;
+	height: 100%;
 }
 
 /* HEADER */
@@ -38,12 +38,12 @@ html {
 	position: absolute;
 	top: 10px;
 	left: 10px;
-    font-weight: 300;
+	font-weight: 300;
 }
 
 #header a:active, #header a:link, #header a:visited, #header a:hover {
-    text-decoration: none;
-    color: black;
+	text-decoration: none;
+	color: black;
 }
 
 #header #account {
@@ -60,54 +60,54 @@ html {
 #login-signup a, #login-signup form, #account-info p, #account-info form {
 	display: inline-block;
 	vertical-align: middle;
-    margin-top: 2px;
+	margin-top: 2px;
 }
 
 #loginform input {
-    padding-left: 5px;
+	padding-left: 5px;
 }
 
 #loginform input::placeholder {
-    padding-left: 0px;
+	padding-left: 0px;
 }
 
 #loginform input[type=submit] {
-    width: 60px;
-    border-color: white;
-    border-width: 1px;
-    background-color: #75C9D8;
-    color: white;
-    font-weight: 200;
-    padding-left: 0px;
+	width: 60px;
+	border-color: white;
+	border-width: 1px;
+	background-color: #75C9D8;
+	color: white;
+	font-weight: 200;
+	padding-left: 0px;
 }
 
 #login-signup a {
-    float: right;
-    font-size: 13px;
-    margin-top: 4px;
+	float: right;
+	font-size: 13px;
+	margin-top: 4px;
 }
 
 #account-info p {
-    margin-top: 15px;
+	margin-top: 15px;
 }
 
 #account-info a {
-    background-color: #75C9D8;
-    color: white;
-    padding: 1px;
-    border: 1px;
-    border-style: solid;
-    border-color: white;
-    padding-left: 5px;
-    padding-right: 5px;
-    font-weight: 200;
-    margin-right: -4px;
+	background-color: #75C9D8;
+	color: white;
+	padding: 1px;
+	border: 1px;
+	border-style: solid;
+	border-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-weight: 200;
+	margin-right: -4px;
 }
 
 #sign-out {
-    float: right;
-    margin-top: 13px;
-    margin-left: 10px;
+	float: right;
+	margin-top: 13px;
+	margin-left: 10px;
 }
 
 /* FOOTER */
@@ -168,50 +168,79 @@ html {
 }
 
 #listings, #stock-graph, #orders, #news, #trade {
-    height: 310px;
+	height: 350px;
 }
 
 /* LISTINGS */
-#example img {
-    width: 60px;
-    float: left;
-    margin-right: 15px;
-}
 
 #listing-info h5, #listing-info h6 {
-    font-size: 16px;
-    font-weight: 300;
-    margin-bottom: 2px;
+	font-size: 16px;
+	font-weight: 300;
+	margin-bottom: 2px;
 }
 
-#example {
-    border: 1px solid lightgray;
-    padding: 10px;
-    padding-left: 20px;
-    width: 216px;
-    margin-left: -16px;
-    margin-top: -17px;
+/* #listings {
+	padding-left: 0!important;
+	padding-right: 0!important;
+} */
+
+#listings hr {
+	margin-bottom: 0;
+}
+
+.listing {
+	width: 100%;
+	border-bottom: 1px solid lightgray;
+	padding: 10px;
+	padding-left: 20px;
+	margin: 0;
+	/* border: 1px solid lightgray;
+	padding: 10px;
+	padding-left: 20px;
+	width: 216px;
+	margin-left: -16px;
+	margin-top: -17px; */
+}
+
+.listing img {
+	width: 60px;
+	float: left;
+	margin-right: 15px;
 }
 
 #pricechange {
-    color: #AEF4B1;
+	color: #AEF4B1;
+}
+
+/* GRAPH */
+#stock-graph-container {
+	width: 100%;
+	height: 262px;
+}
+
+#stock-graph {
+	width: 100%;
+	margin: 0 auto;
 }
 
 /* ORDERS */
 #orders {
-    overflow: scroll;
+	overflow: scroll;
 }
 
 /* NEWS */
 #news {
-    overflow: scroll;
-    list-style-type: none;
+	overflow: scroll;
+}
+
+#articles {
+	list-style-type: none;
 }
 
 /* BUY AND SELL */
 #trade hr {
-    margin-bottom: 4px;
-    margin-top: 40px
+	margin-bottom: 4px;
+	margin-top: 40px
 }
 
 #buy-sell {
@@ -225,116 +254,121 @@ html {
 	vertical-align: top;
 }
 
-#buy {
+#buy, #limit-buy {
 	margin-left: 5px;
 }
 
 #sell {
-    margin-left: 50px;
+	margin-left: 50px;
 }
 
-#buy h2, #sell h2 {
-    font-size: 15px;
-    font-weight: 300;
-    margin-top: 10px
+#buy h2, #sell h2, #limit-buy h2 {
+	font-size: 15px;
+	font-weight: 300;
+	margin-top: 6%;
 }
 
-#buyForm input, #sellForm input {
-    float: right;
-    width: 300px;
+#buyForm input, #sellForm input, #limit-buy-form input {
+	float: right;
+	width: 300px;
 }
 
-#buyForm input::placeholder, #sellForm input::placeholder {
-    text-align: right;
-    padding-right: 5px;
+#buyForm input::placeholder, #sellForm input::placeholder, #limit-buy-form input::placeholder {
+	text-align: right;
+	padding-right: 5px;
 }
 
-#buyForm input[type=submit], #sellForm input[type=submit] {
-    width: 400px;
-    padding: 5px;
-    margin-top: 10px;
-    border: none;
-    color: white;
-    font-weight: 200;
-    padding-left: 0px;
+#buyForm input[type=submit], #sellForm input[type=submit], #limit-buy-form input[type=submit] {
+	width: 100%;
+	margin: 0 auto;
+	padding: 5px;
+	margin-top: 20px;
+	border: none;
+	color: white;
+	font-weight: 200;
+	padding-left: 0px;
 }
 
-#buyForm input[type=submit] {
-    background-color: #AEF4B1;
+#buyForm input[type=submit], #limit-buy-form input[type=submit] {
+	background-color: #AEF4B1;
 }
 
 #sellForm input[type=submit] {
-    background-color: #E4C1C0;
+	background-color: #E4C1C0;
+}
+
+#limit-buy {
+	width: 480px;
 }
 
 #wallet {
-    display: inline;
+	display: inline;
 }
 
 #wallet img {
-    float: right;
-    width: 30px;
-    margin-right: 53px;
+	float: right;
+	width: 30px;
+	margin-right: 53px;
 }
 
 #wallet h3 {
-    width: 100px;
-    position: absolute;
+	width: 100px;
+	position: absolute;
 }
 
 #wallet h4 {
-    font-size: 14px;
-    position: absolute;
-    right: 30px;
-    font-weight: 300;
+	font-size: 14px;
+	position: absolute;
+	right: 30px;
+	font-weight: 300;
 }
 
 /* --------------------------------- 404 ---------------------------------- */
 #errormessage {
-    width: 50%;
-    height: 330px;
-    margin-left: 15%;
-    margin-top: 11%;
+	width: 50%;
+	height: 330px;
+	margin-left: 15%;
+	margin-top: 11%;
 }
 
 #errormessage h1 {
-    font-weight: 200;
-    font-size: 90px;
-    margin-bottom: 0px;
+	font-weight: 200;
+	font-size: 90px;
+	margin-bottom: 0px;
 }
 
 #errormessage h2, h3 {
-    color: darkgray;
-    font-weight: 200;
-    font-size: 25px
+	color: darkgray;
+	font-weight: 200;
+	font-size: 25px
 }
 
 #errormessage h4 {
-    font-weight: 400;
-    font-size: 18px;
-    margin-top: 10px;
-    text-decoration: none;
+	font-weight: 400;
+	font-size: 18px;
+	margin-top: 10px;
+	text-decoration: none;
 }
 
 #errormessage a:active, #errormessage a:link, #errormessage a:visited {
-    text-decoration: none;
-    color: black;
+	text-decoration: none;
+	color: black;
 }
 
 #errormessage a:hover {
-    color: #B3DBE2;
+	color: #B3DBE2;
 }
 
 /* -------------------------------- ACCOUNT --------------------------------- */
 
 #account-header {
 	text-align: center;
-    margin-top: 5%;
-    font-weight: 300;
+	margin-top: 5%;
+	font-weight: 300;
 }
 
 #logged-in {
-    margin-top: 2%;
+	margin-top: 2%;
 }
 
 #logged-in, #not-logged-in {
@@ -347,74 +381,74 @@ html {
 }
 
 #sign-out {
-    width: 75px;
-    border-color: white;
-    border-width: 1px;
-    background-color: #75C9D8;
-    color: white;
-    font-weight: 200;
-    padding-left: 0px;
+	width: 75px;
+	border-color: white;
+	border-width: 1px;
+	background-color: #75C9D8;
+	color: white;
+	font-weight: 200;
+	padding-left: 0px;
 }
 
 #not-logged-in p {
-    text-align: center;
+	text-align: center;
 }
 
 #username-container input[type=submit], #name-container input[type=submit], #email-container input[type=submit], #password-container input[type=submit], #address-container input[type=submit], #telephone-container input[type=submit], #login-tier-container input[type=submit] {
-    width: 70px;
-    border-color: white;
-    border-width: 1px;
-    background-color: #75C9D8;
-    color: white;
-    font-weight: 200;
-    padding-left: 0px;
+	width: 70px;
+	border-color: white;
+	border-width: 1px;
+	background-color: #75C9D8;
+	color: white;
+	font-weight: 200;
+	padding-left: 0px;
 }
 
 #logged-in input {
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 /* -------------------------------- SIGNUP --------------------------------- */
 #signup h1 {
-    font-weight: 200;
-    font-size: 90px;
-    margin-bottom: 0px;
+	font-weight: 200;
+	font-size: 90px;
+	margin-bottom: 0px;
 }
 
 #signup {
-    width: 270px;
-    margin: 0 auto;
-    margin-top: 10%;
+	width: 270px;
+	margin: 0 auto;
+	margin-top: 10%;
 }
 
 #signupform input {
-    width: 200px;
-    height: 30px;
-    font-size: 15px;
-    margin: 5px;
-    margin-left: 12%;
-    background-color: white;
-    outline: none;
-    border: 1px solid #BDBDBD;
-    text-align: center;
+	width: 200px;
+	height: 30px;
+	font-size: 15px;
+	margin: 5px;
+	margin-left: 12%;
+	background-color: white;
+	outline: none;
+	border: 1px solid #BDBDBD;
+	text-align: center;
 }
 
 #signupform input:focus, input:active {
-    outline: none;
+	outline: none;
 }
 
 ::placeholder {
-    color: #BDBDBD;
-    padding-left: 7px;
-    text-align: center;
+	color: #BDBDBD;
+	padding-left: 7px;
+	text-align: center;
 }
 
 #signupform #signupsubmit {
-    width: 100px;
-    align-items: center;
-    margin-left: 75px;
-    background-color: #B3DBE2;
-    color: white;
+	width: 100px;
+	align-items: center;
+	margin-left: 85px;
+	background-color: #B3DBE2;
+	color: white;
 }
 
 #logged-in [class*=col] div p {

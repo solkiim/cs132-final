@@ -29,34 +29,8 @@ Test account made before all tests in group and deleted after all tests in group
 	- set returns status code 204
 	- get returns status code 200
 	- get returns email
-- POST /setfirstname and /getfirstname
-	- set returns status code 204
-	- get returns status code 200
-	- get returns first name
-- POST /setlastname and /getlastname
-	- set returns status code 204
-	- get returns status code 200
-	- get returns last name
-- POST /setaddress and /getaddress
-	- set returns status code 204
-	- get returns status code 200
-	- get returns address
-- POST /setaddress2 and /getaddress2
-	- set returns status code 204
-	- get returns status code 200
-	- get returns address line 2
-- POST /setcity and /getcity
-	- set returns status code 204
-	- get returns status code 200
-	- get returns city
-- POST /setzipcode and /getzipcode
-	- set returns status code 204
-	- get returns status code 200
-	- get returns zipcode
-- POST /settelephone and /gettelephone
-	- set returns status code 204
-	- get returns status code 200
-	- get returns telephone
+
+The above was duplicated for firstname, lastname, address, addressline2, city, zipcode, and telephone.
 
 ## Results
 
