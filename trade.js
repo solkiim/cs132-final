@@ -25,6 +25,7 @@ exports.marketsubmit = function(pool, req, res) {
 exports.limitsubmit = function(pool, req, res) {
 	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
+			pool,
 			req.body.numTokens,
 			req.body.price,
 			req.body.tokenSym,
@@ -41,8 +42,9 @@ exports.limitsubmit = function(pool, req, res) {
 
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
-function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username){
-	
+function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
+	console.log("entering");
+
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -137,7 +139,7 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 	
 }
 
-function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, username){
+function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 	
 	var rowSellPrice;
 	
