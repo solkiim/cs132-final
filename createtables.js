@@ -26,42 +26,42 @@ exports.createsqltables = function(pool) {
 		'stock_code TEXT, ' +
 		'PRIMARY KEY (username, stock_code))',
 		
-		'CREATE TABLE IF NOT EXISTS Sell (' +
-		'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-		'   tokenSymbol		TEXT,  '  +
-		'   orderType		TEXT,  '  +
-		'   numTokens       INTEGER,  '  +
-		'   price         	INTEGER,  '  +
-		'   username		TEXT,  '  +
-		'   timestamp_		INTEGER,  '  +
+		'CREATE TABLE IF NOT EXISTS Sell ('+
+		'   orderID INTEGER PRIMARY KEY AUTOINCREMENT,'+
+		'   tokenSymbol TEXT,'+
+		'   orderType TEXT,'+
+		'   numTokens INTEGER,'+
+		'   price INTEGER,'+
+		'   username TEXT,'+
+		'   timestamp_ INTEGER' +
 		')',
 		
-		'CREATE TABLE IF NOT EXISTS Buy (' +
-		'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-		'   tokenSymbol		TEXT,  '  +
-		'   orderType		TEXT,  '  +
-		'   numTokens       INTEGER,  '  +
-		'   price         	INTEGER,  '  +
-		'   username		TEXT,  '  +
-		'   timestamp_		INTEGER,  '  +
+		'CREATE TABLE IF NOT EXISTS Buy ('+
+		'   orderID INTEGER PRIMARY KEY AUTOINCREMENT,'+
+		'   tokenSymbol TEXT,'+
+		'   orderType TEXT,'+
+		'   numTokens INTEGER,'+
+		'   price INTEGER,'+
+		'   username TEXT,'+
+		'   timestamp_ INTEGER' +
 		')',
 		
-		'CREATE TABLE IF NOT EXISTS Trades (' +
-		'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-		'   tokenSymbol		TEXT,  '  +
-		'   orderType		TEXT,  '  +
-		'   numTokens       INTEGER,  '  +
-		'   price         	INTEGER,  '  +
-		'   username		TEXT,  '  +
-		'   timestamp_		INTEGER,  '  +
+		'CREATE TABLE IF NOT EXISTS Trades ('+
+		'   orderID INTEGER PRIMARY KEY AUTOINCREMENT,'+
+		'   tokenSymbol TEXT,'+
+		'   orderType TEXT,'+
+		'   numTokens INTEGER,'+
+		'   price INTEGER,'+
+		'   username TEXT,'+
+		'   timestamp_ INTEGER' +
 		')',
 		
-		'CREATE TABLE IF NOT EXISTS PriceHistory (' +
-		'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
-		'   tokenSymbol		TEXT,  '  +
-		'   tokenPrice      INTEGER,  '  +
-		'   timestamp_		INTEGER,  '  +
-		')'
+		'CREATE TABLE IF NOT EXISTS PriceHistory ('+
+		'   orderID INTEGER PRIMARY KEY AUTOINCREMENT,'+
+		'   tokenSymbol TEXT,'+
+		'   tokenPrice INTEGER,'+
+		'   timestamp_ INTEGER' +
+		')',
 	];
 
 	async.map(sqlqueries, function(sqlquery, callback) {

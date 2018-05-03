@@ -1,7 +1,7 @@
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 10;
-var default_token = "time";
+var default_token = "Uber";
 var news_refresh;
 
 $(document).ready(function() {
@@ -64,9 +64,11 @@ function stock_graph (token_symbol) {
 	var times = [];
 	var prices = [];
 
-	$.post('/price-graph', token_symbol, function(err, res){
-		prices = res.prices;
-		times = res.times;
+	$.post('/price-graph', 'current_token=' + token_symbol, function(data, status){
+		console.log(data)
+		
+		prices = data.prices;
+		times = data.times;
 	});
 
 	times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
