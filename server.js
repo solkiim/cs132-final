@@ -64,6 +64,72 @@ pool.query(
 	}
 );
 
+pool.query(
+	'CREATE TABLE IF NOT EXISTS Sell (' +
+	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+	'   tokenSymbol		TEXT,  '  +
+	'   orderType		TEXT,  '  +
+	'   numTokens       INTEGER,  '  +
+	'   price         	INTEGER,  '  +
+	'   username		TEXT,  '  +
+	'   timestamp_		INTEGER,  '  +
+	')',
+	function(err, data) {
+		if (err) {
+			console.error(err);
+		}
+	}
+);
+
+pool.query(
+	'CREATE TABLE IF NOT EXISTS Buy (' +
+	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+	'   tokenSymbol		TEXT,  '  +
+	'   orderType		TEXT,  '  +
+	'   numTokens       INTEGER,  '  +
+	'   price         	INTEGER,  '  +
+	'   username		TEXT,  '  +
+	'   timestamp_		INTEGER,  '  +
+	')',
+	function(err, data) {
+		if (err) {
+			console.error(err);
+		}
+	}
+);
+
+pool.query(
+	'CREATE TABLE IF NOT EXISTS Trades (' +
+	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+	'   tokenSymbol		TEXT,  '  +
+	'   orderType		TEXT,  '  +
+	'   numTokens       INTEGER,  '  +
+	'   price         	INTEGER,  '  +
+	'   username		TEXT,  '  +
+	'   timestamp_		INTEGER,  '  +
+	')',
+	function(err, data) {
+		if (err) {
+			console.error(err);
+		}
+	}
+);
+
+pool.query(
+	'CREATE TABLE IF NOT EXISTS PriceHistory (' +
+	'	orderID 	 	INTEGER PRIMARY KEY AUTOINCREMENT,' +
+	'   tokenSymbol		TEXT,  '  +
+	'   tokenPrice      INTEGER,  '  +
+	'   timestamp_		INTEGER,  '  +
+	')',
+	function(err, data) {
+		if (err) {
+			console.error(err);
+		}
+	}
+);
+
+
 // ------------------------------- ROUTES: PAGES -------------------------------
 
 // home page
@@ -196,6 +262,7 @@ app.post('/logintierfileupload', function(req, res) {
 
 // on signupform submit
 app.post('/marketsubmit', function(req, res) {
+	// console.log(req.body.buyOrSell);
 	if (req.body.buyOrSell == 'buy'){
 		executeMarketBuy(
 			req.body.buyOrSell,
@@ -211,6 +278,7 @@ app.post('/marketsubmit', function(req, res) {
 
 // on limit submit
 app.post('/limitsubmit', function(req, res){
+	console.log("enteringgg");
 	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
 			req.body.numTokens,
@@ -322,21 +390,20 @@ io.sockets.on('connection',function(socket){
 
 function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username){
 	
+	var originalReqNumTokens = reqNumTokens;
+	var reqTokens = reqNumTokens;
+	
+	// clear arrays each time you escape while loop
+	var clearedPrices = [];
+	var clearedNumTokens = [];
+
 	// don't run this function if no rows in Sell
 	pool.query('IF EXISTS (SELECT * FROM Sell)', function(err, data) {
 		
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
 		}
-		
-		var originalReqNumTokens = reqNumTokens;
-		var reqTokens = reqNumTokens;
-		var orderReqPrice = reqPrice;
-		
-		// clear arrays each time you escape while loop
-		var clearedPrices = [];
-		var clearedNumTokens = [];
-		
+	
 		// for market orders gotta keep going until you execute all trades
 		// and sell table is not empty!
 		while (reqTokens != 0){
@@ -432,9 +499,9 @@ function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, usern
 	
 	// if exact price does not exist on sell
 	pool.query("IF NOT EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
-		
+
 		if (error){
-			console.log(err);
+			console.log(error);
 		}
 		
 		// if that lowest price is  <= your price
@@ -474,7 +541,7 @@ function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, usern
 	pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, orderType, reqTokens, price, username], function(error, data) {
 		
 		if (error){
-			console.log(err);
+			console.log(error);
 		}
 		
 	});
