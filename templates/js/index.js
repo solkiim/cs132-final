@@ -53,6 +53,16 @@ $(document).ready(function() {
 
 	});
 
+	// get stock graph
+	stock_graph(current_token);
+	
+	// get news
+	refresh_news(current_token);
+	setInterval(function() { refresh_news(current_token); }, 10000); //every 10 seconds
+});
+
+// populate stock graph
+function stock_graph (token_symbol) {
 	var times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
 	var prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
 
@@ -65,7 +75,7 @@ $(document).ready(function() {
 	        backgroundColor: '#ffe4b3', //orange
 	        borderColor: '#ffc966',
 	        fill: true,
-	        label: "Uber",
+	        label: token_symbol,
 	      }
 	    ],
 	  },
@@ -73,22 +83,18 @@ $(document).ready(function() {
 	responsive: false,
 	    title: {
 	      display: true,
-	      text: 'Uber', //tokenSymbol
+	      text: token_symbol,
 	    }
 	  }
 	});
+}
 
-	news_function();
-	setInterval(news_function, 10000); //every 10 seconds
-
-});
-
-function news_function () {
-
+// refresh news
+function refresh_news (token_symbol) {
 	var url = 'https://newsapi.org/v2/top-headlines?' +
-							// whatever the current stock is should go in place of "korea" below
-			  'q=' + current_token + '&' +
-			  'apiKey=692f54e4a0c34c678519cc1407b10bf1';
+		// whatever the current stock is should go in place of "korea" below
+		'q=' + token_symbol + '&' +
+		'apiKey=692f54e4a0c34c678519cc1407b10bf1';
 	var Req = new XMLHttpRequest();
 
 	Req.open("GET", url, true);
@@ -99,8 +105,6 @@ function news_function () {
 		var articles = objresponse.articles;
 		
 		articles.map(function(news) {
-			//get the whole article data
-
 			// get the title of article
 			var text = news.title;
 			text = text.substring(0, 47);
