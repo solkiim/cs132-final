@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.78 35.78"><defs><style>.cls-1{fill:#231f20;}.cls-2{fill:#fff;stroke:#fff;stroke-miterlimit:10;}</style></defs><title>Asset 3</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><circle class="cls-1" cx="17.89" cy="17.89" r="17.89"/><line class="cls-2" x1="30.64" y1="4.33" x2="5.33" y2="29.64"/><line class="cls-2" x1="31.54" y1="5.24" x2="6.24" y2="30.54"/><line class="cls-2" x1="32.42" y1="6.11" x2="7.11" y2="31.41"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="43px" viewBox="0 0 42 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-Copy-3" transform="translate(-228.000000, -204.000000)">
+            <g id="Group-5" transform="translate(228.000000, 204.000000)">
+                <rect id="Rectangle-3-Copy-3" fill="#000000" x="0.798295134" y="0.895477459" width="41.0099983" height="41.0099983" rx="20.5049992"></rect>
+                <rect id="Rectangle-5" fill="#FFFFFF" transform="translate(19.289496, 19.481413) rotate(-45.000000) translate(-19.289496, -19.481413) " x="-3.2543781" y="18.4814128" width="45.0877481" height="2"></rect>
+                <rect id="Rectangle-5" fill="#FFFFFF" transform="translate(21.617546, 21.086225) rotate(-45.000000) translate(-21.617546, -21.086225) " x="-0.321873684" y="20.0862253" width="43.8788385" height="2"></rect>
+                <rect id="Rectangle-5-Copy" fill="#FFFFFF" transform="translate(22.812211, 23.660451) rotate(-45.000000) translate(-22.812211, -23.660451) " x="-2.81500616" y="22.6604514" width="51.2544348" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

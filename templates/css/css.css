@@ -172,8 +172,11 @@ html {
 }
 
 /* LISTINGS */
+#listings {
+    overflow: auto;
+}
 
-#listing-info h5, #listing-info h6 {
+.listing-info h5, .listing-info h6 {
 	font-size: 16px;
 	font-weight: 300;
 	margin-bottom: 2px;
@@ -208,8 +211,16 @@ html {
 	margin-right: 15px;
 }
 
-#pricechange {
-	color: #AEF4B1;
+.priceinc {
+	color: #00C55A;
+}
+
+.pricedec {
+    color: red;
+}
+
+.nochange {
+    color: #FDBE3C;
 }
 
 /* GRAPH */
