@@ -57,6 +57,8 @@ function token_dashboard (token_symbol) {
 
 // populate stock graph
 function stock_graph (token_symbol) {
+	$('#stock-graphs h3').html(token_symbol);
+	
 	var times = [];
 	var prices = [];
 	
@@ -64,7 +66,7 @@ function stock_graph (token_symbol) {
 	// 	prices = res.prices;
 	// 	times = res.times;
 	// });
-		
+	
 	times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
 	prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
 	
@@ -83,10 +85,10 @@ function stock_graph (token_symbol) {
 	},
 	options: {
 		responsive: true,
-		title: {
-			display: true,
-			text: token_symbol,
-		}
+		maintainAspectRatio: false,
+		legend: {
+			display: false
+		},
 	}
 });
 }
