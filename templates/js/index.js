@@ -28,36 +28,22 @@ $(document).ready(function() {
 
 		event.preventDefault();
 
-		numTokens = $('#buyForm input[name=numTokens]').val();
-		tokenSym = $('#buyForm input[name=tokenSymbol]').val();
-		buyOrSell = $('#buyForm input[name=buyOrSell]').val();
-		orderType = $('#buyForm input[name=orderType').val();
-		username = $('#buyForm input[name=username]').val();
-
-		console.log(numTokens);
-
-		$.post('/marketsubmit', tokenSym, buyOrSell, orderType, numTokens, username, function(err, res) {
-			console.log("enteringgg");
+		$.post('/marketsubmit', $('#buyForm').serialize(), function(err, res) {
 			if (err){
 				console.error(err);
 			}
+
+			console.log(buyOrSell);
 
 		});
 
 	});
 
-	$('limit-buy-form').submit(function(event){
+	$('#limit-buy-form').submit(function(event){
 
 		event.preventDefault();
 
-		numTokens = $('#limit-buy-form input[name=numTokens]').val();
-		price = $('#limit-buy-form input[name=price]').val();
-		tokenSym = $('#limit-buy-form input[name=tokenSymbol]').val();
-		buyOrSell = $('#limit-buy-form input[name=buyOrSell]').val();
-		orderType = $('#limit-buy-form input[name=orderType').val();
-		username = $('#limit-buy-form input[name=username]').val();
-
-		$.post('/limitsubmit', numTokens, price, tokenSym, buyOrSell, orderType, username, function(err, res){
+		$.post('/limitsubmit', $('#limit-buy-form').serialize(), function(err, res){
 
 			if(err){
 				console.error(err);
@@ -105,7 +91,6 @@ function stock_graph (token_symbol) {
 
 // refresh news
 function refresh_news (token_symbol) {
-	console.log('called')
 	var url = 'https://newsapi.org/v2/top-headlines?' +
 		// whatever the current stock is should go in place of "korea" below
 		'q=' + token_symbol + '&' +
