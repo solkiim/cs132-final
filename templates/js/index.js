@@ -1,19 +1,18 @@
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 20;
-var current_token = "time";
+var default_token = "Uber";
 var news_refresh;
 
 $(document).ready(function() {
 	
-	var numTokens;
-	var tokenSym;
-	var buyOrSell;
-	var orderType;
-	var username;
-	var price;
+	token_dashboard(default_token);
 	
-	// each time you click, update the current_token
+	// update dashboard on new token click
+	$('.listing').click(function(event) {
+		var token_symbol = this.id;
+		token_dashboard(token_symbol);
+	})
 	
 	// get function for prices SQL
 	
@@ -42,8 +41,6 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	token_dashboard(current_token);
 });
 
 function token_dashboard (token_symbol) {
