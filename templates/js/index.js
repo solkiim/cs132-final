@@ -1,6 +1,6 @@
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
-var num_news = 6;
+var num_news = 20;
 var current_token = "time";
 
 

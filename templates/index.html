@@ -76,7 +76,7 @@
 					<div id="stock-graphs">
 						<h3>Stock Name</h3>
 						<hr>
-						<canvas id="stock-graph" width="450" height="250"></canvas>
+						<canvas id="stock-graph" width="600" height="262"></canvas>
 					</div>
 				</div>
 
@@ -168,28 +168,26 @@
 								</div>
 							</div>
 							<div id="limit" class="tab-pane">
-								<div id="limit" class="tab-pane">
-									<div id="limit-buy">
+								<div id="limit-buy">
 
-										<h2>Buy BNB</h2>
-										<form id="limit-buy-form">
-											<!-- hidden: username, token symbol, username, get from page -->
-											<input name="tokenSymbol" type="hidden">
-											<input name="username" type="hidden">
-											<input name="buyOrSell" type="hidden" value="buy">
-											<input name="orderType" type="hidden" value="limit"><br>
+									<h2>Buy BNB</h2>
+									<form id="limit-buy-form">
+										<!-- hidden: username, token symbol, username, get from page -->
+										<input name="tokenSymbol" type="hidden">
+										<input name="username" type="hidden">
+										<input name="buyOrSell" type="hidden" value="buy">
+										<input name="orderType" type="hidden" value="limit"><br>
 
-											<!-- either numTokens OR price should be filled -->
-											<label for="currency5">Price:</label>
-											<input name="price" type="text" placeholder="Amount in USD" id="currency5"><br>
-											<label for="currency6">Amount:</label>
-											<input name="numTokens" type="text" placeholder="Amount in BNB" id="currency6"><br>
+										<!-- either numTokens OR price should be filled -->
+										<label for="currency5">Price:</label>
+										<input name="price" type="text" placeholder="Amount in USD" id="currency5"><br>
+										<label for="currency6">Amount:</label>
+										<input name="numTokens" type="text" placeholder="Amount in BNB" id="currency6"><br>
 
 
-											<!-- this should be buy or sell -->
-											<input type="submit" value="Buy">
-										</form>
-									</div>
+										<!-- this should be buy or sell -->
+										<input type="submit" value="Buy">
+									</form>
 								</div>
 							</div>
 						</div>
