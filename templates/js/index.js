@@ -47,10 +47,10 @@ function token_dashboard (token_symbol) {
 	// get news
 	$('#articles').empty();
 	news_arr = [];
+	refresh_news(token_symbol);
 	if (news_refresh) {
 		clearInterval(news_refresh);
 	}
-	refresh_news(token_symbol);
 	news_refresh = setInterval(function() { refresh_news(token_symbol); }, 10000); //every 10 seconds
 
 	// get stock graph
@@ -97,10 +97,8 @@ function stock_graph (token_symbol) {
 
 // refresh news
 function refresh_news (token_symbol) {
-	var url = 'https://newsapi.org/v2/top-headlines?' +
-	// whatever the current stock is should go in place of "korea" below
-	'q=' + token_symbol + '&' +
-	'apiKey=692f54e4a0c34c678519cc1407b10bf1';
+	var url = 'https://newsapi.org/v2/everything?' + 'q=' + token_symbol +
+		'&apiKey=692f54e4a0c34c678519cc1407b10bf1&language=en&sortBy=relevancy';
 	var Req = new XMLHttpRequest();
 	
 	Req.open("GET", url, true);
@@ -109,9 +107,7 @@ function refresh_news (token_symbol) {
 		var content = Req.responseText;
 		var objresponse = JSON.parse(content);
 		var articles = objresponse.articles;
-		
-		console.log(articles)	// @ LAUTI CHECK HERE
-		
+				
 		articles.map(function(news) {
 			// get the title of article
 			var text = news.title;
