@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="42px" height="42px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="42px" height="43px" viewBox="0 0 42 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
-    <title>Rectangle 5 + Rectangle 5 + Rectangle 5 Copy Mask</title>
+    <title>Group 5</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <rect id="path-1" x="0.798295134" y="0.895477459" width="41.0099983" height="41.0099983" rx="20.5049992"></rect>
-    </defs>
+    <defs></defs>
     <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Desktop-Copy-3" transform="translate(-504.000000, -42.000000)">
-            <g id="Rectangle-5-+-Rectangle-5-+-Rectangle-5-Copy-Mask" transform="translate(504.000000, 41.738946)">
-                <mask id="mask-2" fill="white">
-                    <use xlink:href="#path-1"></use>
-                </mask>
-                <use id="Mask" fill="#000000" xlink:href="#path-1"></use>
-                <rect id="Rectangle-5" fill="#FFFFFF" mask="url(#mask-2)" transform="translate(19.289496, 19.481413) rotate(-45.000000) translate(-19.289496, -19.481413) " x="-3.2543781" y="18.4814128" width="45.0877481" height="2"></rect>
-                <rect id="Rectangle-5" fill="#FFFFFF" mask="url(#mask-2)" transform="translate(21.617546, 21.086225) rotate(-45.000000) translate(-21.617546, -21.086225) " x="-0.321873684" y="20.0862253" width="43.8788385" height="2"></rect>
-                <rect id="Rectangle-5-Copy" fill="#FFFFFF" mask="url(#mask-2)" transform="translate(22.812211, 23.660451) rotate(-45.000000) translate(-22.812211, -23.660451) " x="-2.81500616" y="22.6604514" width="51.2544348" height="2"></rect>
+        <g id="Desktop-Copy-3" transform="translate(-228.000000, -204.000000)">
+            <g id="Group-5" transform="translate(228.000000, 204.000000)">
+                <rect id="Rectangle-3-Copy-3" fill="#000000" x="0.798295134" y="0.895477459" width="41.0099983" height="41.0099983" rx="20.5049992"></rect>
+                <rect id="Rectangle-5" fill="#FFFFFF" transform="translate(19.289496, 19.481413) rotate(-45.000000) translate(-19.289496, -19.481413) " x="-3.2543781" y="18.4814128" width="45.0877481" height="2"></rect>
+                <rect id="Rectangle-5" fill="#FFFFFF" transform="translate(21.617546, 21.086225) rotate(-45.000000) translate(-21.617546, -21.086225) " x="-0.321873684" y="20.0862253" width="43.8788385" height="2"></rect>
+                <rect id="Rectangle-5-Copy" fill="#FFFFFF" transform="translate(22.812211, 23.660451) rotate(-45.000000) translate(-22.812211, -23.660451) " x="-2.81500616" y="22.6604514" width="51.2544348" height="2"></rect>
             </g>
         </g>
     </g>
