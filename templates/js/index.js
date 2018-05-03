@@ -1,29 +1,29 @@
 var socket = io.connect('http://localhost:8080');
 var news_arr = [];
-var num_news = 20;
-var default_token = "Uber";
+var num_news = 10;
+var default_token = "time";
 var news_refresh;
 
 $(document).ready(function() {
-	
+
 	token_dashboard(default_token);
-	
+
 	// update dashboard on new token click
 	$('.listing').click(function(event) {
 		var token_symbol = this.id;
 		token_dashboard(token_symbol);
 	})
-	
+
 	// get function for prices SQL
-	
+
 	socket.on('updateOrders', function(time, buyOrSell, price, numTokens){
 		var ul = $('#order-list');
 		ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
 	});
-	
+
 	$('#buyForm').submit(function(event) {
 		event.preventDefault();
-		
+
 		$.post('/marketsubmit', $('#buyForm').serialize(), function(err, res) {
 			if (err){
 				console.error(err);	// dont do this
@@ -31,10 +31,10 @@ $(document).ready(function() {
 			console.log(buyOrSell);
 		});
 	});
-	
+
 	$('#limit-buy-form').submit(function(event){
 		event.preventDefault();
-		
+
 		$.post('/limitsubmit', $('#limit-buy-form').serialize(), function(err, res){
 			if(err){
 				console.error(err);	// dont do this
@@ -60,18 +60,18 @@ function token_dashboard (token_symbol) {
 // populate stock graph
 function stock_graph (token_symbol) {
 	$('#stock-graphs h3').html(token_symbol);
-	
+
 	var times = [];
 	var prices = [];
-	
-	// $.post('/price-graph', function(err, res){
-	// 	prices = res.prices;
-	// 	times = res.times;
-	// });
-	
+
+	$.post('/price-graph', token_symbol, function(err, res){
+		prices = res.prices;
+		times = res.times;
+	});
+
 	times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
 	prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
-	
+
 	new Chart(document.getElementById("stock-graph"), {
 		type: 'line',
 		data: {
@@ -100,25 +100,29 @@ function refresh_news (token_symbol) {
 	var url = 'https://newsapi.org/v2/everything?' + 'q=' + token_symbol +
 		'&apiKey=692f54e4a0c34c678519cc1407b10bf1&language=en&sortBy=relevancy';
 	var Req = new XMLHttpRequest();
-	
+
 	Req.open("GET", url, true);
-	
+
 	Req.addEventListener("load", function(e){
 		var content = Req.responseText;
 		var objresponse = JSON.parse(content);
 		var articles = objresponse.articles;
-				
+
 		articles.map(function(news) {
 			// get the title of article
 			var text = news.title;
-			text = text.substring(0, 47);
+			text = text.substring(0, 43);
 			text = text.fontsize(2);
-			
-			// get the day and time of article in standard time
+
+			// get the date of article in standard time
 			var time_stamp = news.publishedAt;
-			var day = time_stamp.substring(0, 10);
+			var date = time_stamp.substring(0, 10);
+			console.log(day);
+			var year = date.substring(0, 4);
+			var month = date.substring(5, 7);
+			var day = date.substring(8, 10);
 			var time = time_stamp.substring(11, 19);
-			
+
 			// generate the current date
 			var today = new Date();
 			var dd = today.getDate();
@@ -131,7 +135,7 @@ function refresh_news (token_symbol) {
 				mm='0'+mm;
 			}
 			var today = yyyy+'-'+mm+'-'+dd;
-			
+
 			// prevent repeats
 			if (!news_arr.includes(text)) {
 				// if array is  full, take away last element from array, add title to array,
@@ -140,16 +144,17 @@ function refresh_news (token_symbol) {
 					news_arr.pop(); // delete last element from array
 					$('#articles li:last-child').remove(); //remove last element from list
 				}
-				
+
 				// add title to beginning of array
 				news_arr.unshift(text);
-				
+
 				// add to html list
-				if(day == today) {
+				if(date == today) {
 					$('#articles').append("<li> " + time + " : " + text + " ...");
 				}
-				if (day != today) {
-					$('#articles').append("<li> " + day + " : " + text + " ...");
+				if (date != today) {
+					date = month+'-'+day+'-'+year;
+					$('#articles').append("<li> " + date + " : " + text + " ...");
 				}
 			}
 		});
