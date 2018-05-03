@@ -167,7 +167,7 @@ html {
 	font-weight: 300;
 }
 
-#listings, #stock-graph, #orders, #news, #trade {
+#listings, #stock-graph, #orders, #trade, #news {
 	height: 350px;
 }
 
@@ -229,8 +229,9 @@ html {
 }
 
 /* NEWS */
-#news {
-	overflow: scroll;
+#news-container {
+    height: 300px;
+    overflow: scroll;
 }
 
 #articles {
