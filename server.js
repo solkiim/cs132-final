@@ -12,6 +12,8 @@ var http = require('http');
 // other files
 var account = require('./account.js');
 var createtables = require('./createtables.js');
+var stockgraph = require('./stock-graph.js');
+var trade = require('./trade.js');
 
 // set up app
 var app = express();
@@ -161,93 +163,23 @@ app.post('/logintierfileupload', function(req, res) {
 	account.logintierfileupload(pool, req, res);
 });
 
-// ----------------------------- ROUTES: BUY/SELL ------------------------------
+// ------------------------------- ROUTES: TRADE -------------------------------
 
 // on signupform submit
 app.post('/marketsubmit', function(req, res) {
-	// console.log(req.body.buyOrSell);
-	if (req.body.buyOrSell == 'buy'){
-		executeMarketBuy(
-			req.body.buyOrSell,
-			req.body.tokenSym,
-			req.body.orderType,
-			req.body.numTokens,
-			req.body.username
-		);
-	} else if (req.body.buyOrSell == 'sell') {
-		// execute market sell
-	}
+	trade.marketsubmit(pool, req, res);
 });
 
 // on limit submit
 app.post('/limitsubmit', function(req, res){
-	console.log("enteringgg");
-	if (req.body.buyOrSell == 'buy'){
-		executeLimitBuy(
-			req.body.numTokens,
-			req.body.price,
-			req.body.tokenSym,
-			req.body.buyOrSell,
-			req.body.orderType,
-			req.body.username
-		);
-	} else if (req.body.buyOrSell == 'sell'){
-		
-	}
+	trade.limitsubmit(pool, req, res);
 });
 
 // ---------------------------- ROUTES: PRICE GRAPH ----------------------------
 
-// post request
-// get the bottom row of sell
-// get the top row of buy
-// and find the weightedPriceForPrices
-// then insert into prices table
-
 app.post('/price-graph', function(req, res) {
-	getPrices(req, res);
+	stockgraph.getPrices(pool, req, res);
 });
-
-function getPrices(req, res){
-	
-	var sell = pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC', function(err,data){
-		
-		if (err){
-			console.error(err);
-		}
-		
-		// get that bottom row's numtokens and posted price
-		var tokenSymbol_sell = data.rows[0].tokenSymbol;
-		var price_sell = data.rows[0].price;
-		var numTokens_sell = data.rows[0].numTokens;
-	});
-	
-	var buy = pool.query('SELECT LIMIT 1 * FROM Buy ORDER BY price, timestamp DESC', function(err,data){
-		
-		if (err){
-			console.error(err);
-		}
-		
-		// get that bottom row's numtokens and posted price
-		var tokenSymbol_buy = data.rows[0].tokenSymbol;
-		var price_buy = data.rows[0].price;
-		var numTokens_buy = data.rows[0].numTokens;
-	});
-	
-	var price = weightedforPriceTable(price_sell, price_buy, numTokens_sell, numTokens_buy);
-	
-	pool.query('INSERT INTO PriceHistory (tokenSymbol, tokenPrice) VALUES($1, $2)', [tokenSymbol_sell, price], function(error, data) {
-		
-		if (error){
-			console.log("FAILED to add to database");
-			res.sendStatus(500);
-		}
-		res.json();
-		
-	});
-	
-	
-}
 
 
 // -------------------------------- APP: OTHER ---------------------------------
@@ -288,197 +220,3 @@ process.on('SIGINT', function() {
 io.sockets.on('connection',function(socket){
 	// put socket events here
 });
-
-// ----------------------------- HELPER FUNCTIONS ------------------------------
-
-function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username){
-	
-	var originalReqNumTokens = reqNumTokens;
-	var reqTokens = reqNumTokens;
-	
-	// clear arrays each time you escape while loop
-	var clearedPrices = [];
-	var clearedNumTokens = [];
-
-	// don't run this function if no rows in Sell
-	pool.query('IF EXISTS (SELECT * FROM Sell)', function(err, data) {
-		
-		if (err) {
-			console.log("no sell orders; cannot execute market buy");
-		}
-	
-		// for market orders gotta keep going until you execute all trades
-		// and sell table is not empty!
-		while (reqTokens != 0){
-			
-			// check last entry in sell (cheapest)
-			var row = pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC', function(err,data){
-				
-				if (err){
-					console.error(err);
-				}
-				
-				// get that bottom row's numtokens and posted price
-				var sellOrderID = data.rows[0].orderID;
-				var rowTokens = data.rows[0].numTokens;
-				var rowSellPrice = data.rows[0].price;
-				
-			});
-			
-			// meaning you'll need to keep climbing up
-			if (rowTokens < reqTokens){
-				// update however many tokens you still gotta clear
-				reqTokens = reqTokens - rowTokens;
-				
-				clearedPrices.push(rowSellPrice);
-				clearedNumTokens.push(rowTokens);
-				
-				// delete, since all tokens for that order have been cleared
-				pool.query('DELETE from Sell by price DESC, timestamp DESC, LIMIT 1', function(err,data){
-					if(err){
-						console.error(err);
-					}
-				});
-				
-				
-			}
-			
-			// if more tokens than you want
-			else if (rowTokens >= reqTokens){
-				
-				// you're finished
-				rowTokens = rowTokens - reqTokens;
-				clearedPrices.push(rowSellPrice);
-				clearedNumTokens.push(rowNumTokens);
-				
-				// exposed to sql injection attacks
-				// Update Sell bottom row SET numTokens = rowNumTokens;
-				pool.query("UPDATE Sell SET numTokens = '" + rowTokens, function(error,data){
-					if(error){
-						console.error(err);
-					}
-				});
-				
-				
-				// actual price is the actually transacted price; the price can slip in a market order since it just depends on what orders are on the book
-				var price = weightedPrice(clearedPrices, clearedNumTokens);
-				
-				// insert into trades history table
-				pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
-					
-					if (error){
-						console.log("FAILED to add to database");
-						res.sendStatus(500);
-					}
-					
-					// done; no more looping
-					reqNumTokens = 0;
-					
-				});
-				
-			}
-			
-		}
-		
-	});
-	
-	// if Sell table is empty, post the market order as
-	
-	
-}
-
-function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, username){
-	
-	var rowSellPrice;
-	
-	// if price exists on sell table, it is essentially a marketBuy
-	pool.query("IF EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
-		
-		executeMarketBuy(buyOrSell, tokenSym, orderType, reqTokens, username);
-		
-		return;
-		
-	});
-	
-	// if exact price does not exist on sell
-	pool.query("IF NOT EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
-
-		if (error){
-			console.log(error);
-		}
-		
-		// if that lowest price is  <= your price
-		pool.query('SELECT LIMIT 1 * FROM Sell ORDER BY price, timestamp DESC', function(err,data){
-			
-			if (err){
-				console.log(err);
-			}
-			
-			rowSellPrice = data.rows[0].price;
-			
-			if (rowSellPrice <= price){
-				
-				// insert into the sell table
-				
-				pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, orderType, reqTokens, price, username], function(error, data) {
-					
-					if (error){
-						console.log(err);
-					}
-
-					var time = date.getHours() + ":" + date.getMinutes();
-					
-					// trigger function updatingOrders
-					io.sockets.emit('updateOrders', time, buyOrSell, price, numTokens);
-					
-				});
-				
-			}
-			
-		});
-		
-		return;
-		
-	});
-	
-	pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, orderType, reqTokens, price, username], function(error, data) {
-		
-		if (error){
-			console.log(error);
-		}
-		
-	});
-	
-};
-
-function weightedPrice(clearedPrices, clearedNumTokens){
-	if (clearedPrices.length != clearedNumTokens.length){
-		console.log("error; price & token lengths different");
-	}
-	
-	var length = clearedPrices.length;
-	var finalPrice = 0;
-	var totalClearedNumTokens = 0;
-	var ratio = 0;
-	
-	// get total cleared tokens
-	for (i=0; i< length-1 ; i++){
-		totalClearedNumTokens += clearedNumTokens[i];
-	}
-	
-	// get total weighted final price
-	for (j=0; j < length-1; j++){
-		ratio = clearedNumTokens[j] / totalClearedNumTokens;
-		finalPrice += clearedPrices[j]*ratio;
-	}
-	
-	return finalPrice;
-}
-
-function weightedforPriceTable(sell_price, buy_price, sell_num, buy_num){
-	var totaltokens = sell_num + buy_num;
-	var sell_ratio = sell_num / total_tokens;
-	var buy_ratio = buy_num / total_tokens;
-	var w_price = sell_price * sell_ratio + buy_price * buy_ratio;
-	return w_price;
-}
