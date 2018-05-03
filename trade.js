@@ -144,16 +144,16 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 	var rowSellPrice;
 	
 	// if price exists on sell table, it is essentially a marketBuy
-	pool.query("WHERE EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
+	pool.query("WHERE EXISTS SELECT Sell WHERE price = $1", [price], function(error, data){
 		
-		executeMarketBuy(buyOrSell, tokenSym, orderType, reqTokens, username);
+		executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqTokens, username);
 		
 		return;
 		
 	});
 	
 	// if exact price does not exist on sell
-	pool.query("IF NOT EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
+	pool.query("IF NOT EXISTS SELECT Sell WHERE price = $1", [price], function(error, data){
 
 		if (error){
 			console.log(error);
