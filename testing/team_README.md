@@ -171,3 +171,15 @@ responsive: false,
 ```
 
 ## Rhaime Testing
+
+### Trading
+
+I have been working on making the trading happen (market and limit orders). Market and limit orders are different types of trades you can place. I have two post requests and the rest mainly handle the logic for when and how to execute a market and limit order, and how to fill in the orders depending on which orders are available. I am still debugging the logic right now and so I have written some tests but mainly working on the debugging at the moment.
+
+### Testing
+
+Testing the actual logic for the functionality is challenging using Jasmine, but can be done directly on server.js. What I am doing in my code directly on server.js is clearning the SQL tables, then manually inserting a test set of limit orders to fill in a buy and sell table, then executing market orders and limit orders on the orderbook to ensure that orders are being filled in the appropriate manner.
+
+I have not found it to be possible to directly test the logic through Jasmine, since you need to work with a cleared database to make sure that the logic is working properly on a test set of orders, and the method I am using right now cannot be rolled out since you would never want to clear the database once you have pushed the product.
+
+The Jasmine testing covers the post requests are going through and that the logic for my one helper function is executing as planned. The tests can be found in spec/trade-testing.js.
