@@ -278,7 +278,7 @@ app.post('/marketsubmit', function(req, res) {
 
 // on limit submit
 app.post('/limitsubmit', function(req, res){
-	console.log("enteringgg");
+
 	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
 			req.body.numTokens,
@@ -398,8 +398,8 @@ function executeMarketBuy(buyOrSell, tokenSym, orderType, reqNumTokens, username
 	var clearedNumTokens = [];
 
 	// don't run this function if no rows in Sell
-	pool.query('IF EXISTS (SELECT * FROM Sell)', function(err, data) {
-		
+	pool.query('WHERE EXISTS (SELECT * FROM Sell)', function(err, data) {
+
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
 		}
@@ -489,7 +489,7 @@ function executeLimitBuy(reqTokens, price, tokenSym, buyOrSell, orderType, usern
 	var rowSellPrice;
 	
 	// if price exists on sell table, it is essentially a marketBuy
-	pool.query("IF EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
+	pool.query("WHERE EXISTS SELECT Sell WHERE price = '" + price, function(error, data){
 		
 		executeMarketBuy(buyOrSell, tokenSym, orderType, reqTokens, username);
 		
