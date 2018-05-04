@@ -2,6 +2,7 @@ var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 10;
 var default_token = "Uber";
+var current_token = "Uber";
 var news_refresh;
 
 $(document).ready(function() {
@@ -11,6 +12,7 @@ $(document).ready(function() {
 	// update dashboard on new token click
 	$('.listing').click(function(event) {
 		var token_symbol = this.id;
+		current_token = token_symbol;
 		token_dashboard(token_symbol);
 	})
 
