@@ -1,10 +1,18 @@
 var socket = io.connect('http://localhost:8080');
-var news_arr = [];
-var num_news = 10;
+
+// global
 var default_token = "Uber";
 var current_token = "Uber";
-var news_refresh;
 var username = sessionStorage.getItem('username');
+
+// news
+var news_refresh;
+var news_arr = [];
+var num_news = 10;
+
+// graph
+var graph_times = [];
+var graph_prices = [];
 
 $(document).ready(function() {
 
@@ -18,9 +26,18 @@ $(document).ready(function() {
 	})
 
 	// get function for prices SQL
+	
+	socket.on('newTradeGraphPoint', function(tokenSym, currenttime, price){
+		if (tokenSym = current_token) {
+			graph_times.shift();
+			graph_times.push(currenttime);
+			graph_prices.shift();
+			graph_prices.push(price);
+			graph_update(current_token);
+		}
+	});
 
 	socket.on('updateOrders', function(tokenSym, time, buyOrSell, price, numTokens){
-
 		if (tokenSym = current_token){
 
 			var ul;
@@ -35,7 +52,6 @@ $(document).ready(function() {
 			ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
 
 			}
-
 	});
 
 	$('#buyForm').submit(function(event) {
@@ -77,66 +93,36 @@ function token_dashboard (token_symbol) {
 // populate stock graph
 function stock_graph (token_symbol) {
 	$('#stock-graphs h3').html(token_symbol);
-
-	// var times = [];
-	// var prices = [];
-
-
+	
 	$.post('/price-graph', 'current_token=' + token_symbol, function(data, status){
-		// console.log(data)
+		graph_times = data.times;
+		graph_prices = data.prices;
+		graph_update(token_symbol);
+	});
+}
 
-		prices = data.prices;
-		console.log(prices);
-		times = data.times;
-		console.log(times);
-
-		new Chart(document.getElementById("stock-graph"), {
-			type: 'line',
-			data: {
-				labels: times,
-				datasets: [{
-					data : prices, //price
-					backgroundColor: '#ffe4b3', //orange
-					borderColor: '#ffc966',
-					fill: true,
-					label: token_symbol,
-				}
-			],
+function graph_update(token_symbol) {
+	new Chart(document.getElementById("stock-graph"), {
+		type: 'line',
+		data: {
+			labels: graph_times,
+			datasets: [{
+				data : graph_prices,
+				backgroundColor: '#ffe4b3', //orange
+				borderColor: '#ffc966',
+				fill: true,
+				label: token_symbol,
+			}
+		],
+	},
+	options: {
+		responsive: true,
+		maintainAspectRatio: false,
+		legend: {
+			display: false
 		},
-		options: {
-			responsive: true,
-			maintainAspectRatio: false,
-			legend: {
-				display: false
-			},
-		}
-	});
-	});
-
-	// times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
-	// prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
-// 	new Chart(document.getElementById("stock-graph"), {
-// 		type: 'line',
-// 		data: {
-// 			labels: times,
-// 			datasets: [{
-// 				data : prices, //price
-// 				backgroundColor: '#ffe4b3', //orange
-// 				borderColor: '#ffc966',
-// 				fill: true,
-// 				label: token_symbol,
-// 			}
-// 		],
-// 	},
-// 	options: {
-// 		responsive: true,
-// 		maintainAspectRatio: false,
-// 		legend: {
-// 			display: false
-// 		},
-// 	}
-// });
-
+	}
+});
 }
 
 // refresh news

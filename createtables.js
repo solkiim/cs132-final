@@ -50,13 +50,6 @@ exports.createsqltables = function(pool) {
 		'   username TEXT,'+
 		'   timestamp_ INTEGER' +
 		')',
-		
-		'CREATE TABLE IF NOT EXISTS PriceHistory ('+
-		'   orderID INTEGER PRIMARY KEY AUTOINCREMENT,'+
-		'   tokenSymbol TEXT,'+
-		'   tokenPrice INTEGER,'+
-		'   timestamp_ INTEGER' +
-		')',
 	];
 
 	async.map(sqlqueries, function(sqlquery, callback) {
