@@ -52,10 +52,6 @@ $(document).ready(function() {
 			ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
 
 			}
-<<<<<<< HEAD
-=======
-
->>>>>>> 9e7c793f23d8895a99076f3b6af7282c6b2e605a
 	});
 
 	$('#buyForm').submit(function(event) {
