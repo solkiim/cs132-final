@@ -43,22 +43,18 @@ exports.limitsubmit = function(io, pool, req, res) {
 
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
-// ----------------------------- HELPER FUNCTIONS ------------------------------
-
 function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
-
-
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
 	// clear arrays each time you escape while loop
 	var clearedPrices = [];
 	var clearedNumTokens = [];
-
+	
 	// don't run this function if no rows in Sell
 	pool.query('WHERE EXISTS (SELECT * FROM Sell)', function(err, data) {
 		console.log(data);
-
+		
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
 		}
@@ -124,82 +120,61 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 						}
 					});
 				}
-		);
-	});
-	
-	// if Sell table is empty, post the market order as
-	
-	
-}
-
-function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
-	
-	var rowSellPrice;
-	var lowestSellPrice;
-
-	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1', function(err,data){
-
-		if (err){
-			console.error(err);
-		}
-
-		// if Sell order(s) exist
-		if (data.rows.length > 0){
-			lowestSellPrice = data.rows[0].price;
-		} else {
-			console.log("CANNOT PLACE LIMIT BUY: no sell order yet");
-			return;
-		}
-
-	});
-
-	// if limit buy -> on sell side; just a market buy
-	if (price >= lowestSellPrice){
-
-		executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
-
-	// if limit buy -> on buy side; just post an order
-	} else {
-
-		// insert into the sell table
-		var time = new Date();
-
-		pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
-			
-			if (error){
-				console.log(err);
-			}
-			
-			// trigger function updatingOrders
-			io.sockets.emit('updateOrders', tokenSym, time, buyOrSell, price, reqTokens);
-			
+			);
 		});
-
-
+		
+		// if Sell table is empty, post the market order as
+		
 	}
 	
-};
-
-function weightedPrice(clearedPrices, clearedNumTokens){
-	if (clearedPrices.length != clearedNumTokens.length){
-		console.log("error; price & token lengths different");
+	function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
+		pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1', function(err,data){
+			if (err){
+				console.error(err);
+			}
+			// if Sell order(s) exist
+			if (data.rows.length > 0){
+				// if limit buy -> on sell side; just a market buy
+				if (price >= data.rows[0].price) {
+					executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
+					// if limit buy -> on buy side; just post an order
+				} else {
+					// insert into the sell table
+					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
+						if (error){
+							console.log(err);
+						}
+						// trigger function updatingOrders
+						io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
+					});
+				}
+			} else {
+				console.log("CANNOT PLACE LIMIT BUY: no sell order yet");
+				return;
+			}
+		});
+	};
+	
+	function weightedPrice(clearedPrices, clearedNumTokens){
+		if (clearedPrices.length != clearedNumTokens.length){
+			console.log("error; price & token lengths different");
+		}
+		
+		var length = clearedPrices.length;
+		var finalPrice = 0;
+		var totalClearedNumTokens = 0;
+		var ratio = 0;
+		
+		// get total cleared tokens
+		for (i=0; i< length-1 ; i++){
+			totalClearedNumTokens += clearedNumTokens[i];
+		}
+		
+		// get total weighted final price
+		for (j=0; j < length-1; j++){
+			ratio = clearedNumTokens[j] / totalClearedNumTokens;
+			finalPrice += clearedPrices[j]*ratio;
+		}
+		
+		return finalPrice;
 	}
-	
-	var length = clearedPrices.length;
-	var finalPrice = 0;
-	var totalClearedNumTokens = 0;
-	var ratio = 0;
-	
-	// get total cleared tokens
-	for (i=0; i< length-1 ; i++){
-		totalClearedNumTokens += clearedNumTokens[i];
-	}
-	
-	// get total weighted final price
-	for (j=0; j < length-1; j++){
-		ratio = clearedNumTokens[j] / totalClearedNumTokens;
-		finalPrice += clearedPrices[j]*ratio;
-	}
-	
-	return finalPrice;
-}
