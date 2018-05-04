@@ -8,7 +8,7 @@ exports.getPrices = function(pool, req, res) {
 	async.series({
 		sell: function(callback) {
 			pool.query(
-				'SELECT * FROM Sell WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ DESC',
+				'SELECT * FROM Trades WHERE tokenSymbol=$1 AND timestamp_>$2',
 				[req.body.current_token],
 				function(err, data){
 					if (err){
@@ -55,7 +55,7 @@ exports.getPrices = function(pool, req, res) {
 		});
 	}
 
-		pool.query('DELETE FROM PriceHistory');
+		// pool.query('DELETE FROM PriceHistory');
 
 		pool.query('SELECT * from PriceHistory WHERE tokenSymbol = $1 ORDER by timestamp_ DESC', [req.body.current_token],
 		function(err, data) {
