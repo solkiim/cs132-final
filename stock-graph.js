@@ -1,9 +1,3 @@
-// ----------------------------------- SETUP -----------------------------------
-
-var async = require('async');
-
-// ----------------------------------- GRAPH -----------------------------------
-
 exports.getPrices = function(pool, req, res) {
 	pool.query('SELECT price, timestamp_ FROM Trades ORDER BY timestamp_ DESC LIMIT 25', function(err,data){
 		if (err){

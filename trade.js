@@ -110,13 +110,23 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 							var price = weightedPrice(clearedPrices, clearedNumTokens);
 							
 							// insert into trades history table
-							pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
-								if (error){
-									console.log("FAILED to add to database");
+							var currenttime = Date.now();
+							
+							pool.query(
+								'INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
+								[tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username, currenttime],
+								function(error, data) {
+									if (error){
+										console.log("FAILED to add to database");
+									}
+									
+									// emit trade graph socket
+									io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
+									
+									// done; no more looping
+									reqNumTokens = 0;
 								}
-								// done; no more looping
-								reqNumTokens = 0;
-							});
+							);
 						}
 					});
 				}
