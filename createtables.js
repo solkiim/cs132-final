@@ -21,11 +21,6 @@ exports.createsqltables = function(pool) {
 		'   acctCreationDateTime INTEGER'+
 		')',
 		
-		'CREATE TABLE IF NOT EXISTS favorite_stock (' +
-		'username TEXT, ' +
-		'stock_code TEXT, ' +
-		'PRIMARY KEY (username, stock_code))',
-		
 		'CREATE TABLE IF NOT EXISTS Sell ('+
 		'   orderID INTEGER PRIMARY KEY AUTOINCREMENT,'+
 		'   tokenSymbol TEXT,'+
