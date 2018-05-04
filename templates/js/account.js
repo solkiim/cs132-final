@@ -32,12 +32,6 @@ $(document).ready(function() {
 		$.post('/getlogintier','username=' + sessionStorage.getItem('username'), function(data, status) {
 			$('#login-tier').text(data);
 		});
-		$.post('/getportfolio','username=' + sessionStorage.getItem('username'), function(data, status) {
-			// put as li items into '#portfolio'
-		});
-		$.post('/getfavoritestocks','username=' + sessionStorage.getItem('username'), function(data, status) {
-			// put as li items into '#favorite_stocks'
-		});
 	} else {
 		$('#not-logged-in').show();
 	}

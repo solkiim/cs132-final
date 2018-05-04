@@ -130,28 +130,6 @@ app.post('/duplicateemail', function(req, res) {
 	account.duplicateemail(pool, req, res);
 });
 
-// favorite stocks
-app.post('/getfavoritestocks', function(req, res) {
-	account.getfavoritestocks(pool, req, res);
-});
-app.post('/addfavoritestock', function(req, res) {
-	account.addfavoritestock(pool, req, res);
-});
-app.post('/removefavoritestock', function(req, res) {
-	account.removefavoritestock(pool, req, res);
-});
-
-// portfolio
-app.post('/getportfolio', function(req, res) {
-	account.getportfolio(pool, req, res);
-});
-app.post('/addtoportfolio', function(req, res) {
-	account.addtoportfolio(pool, req, res);
-});
-app.post('/removefromportfolio', function(req, res) {
-	account.removefromportfolio(pool, req, res);
-});
-
 // login tier
 app.post('/getlogintier', function(req, res) {
 	account.getlogintier(pool, req, res);
@@ -167,12 +145,12 @@ app.post('/logintierfileupload', function(req, res) {
 
 // on signupform submit
 app.post('/marketsubmit', function(req, res) {
-	trade.marketsubmit(pool, req, res);
+	trade.marketsubmit(io, pool, req, res);
 });
 
 // on limit submit
 app.post('/limitsubmit', function(req, res){
-	trade.limitsubmit(pool, req, res);
+	trade.limitsubmit(io, pool, req, res);
 });
 
 // ---------------------------- ROUTES: PRICE GRAPH ----------------------------

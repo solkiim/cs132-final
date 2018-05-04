@@ -2,7 +2,9 @@ var socket = io.connect('http://localhost:8080');
 var news_arr = [];
 var num_news = 10;
 var default_token = "Uber";
+var current_token = "Uber";
 var news_refresh;
+var username = sessionStorage.getItem('username');
 
 $(document).ready(function() {
 
@@ -11,20 +13,35 @@ $(document).ready(function() {
 	// update dashboard on new token click
 	$('.listing').click(function(event) {
 		var token_symbol = this.id;
+		current_token = token_symbol;
 		token_dashboard(token_symbol);
 	})
 
 	// get function for prices SQL
 
-	socket.on('updateOrders', function(time, buyOrSell, price, numTokens){
-		var ul = $('#order-list');
-		ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
+	socket.on('updateOrders', function(tokenSym, time, buyOrSell, price, numTokens){
+
+		if (tokenSym = current_token){
+			
+			var ul;
+
+			if (buyOrSell == "sell"){
+				ul = $('#sell-list');
+				
+			} else if (buyOrSell == "buy"){
+				ul = $('#buy-list');
+			}
+
+			ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
+
+			}
+		
 	});
 
 	$('#buyForm').submit(function(event) {
 		event.preventDefault();
 
-		$.post('/marketsubmit', $('#buyForm').serialize(), function(err, res) {
+		$.post('/marketsubmit', $('#buyForm').serialize() + '&tokenSym=' + current_token, function(err, res) {
 			if (err){
 				console.error(err);	// dont do this
 			}
@@ -35,7 +52,7 @@ $(document).ready(function() {
 	$('#limit-buy-form').submit(function(event){
 		event.preventDefault();
 
-		$.post('/limitsubmit', $('#limit-buy-form').serialize(), function(err, res){
+		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token, function(err, res){
 			if(err){
 				console.error(err);	// dont do this
 			}
@@ -63,6 +80,7 @@ function stock_graph (token_symbol) {
 
 	// var times = [];
 	// var prices = [];
+
 
 	$.post('/price-graph', 'current_token=' + token_symbol, function(data, status){
 		// console.log(data)
@@ -143,7 +161,10 @@ function refresh_news (token_symbol) {
 			// get the date of article in standard time
 			var time_stamp = news.publishedAt;
 			var date = time_stamp.substring(0, 10);
+<<<<<<< HEAD
 			// console.log(day);
+=======
+>>>>>>> 6f5fdb542d7f942ebb23b18359351bb3ea32e5d7
 			var year = date.substring(0, 4);
 			var month = date.substring(5, 7);
 			var day = date.substring(8, 10);
