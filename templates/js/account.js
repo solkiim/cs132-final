@@ -123,20 +123,12 @@ $(document).ready(function() {
 	$('#update-name-form').submit(function(event) {
 		event.preventDefault();
 		
-		var firstname = $('#update-name-form input[name=firstname]').val();
-		var lastname = $('#update-name-form input[name=lastname]').val();
-		
 		$.post(
-			'/setfirstname',
-			'username=' + sessionStorage.getItem('username') + '&firstname=' + firstname
+			'/setname',
+			$('#update-name-form').serialize() + '&username=' + sessionStorage.getItem('username')
 		);
-		$('#firstname').text(firstname);
-		
-		$.post(
-			'/setlastname',
-			'username=' + sessionStorage.getItem('username') + '&lastname=' + lastname
-		);
-		$('#lastname').text(lastname);
+		$('#firstname').text($('#update-name-form input[name=firstname]').val());
+		$('#lastname').text($('#update-name-form input[name=lastname]').val());
 		
 		// toggle form
 		$('#update-name-form').slideToggle();
@@ -149,34 +141,14 @@ $(document).ready(function() {
 	$('#update-address-form').submit(function(event) {
 		event.preventDefault();
 		
-		var address = $('#update-address-form input[name=address]').val();
-		var address2 = $('#update-address-form input[name=address2]').val();
-		var city = $('#update-address-form input[name=city]').val();
-		var zipcode = $('#update-address-form input[name=zipcode]').val();
-		
 		$.post(
 			'/setaddress',
-			'username=' + sessionStorage.getItem('username') + '&address=' + address
+			$('#update-address-form').serialize() + '&username=' + sessionStorage.getItem('username')
 		);
-		$('#address').html(address);
-		
-		$.post(
-			'/setaddress2',
-			'username=' + sessionStorage.getItem('username') + '&address2=' + address2
-		);
-		$('#address2').html(address2);
-		
-		$.post(
-			'/setcity',
-			'username=' + sessionStorage.getItem('username') + '&city=' + city
-		);
-		$('#city').html(city);
-		
-		$.post(
-			'/setzipcode',
-			'username=' + sessionStorage.getItem('username') + '&zipcode=' + zipcode
-		);
-		$('#zipcode').html(zipcode);
+		$('#address').html($('#update-address-form input[name=address]').val());
+		$('#address2').html($('#update-address-form input[name=address2]').val());
+		$('#city').html($('#update-address-form input[name=city]').val());
+		$('#zipcode').html($('#update-address-form input[name=zipcode]').val());
 		
 		// toggle form
 		$('#update-address-form').slideToggle();

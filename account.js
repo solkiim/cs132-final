@@ -3,6 +3,7 @@
 // dependencies
 const bcrypt = require('bcrypt');
 var fs = require('fs');
+var async = require('async');
 
 // ----------------------------------- ROUTES ----------------------------------
 
@@ -281,28 +282,14 @@ exports.setemail = function(pool, req, res) {
 	);
 }
 
-// set account's first name
-exports.setfirstname = function(pool, req, res) {
-	pool.query('UPDATE account SET firstname = $1 WHERE username = $2',
-		[req.body.firstname, req.body.username],
+// set account's name
+exports.setname = function(pool, req, res) {
+	pool.query('UPDATE account SET firstname = $1, lastname = $2 WHERE username = $3',
+		[req.body.firstname, req.body.lastname, req.body.username],
 		function(err, data) {
 			if (err) {
 				console.error(err);
-				return res.status(500).send('error setting first name');
-			}
-			res.sendStatus(204);
-		}
-	);
-}
-
-// set account's last name
-exports.setlastname = function(pool, req, res) {
-	pool.query('UPDATE account SET lastname = $1 WHERE username = $2',
-		[req.body.lastname, req.body.username],
-		function(err, data) {
-			if (err) {
-				console.error(err);
-				return res.status(500).send('error setting last name');
+				return res.status(500).send('error setting name');
 			}
 			res.sendStatus(204);
 		}
@@ -311,54 +298,12 @@ exports.setlastname = function(pool, req, res) {
 
 // set account's address
 exports.setaddress = function(pool, req, res) {
-	pool.query('UPDATE account SET address = $1 WHERE username = $2',
-		[req.body.address, req.body.username],
+	pool.query('UPDATE account SET address = $1, address2 = $2, city = $3, zipcode = $4 WHERE username = $5',
+		[req.body.address, req.body.address2, req.body.city, req.body.zipcode, req.body.username],
 		function(err, data) {
 			if (err) {
 				console.error(err);
-				return res.status(500).send('error setting address');
-			}
-			res.sendStatus(204);
-		}
-	);
-}
-
-// set account's address2
-exports.setaddress2 = function(pool, req, res) {
-	pool.query('UPDATE account SET address2 = $1 WHERE username = $2',
-		[req.body.address2, req.body.username],
-		function(err, data) {
-			if (err) {
-				console.error(err);
-				return res.status(500).send('error setting address line 2');
-			}
-			res.sendStatus(204);
-		}
-	);
-}
-
-// set account's address city
-exports.setcity = function(pool, req, res) {
-	pool.query('UPDATE account SET city = $1 WHERE username = $2',
-		[req.body.city, req.body.username],
-		function(err, data) {
-			if (err) {
-				console.error(err);
-				return res.status(500).send('error setting address city');
-			}
-			res.sendStatus(204);
-		}
-	);
-}
-
-// set account's address zipcode
-exports.setzipcode = function(pool, req, res) {
-	pool.query('UPDATE account SET zipcode = $1 WHERE username = $2',
-		[req.body.zipcode, req.body.username],
-		function(err, data) {
-			if (err) {
-				console.error(err);
-				return res.status(500).send('error setting address zipcode');
+				return res.status(500).send('error setting name');
 			}
 			res.sendStatus(204);
 		}
