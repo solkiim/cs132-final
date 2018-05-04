@@ -18,25 +18,29 @@ $(document).ready(function() {
 
 	// get function for prices SQL
 
-	socket.on('updateOrders', function(time, buyOrSell, price, numTokens){
+	socket.on('updateOrders', function(tokenSym, time, buyOrSell, price, numTokens){
 
-		var ul;
-
-		if (buyOrSell == "sell"){
-			ul = $('#sell-list');
+		if (tokenSym = current_token){
 			
-		} else if (buyOrSell == "buy"){
-			ul = $('#buy-list');
-		}
+			var ul;
 
-		ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
+			if (buyOrSell == "sell"){
+				ul = $('#sell-list');
+				
+			} else if (buyOrSell == "buy"){
+				ul = $('#buy-list');
+			}
+
+			ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
+
+			}
 		
 	});
 
 	$('#buyForm').submit(function(event) {
 		event.preventDefault();
 
-		$.post('/marketsubmit', $('#buyForm').serialize(), function(err, res) {
+		$.post('/marketsubmit', $('#buyForm').serialize() + '&tokenSym=' + current_token, function(err, res) {
 			if (err){
 				console.error(err);	// dont do this
 			}
@@ -47,7 +51,7 @@ $(document).ready(function() {
 	$('#limit-buy-form').submit(function(event){
 		event.preventDefault();
 
-		$.post('/limitsubmit', $('#limit-buy-form').serialize(), function(err, res){
+		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token, function(err, res){
 			if(err){
 				console.error(err);	// dont do this
 			}

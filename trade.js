@@ -25,7 +25,6 @@ exports.marketsubmit = function(io, pool, req, res) {
 }
 
 exports.limitsubmit = function(io, pool, req, res) {
-	console.log(req.body.buyOrSell);
 	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
 			io,
@@ -47,6 +46,8 @@ exports.limitsubmit = function(io, pool, req, res) {
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
 function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
+
+
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -56,6 +57,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 
 	// don't run this function if no rows in Sell
 	pool.query('WHERE EXISTS (SELECT * FROM Sell)', function(err, data) {
+		console.log(data);
 
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
@@ -138,12 +140,14 @@ function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderT
 	// not clearing since sell is empty right now; so data is undefined
 	// need another way to check
 	pool.query("SELECT * FROM Sell WHERE price = $1", [price], function(error, data){
+
+		console.log(data)
 		
 		if (error){
 			console.log(error);
 		}
 
-		console.log(data)
+		console.log(data);
 
 		if (data.rows.length > 0){
 			executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
@@ -173,17 +177,17 @@ function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderT
 				if (rowSellPrice <= price){
 					
 					// insert into the sell table
-					
-					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, orderType, reqTokens, price, username], function(error, data) {
+					var time = new Date();
+
+					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
 						
 						if (error){
 							console.log(err);
 						}
 
-						var time = new Date();
 						
 						// trigger function updatingOrders
-						io.sockets.emit('updateOrders', time, buyOrSell, price, reqTokens);
+						io.sockets.emit('updateOrders', tokenSym, time, buyOrSell, price, reqTokens);
 						
 					});
 					

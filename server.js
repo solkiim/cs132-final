@@ -167,7 +167,7 @@ app.post('/logintierfileupload', function(req, res) {
 
 // on signupform submit
 app.post('/marketsubmit', function(req, res) {
-	trade.marketsubmit(pool, req, res);
+	trade.marketsubmit(io, pool, req, res);
 });
 
 // on limit submit
