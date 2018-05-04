@@ -50,16 +50,17 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 	// clear arrays each time you escape while loop
 	var clearedPrices = [];
 	var clearedNumTokens = [];
+	var time;
 	
 	// don't run this function if no rows in Sell
-	pool.query('WHERE EXISTS (SELECT * FROM Sell)', function(err, data) {
-		console.log(data);
+	pool.query('SELECT * FROM Sell', function(err, data) {
 		
 		if (err) {
 			console.log("no sell orders; cannot execute market buy");
 		}
-		
-		// until all trades are executed and sell table not empty
+
+		if (data.rows) {
+			// until all trades are executed and sell table not empty
 		async.whilst(
 			function() { return reqTokens != 0; },
 			function(callback) {
@@ -109,8 +110,9 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 							// actual price is the actually transacted price; the price can slip in a market order since it just depends on what orders are on the book
 							var price = weightedPrice(clearedPrices, clearedNumTokens);
 							
+							//time = 
 							// insert into trades history table
-							pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
+							pool.query('INSERT INTO Trades (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, originalReqNumTokens, price, username, time], function(error, data) {
 								if (error){
 									console.log("FAILED to add to database");
 								}
@@ -121,10 +123,10 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 					});
 				}
 			);
+
+			// if Sell table is empty, post the market order as
+		}		
 		});
-		
-		// if Sell table is empty, post the market order as
-		
 	}
 	
 	function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
