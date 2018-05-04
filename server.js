@@ -172,7 +172,7 @@ app.post('/marketsubmit', function(req, res) {
 
 // on limit submit
 app.post('/limitsubmit', function(req, res){
-	trade.limitsubmit(pool, req, res);
+	trade.limitsubmit(io, pool, req, res);
 });
 
 // ---------------------------- ROUTES: PRICE GRAPH ----------------------------

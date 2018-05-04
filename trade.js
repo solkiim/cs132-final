@@ -7,10 +7,11 @@ var async = require('async');
 
 // ----------------------------------- ROUTES ----------------------------------
 
-exports.marketsubmit = function(pool, req, res) {
+exports.marketsubmit = function(io, pool, req, res) {
 	// console.log(req.body.buyOrSell);
 	if (req.body.buyOrSell == 'buy'){
 		executeMarketBuy(
+			io,
 			pool,
 			req.body.buyOrSell,
 			req.body.tokenSym,
@@ -43,7 +44,7 @@ exports.limitsubmit = function(pool, req, res) {
 
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
-function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
+function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -64,7 +65,7 @@ function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, us
 			function(callback) {
 				// check last entry in sell (cheapest)
 				pool.query(
-					'SELECT LIMIT 1 * FROM Sell ORDER BY price DESC, timestamp DESC',
+					'SELECT * FROM Sell ORDER BY price DESC, timestamp_ DESC LIMIT 1',
 					function(err,data) {
 						if (err){
 							console.error(err);
@@ -95,7 +96,7 @@ function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, us
 							// you're finished
 							rowTokens = rowTokens - reqTokens;
 							clearedPrices.push(rowSellPrice);
-							clearedNumTokens.push(rowNumTokens);
+							clearedNumTokens.push(rowTokens);
 							
 							// exposed to sql injection attacks
 							// Update Sell bottom row SET numTokens = rowNumTokens;
@@ -112,7 +113,6 @@ function executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqNumTokens, us
 							pool.query('INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username], function(error, data) {
 								if (error){
 									console.log("FAILED to add to database");
-									res.sendStatus(500);
 								}
 								// done; no more looping
 								reqNumTokens = 0;
@@ -137,6 +137,7 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 	// need another way to check
 	pool.query("SELECT * FROM Sell WHERE price = $1", [price], function(error, data){
 		
+		console.log("ENTERING limit buy where price on sell side")
 		if (error){
 			console.log(error);
 		}
@@ -160,7 +161,7 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 
 		if (data.rows.length == 0) {
 			// if that lowest price is  <= your price
-			pool.query('SELECT * FROM Sell LIMIT 1 ORDER BY price, timestamp DESC', function(err,data){
+			pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ DESC LIMIT 1', function(err,data){
 				
 				if (err){
 					console.log(err);
@@ -178,7 +179,7 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 							console.log(err);
 						}
 
-						var time = date.getHours() + ":" + date.getMinutes();
+						var time = new Date();
 						
 						// trigger function updatingOrders
 						io.sockets.emit('updateOrders', time, buyOrSell, price, numTokens);
