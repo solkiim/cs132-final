@@ -4,6 +4,7 @@ var num_news = 10;
 var default_token = "Uber";
 var current_token = "Uber";
 var news_refresh;
+var username = sessionStorage.getItem('username');
 
 $(document).ready(function() {
 
