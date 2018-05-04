@@ -39,12 +39,12 @@ $(document).ready(function() {
 
 	socket.on('updateOrders', function(tokenSym, time, buyOrSell, price, numTokens){
 		if (tokenSym = current_token){
-			
+
 			var ul;
 
 			if (buyOrSell == "sell"){
 				ul = $('#sell-list');
-				
+
 			} else if (buyOrSell == "buy"){
 				ul = $('#buy-list');
 			}
@@ -52,6 +52,10 @@ $(document).ready(function() {
 			ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
 
 			}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9e7c793f23d8895a99076f3b6af7282c6b2e605a
 	});
 
 	$('#buyForm').submit(function(event) {
@@ -147,6 +151,7 @@ function refresh_news (token_symbol) {
 			// get the date of article in standard time
 			var time_stamp = news.publishedAt;
 			var date = time_stamp.substring(0, 10);
+			// console.log(day);
 			var year = date.substring(0, 4);
 			var month = date.substring(5, 7);
 			var day = date.substring(8, 10);
