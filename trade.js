@@ -69,7 +69,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 			function(callback) {
 				// check last entry in sell (cheapest)
 				pool.query(
-					'SELECT * FROM Sell ORDER BY price DESC, timestamp_ DESC LIMIT 1',
+					'SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1',
 					function(err,data) {
 						if (err){
 							console.error(err);
@@ -89,7 +89,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 							clearedNumTokens.push(rowTokens);
 							
 							// delete, since all tokens for that order have been cleared
-							pool.query('DELETE from Sell by price DESC, timestamp DESC, LIMIT 1', function(err,data){
+							pool.query('DELETE from Sell by price, timestamp, LIMIT 1', function(err,data){
 								if(err){
 									console.error(err);
 								}
@@ -135,75 +135,48 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 	
 	var rowSellPrice;
-	
-	// if price exists on sell table, it is essentially a marketBuy
-	// not clearing since sell is empty right now; so data is undefined
-	// need another way to check
-	pool.query("SELECT * FROM Sell WHERE price = $1", [price], function(error, data){
+	var lowestSellPrice;
 
-		console.log(data)
-		
-		if (error){
-			console.log(error);
+	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1', function(err,data){
+
+		if (err){
+			console.error(err);
 		}
 
-		console.log(data);
-
+		// if Sell order(s) exist
 		if (data.rows.length > 0){
-			executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
-		
+			lowestSellPrice = data.rows[0].price;
+		} else {
+			console.log("CANNOT PLACE LIMIT BUY: no sell order yet");
 			return;
 		}
-		
+
 	});
-	
-	// if exact price does not exist on sell
-	pool.query("SELECT * FROM Sell WHERE price = $1", [price], function(error, data){
 
-		if (error){
-			console.log(error);
-		}
+	// if limit buy -> on sell side; just a market buy
+	if (price >= lowestSellPrice){
 
-		if (data.rows.length == 0) {
-			// if that lowest price is  <= your price
-			pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ DESC LIMIT 1', function(err,data){
-				
-				if (err){
-					console.log(err);
-				}
-				
-				rowSellPrice = data.rows[0].price;
-				
-				if (rowSellPrice <= price){
-					
-					// insert into the sell table
-					var time = new Date();
+		executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
 
-					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
-						
-						if (error){
-							console.log(err);
-						}
+	// if limit buy -> on buy side; just post an order
+	} else {
 
-						
-						// trigger function updatingOrders
-						io.sockets.emit('updateOrders', tokenSym, time, buyOrSell, price, reqTokens);
-						
-					});
-					
-				}
-				
-			});
-		}
-	});
-	
-	pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username) VALUES($1, $2, $3, $4, $5)', [tokenSym, orderType, reqTokens, price, username], function(error, data) {
-		
-		if (error){
-			console.log(error);
-		}
-		
-	});
+		// insert into the sell table
+		var time = new Date();
+
+		pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
+			
+			if (error){
+				console.log(err);
+			}
+			
+			// trigger function updatingOrders
+			io.sockets.emit('updateOrders', tokenSym, time, buyOrSell, price, reqTokens);
+			
+		});
+
+
+	}
 	
 };
 
