@@ -61,40 +61,64 @@ function token_dashboard (token_symbol) {
 function stock_graph (token_symbol) {
 	$('#stock-graphs h3').html(token_symbol);
 
-	var times = [];
-	var prices = [];
+	// var times = [];
+	// var prices = [];
 
 	$.post('/price-graph', 'current_token=' + token_symbol, function(data, status){
-		console.log(data)
-		
+		// console.log(data)
+
 		prices = data.prices;
+		console.log(prices);
 		times = data.times;
+		console.log(times);
+
+		new Chart(document.getElementById("stock-graph"), {
+			type: 'line',
+			data: {
+				labels: times,
+				datasets: [{
+					data : prices, //price
+					backgroundColor: '#ffe4b3', //orange
+					borderColor: '#ffc966',
+					fill: true,
+					label: token_symbol,
+				}
+			],
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			legend: {
+				display: false
+			},
+		}
+	});
 	});
 
-	times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
-	prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
+	// times = ["Jan 1","Feb 1","March 1","April 1","May 1", "June 1", "July 1", "Aug 1", "Sep 1", "Oct 1", "Nov 1", "Dec 1"];
+	// prices = [100,114,106,106,107,111, 129, 97,89, 105, 106, 122];
+// 	new Chart(document.getElementById("stock-graph"), {
+// 		type: 'line',
+// 		data: {
+// 			labels: times,
+// 			datasets: [{
+// 				data : prices, //price
+// 				backgroundColor: '#ffe4b3', //orange
+// 				borderColor: '#ffc966',
+// 				fill: true,
+// 				label: token_symbol,
+// 			}
+// 		],
+// 	},
+// 	options: {
+// 		responsive: true,
+// 		maintainAspectRatio: false,
+// 		legend: {
+// 			display: false
+// 		},
+// 	}
+// });
 
-	new Chart(document.getElementById("stock-graph"), {
-		type: 'line',
-		data: {
-			labels: times,
-			datasets: [{
-				data : prices, //price
-				backgroundColor: '#ffe4b3', //orange
-				borderColor: '#ffc966',
-				fill: true,
-				label: token_symbol,
-			}
-		],
-	},
-	options: {
-		responsive: true,
-		maintainAspectRatio: false,
-		legend: {
-			display: false
-		},
-	}
-});
 }
 
 // refresh news
@@ -119,7 +143,7 @@ function refresh_news (token_symbol) {
 			// get the date of article in standard time
 			var time_stamp = news.publishedAt;
 			var date = time_stamp.substring(0, 10);
-			console.log(day);
+			// console.log(day);
 			var year = date.substring(0, 4);
 			var month = date.substring(5, 7);
 			var day = date.substring(8, 10);

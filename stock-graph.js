@@ -14,8 +14,8 @@ exports.getPrices = function(pool, req, res) {
 					if (err){
 						console.error(err);
 					}
-					// get that bottom row's numtokens and posted price
-					callback(null, {sell_p: data.rows[0].price, num_sell: data.rows[0].numTokens});
+
+					callback(null, {sell_p: data.rows.map(sell => sell.price), num_sell: data.rows.map(sell => sell.numTokens)});
 				}
 			);
 		},
@@ -24,25 +24,42 @@ exports.getPrices = function(pool, req, res) {
 				if (err){
 					console.error("error buy query");
 				}
-				
+				// console.log(data);
+
 				// get that bottom row's numtokens and posted price
-				callback(null, {buy_p: data.rows[0].price, num_buy: data.rows[0].numTokens});
+				callback(null, {buy_p: data.rows.map(buy => buy.price), num_buy: data.rows.map(buy => buy.numTokens)});
+				// console.log(buy_p);
 			});
 		}
 	}, function(err, results) {
-		var price = weightedforPriceTable(results.sell.sell_p, results.buy.buy_p, results.sell.num_sell, results.buy.num_buy);
-				
+
+
+		console.log(results.sell.sell_p);
+		console.log(results.buy.buy_p);
+		console.log(results.sell.num_sell);
+		console.log(results.buy.num_buy);
+
+		for (var i = 0; i < results.sell.sell_p.length; i++) {
+
+		var price = weightedforPriceTable(results.sell.sell_p[i], results.buy.buy_p[i], results.sell.num_sell[i], results.buy.num_buy[i]);
+
+		console.log(price);
+
 		pool.query('INSERT INTO PriceHistory (tokenSymbol, tokenPrice, timestamp_) VALUES($1, $2, $3)', [req.body.current_token, price, Date.now()],
 		function(err, data) {
-			// console.log(data)
+			console.log('hi')
 			if (err){
 				console.log("FAILED to add to database");
 				res.sendStatus(500);
 			}
 		});
+	}
+
+		pool.query('DELETE FROM PriceHistory');
 
 		pool.query('SELECT * from PriceHistory WHERE tokenSymbol = $1 ORDER by timestamp_ DESC', [req.body.current_token],
 		function(err, data) {
+			// console.log(data);
 			var prices = [];
 			var times = [];
 			res.json({prices: data.rows.map(item => item.tokenPrice), times: data.rows.map(item => item.timestamp_)});
