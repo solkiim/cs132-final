@@ -24,9 +24,11 @@ exports.marketsubmit = function(io, pool, req, res) {
 	}
 }
 
-exports.limitsubmit = function(pool, req, res) {
+exports.limitsubmit = function(io, pool, req, res) {
+	console.log(req.body.buyOrSell);
 	if (req.body.buyOrSell == 'buy'){
 		executeLimitBuy(
+			io,
 			pool,
 			req.body.numTokens,
 			req.body.price,
@@ -128,7 +130,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 	
 }
 
-function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
+function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 	
 	var rowSellPrice;
 	
@@ -137,7 +139,6 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 	// need another way to check
 	pool.query("SELECT * FROM Sell WHERE price = $1", [price], function(error, data){
 		
-		console.log("ENTERING limit buy where price on sell side")
 		if (error){
 			console.log(error);
 		}
@@ -145,7 +146,7 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 		console.log(data)
 
 		if (data.rows.length > 0){
-			executeMarketBuy(pool, buyOrSell, tokenSym, orderType, reqTokens, username);
+			executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
 		
 			return;
 		}
@@ -182,7 +183,7 @@ function executeLimitBuy(pool, reqTokens, price, tokenSym, buyOrSell, orderType,
 						var time = new Date();
 						
 						// trigger function updatingOrders
-						io.sockets.emit('updateOrders', time, buyOrSell, price, numTokens);
+						io.sockets.emit('updateOrders', time, buyOrSell, price, reqTokens);
 						
 					});
 					
