@@ -76,32 +76,63 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 						var sellOrderID = data.rows[0].orderID;
 						var rowTokens = data.rows[0].numTokens;
 						var rowSellPrice = data.rows[0].price;
-						
-						// meaning you'll need to keep climbing up
-						if (rowTokens < reqTokens){
+
+						// climb up OR clear
+						if (rowTokens <= reqTokens){
 							// update however many tokens you still gotta clear
 							reqTokens = reqTokens - rowTokens;
 							
 							clearedPrices.push(rowSellPrice);
+							// cleared all the row's tokens
 							clearedNumTokens.push(rowTokens);
-							
+
 							// delete, since all tokens for that order have been cleared
-							pool.query('DELETE from Sell by price, timestamp, LIMIT 1', function(err,data){
+
+							pool.query('DELETE FROM Sell WHERE orderID=$1', [sellOrderID], function(err,data){
+								console.log("DELETING");
+								
 								if(err){
 									console.error(err);
 								}
 							});
-						} else if (rowTokens >= reqTokens){
-							// if more tokens than you want
+
+							// if new reqTokens is now 0, done
+							if (reqTokens == 0){
+								var price = weightedPrice(clearedPrices, clearedNumTokens);
+								console.log("price");
+								console.log(price);
+								var currenttime = Date.now();
+							
+								pool.query(
+									'INSERT INTO Trades (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
+									[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
+									function(error, data) {
+										if (error){
+											console.log("FAILED to add to database");
+										}
+										
+										// emit trade graph socket
+										io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
+
+									}
+								);
+							}
+
+						// no delete from sell; just updating
+						} else if (rowTokens > reqTokens){
+							
+							if (rowTokens > reqTokens){
+								// just insert the difference
+								rowTokens = rowTokens - reqTokens;
+							}
 							
 							// you're finished
-							rowTokens = rowTokens - reqTokens;
-							clearedPrices.push(rowSellPrice);
 							clearedNumTokens.push(rowTokens);
+							clearedPrices.push(rowSellPrice);
 							
 							// exposed to sql injection attacks
 							// Update Sell bottom row SET numTokens = rowNumTokens;
-							pool.query("UPDATE Sell SET numTokens = '" + rowTokens, function(error,data){
+							pool.query("UPDATE Sell WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
 								if(error){
 									console.error(err);
 								}
@@ -109,10 +140,6 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 							
 							// actual price is the actually transacted price; the price can slip in a market order since it just depends on what orders are on the book
 							var price = weightedPrice(clearedPrices, clearedNumTokens);
-							
-							//time = 
-							// insert into trades history table
-
 							var currenttime = Date.now();
 							
 							pool.query(
@@ -132,6 +159,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 								}
 							);
 						}
+
 					});
 				}
 			);
@@ -173,21 +201,26 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 		if (clearedPrices.length != clearedNumTokens.length){
 			console.log("error; price & token lengths different");
 		}
+
+		console.log(clearedPrices);
+		console.log(clearedNumTokens);
 		
 		var length = clearedPrices.length;
 		var finalPrice = 0;
 		var totalClearedNumTokens = 0;
 		var ratio = 0;
-		
-		// get total cleared tokens
-		for (i=0; i< length-1 ; i++){
-			totalClearedNumTokens += clearedNumTokens[i];
-		}
+
+		console.log(length);
+
+		totalClearedNumTokens = clearedPrices.reduce(function(acc, val) { return acc + val; });
+
+		console.log("totalClearedNumTokens");
+		console.log(totalClearedNumTokens);
 		
 		// get total weighted final price
-		for (j=0; j < length-1; j++){
+		for (j=0; j < length; j++){
 			ratio = clearedNumTokens[j] / totalClearedNumTokens;
-			finalPrice += clearedPrices[j]*ratio;
+			finalPrice = finalPrice + clearedPrices[j]*ratio;
 		}
 		
 		return finalPrice;
