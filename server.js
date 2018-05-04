@@ -100,23 +100,11 @@ app.post('/setpassword', function(req, res) {
 app.post('/setemail', function(req, res) {
 	account.setemail(pool, req, res);
 });
-app.post('/setfirstname', function(req, res) {
-	account.setfirstname(pool, req, res);
-});
-app.post('/setlastname', function(req, res) {
-	account.setlastname(pool, req, res);
+app.post('/setname', function(req, res) {
+	account.setname(pool, req, res);
 });
 app.post('/setaddress', function(req, res) {
 	account.setaddress(pool, req, res);
-});
-app.post('/setaddress2', function(req, res) {
-	account.setaddress2(pool, req, res);
-});
-app.post('/setcity', function(req, res) {
-	account.setcity(pool, req, res);
-});
-app.post('/setzipcode', function(req, res) {
-	account.setzipcode(pool, req, res);
 });
 app.post('/settelephone', function(req, res) {
 	account.settelephone(pool, req, res);
