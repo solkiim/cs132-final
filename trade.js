@@ -116,8 +116,8 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 							var currenttime = Date.now();
 							
 							pool.query(
-								'INSERT INTO Trades (tokenSym, buyOrSell, orderType, reqNumTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
-								[tokenSym, buyOrSell, orderType, originalReqNumTokens, price, username, currenttime],
+								'INSERT INTO Trades (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
+								[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
 								function(error, data) {
 									if (error){
 										console.log("FAILED to add to database");
