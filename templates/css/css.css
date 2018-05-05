@@ -402,6 +402,14 @@ html {
 	padding-left: 0px;
 }
 
+#portfolio-container p {
+	margin-bottom: 0;
+}
+
+#portfolio-container ul {
+	list-style: none;
+}
+
 #logged-in input {
 	margin-bottom: 5px;
 }

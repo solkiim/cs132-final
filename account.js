@@ -422,3 +422,19 @@ exports.logintierfileupload = function(pool, req, res) {
 		res.sendStatus(204);
 	});
 }
+
+// --------------------------------- PORTFOLIO ---------------------------------
+
+// get portfolio
+exports.getportfolio = function(pool, req, res) {
+	pool.query('SELECT tokenSymbol, COUNT(*) FROM Trades WHERE username=$1 GROUP BY tokenSymbol',
+		[req.body.username],
+		function(err, data) {
+			if (err) {
+				console.error(err);
+				return res.status(500).send('error getting portfolio');
+			}
+			res.json(data.rows);
+		}
+	);
+}

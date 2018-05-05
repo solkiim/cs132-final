@@ -32,6 +32,12 @@ $(document).ready(function() {
 		$.post('/getlogintier','username=' + sessionStorage.getItem('username'), function(data, status) {
 			$('#login-tier').text(data);
 		});
+		$.post('/getportfolio','username=' + sessionStorage.getItem('username'), function(data, status) {
+			// put as li items into '#portfolio'
+			data.map(function (token) {
+				$('#portfolio').append('<li>' + token.tokenSymbol + ': ' + token['COUNT(*)'] + '</li>');
+			});
+		});
 	} else {
 		$('#not-logged-in').show();
 	}
