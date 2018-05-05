@@ -201,21 +201,13 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 		if (clearedPrices.length != clearedNumTokens.length){
 			console.log("error; price & token lengths different");
 		}
-
-		console.log(clearedPrices);
-		console.log(clearedNumTokens);
 		
 		var length = clearedPrices.length;
 		var finalPrice = 0;
 		var totalClearedNumTokens = 0;
 		var ratio = 0;
 
-		console.log(length);
-
 		totalClearedNumTokens = clearedPrices.reduce(function(acc, val) { return acc + val; });
-
-		console.log("totalClearedNumTokens");
-		console.log(totalClearedNumTokens);
 		
 		// get total weighted final price
 		for (j=0; j < length; j++){
