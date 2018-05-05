@@ -178,7 +178,9 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 			console.error(err);
 		}
 
-		if (data.rows) {
+		if (data.rows.length == 0) {
+			res.json("Error: not enough tokens on orderbook");
+		} else {
 			// until all trades are executed and sell table not empty
 		async.whilst(
 			function() { return reqTokens != 0; },
@@ -258,9 +260,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 			);
 
 			// if Sell table is empty, post the market order as
-		} else {
-			res.json("Error: not enough tokens on orderbook");
-		}
+		} 
 	});
 }
 
