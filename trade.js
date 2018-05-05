@@ -66,7 +66,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 			function(callback) {
 				// check last entry in sell (cheapest)
 				pool.query(
-					'SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1',
+					'SELECT * FROM Sell ORDER BY price ASC, timestamp_ ASC LIMIT 1',
 					function(err,data) {
 						if (err){
 							console.error(err);
@@ -76,7 +76,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 						var sellOrderID = data.rows[0].orderID;
 						var rowTokens = data.rows[0].numTokens;
 						var rowSellPrice = data.rows[0].price;
-
+						
 						// climb up OR clear
 						if (rowTokens <= reqTokens){
 							// update however many tokens you still gotta clear
@@ -87,44 +87,20 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 							clearedNumTokens.push(rowTokens);
 
 							// delete, since all tokens for that order have been cleared
-
 							pool.query('DELETE FROM Sell WHERE orderID=$1', [sellOrderID], function(err,data){
-								console.log("DELETING");
-								
 								if(err){
 									console.error(err);
 								}
+								callback();
 							});
 
-							// if new reqTokens is now 0, done
-							if (reqTokens == 0){
-								var price = weightedPrice(clearedPrices, clearedNumTokens);
-								console.log("price");
-								console.log(price);
-								var currenttime = Date.now();
-							
-								pool.query(
-									'INSERT INTO Trades (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
-									[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
-									function(error, data) {
-										if (error){
-											console.log("FAILED to add to database");
-										}
-										
-										// emit trade graph socket
-										io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
-
-									}
-								);
-							}
-
 						// no delete from sell; just updating
-						} else if (rowTokens > reqTokens){
-							
+						} else {
 							if (rowTokens > reqTokens){
 								// just insert the difference
 								rowTokens = rowTokens - reqTokens;
 							}
+							reqTokens = 0;
 							
 							// you're finished
 							clearedNumTokens.push(rowTokens);
@@ -136,36 +112,36 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 								if(error){
 									console.error(err);
 								}
+								callback();
 							});
-							
-							// actual price is the actually transacted price; the price can slip in a market order since it just depends on what orders are on the book
-							var price = weightedPrice(clearedPrices, clearedNumTokens);
-							var currenttime = Date.now();
-							
-							pool.query(
-								'INSERT INTO Trades (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
-								[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
-								function(error, data) {
-									if (error){
-										console.log("FAILED to add to database");
-									}
-									
-									// emit trade graph socket
-									io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
-									
-									// done; no more looping
-									reqNumTokens = 0;
-
-								}
-							);
 						}
 
 					});
+				},
+				function (err) {
+					var price = weightedPrice(clearedPrices, clearedNumTokens);
+					console.log("price");
+					console.log(price);
+					var currenttime = Date.now();
+				
+					pool.query(
+						'INSERT INTO Trades (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)',
+						[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
+						function(error, data) {
+							if (error){
+								console.log("FAILED to add to database");
+							}
+				
+							// emit trade graph socket
+							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
+				
+						}
+					);
 				}
 			);
 
 			// if Sell table is empty, post the market order as
-		}		
+		}
 		});
 	}
 	
