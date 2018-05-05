@@ -8,7 +8,7 @@ var username = sessionStorage.getItem('username');
 // news
 var news_refresh;
 var news_arr = [];
-var num_news = 10;
+var num_news = 9;
 
 // graph
 var graph_times = [];
@@ -26,7 +26,7 @@ $(document).ready(function() {
 	})
 
 	// get function for prices SQL
-	
+
 	socket.on('newTradeGraphPoint', function(tokenSym, currenttime, price){
 		if (tokenSym = current_token) {
 			graph_times.shift();
@@ -96,7 +96,7 @@ function token_dashboard (token_symbol) {
 // populate stock graph
 function stock_graph (token_symbol) {
 	$('#stock-graphs h3').html(token_symbol);
-	
+
 	$.post('/price-graph', 'current_token=' + token_symbol, function(data, status){
 		graph_times = data.times;
 		graph_prices = data.prices;
@@ -105,6 +105,17 @@ function stock_graph (token_symbol) {
 }
 
 function graph_update(token_symbol) {
+
+	// convert from milliseconds to day (mm dd)
+	for (var i = 0; i < graph_times.length ; i++) {
+		mili = graph_times[i];
+		mili = new Date(mili);
+		mili = mili.toString();
+		mili = mili.substring(4, 10);
+		graph_times[i] = mili;
+	}
+
+	// make graph
 	new Chart(document.getElementById("stock-graph"), {
 		type: 'line',
 		data: {
@@ -143,7 +154,7 @@ function refresh_news (token_symbol) {
 
 		articles.map(function(news) {
 			// get the title of article
-			var text = news.title;
+			var text = news.description;
 			text = text.substring(0, 43);
 			text = text.fontsize(2);
 
