@@ -67,6 +67,18 @@ $(document).ready(function() {
 		});
 	});
 
+	$('#sellForm').submit(function(event) {
+		event.preventDefault();
+
+		$.post('/marketsubmit', $('#sellForm').serialize() + '&tokenSym=' + current_token, function(err, res) {
+			if (err){
+				alert(err);
+			} else {
+				$('#sellForm')[0].reset();
+			}
+		});
+	});
+
 	$('#limit-buy-form').submit(function(event){
 		event.preventDefault();
 
