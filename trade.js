@@ -8,7 +8,6 @@ var async = require('async');
 // ----------------------------------- ROUTES ----------------------------------
 
 exports.marketsubmit = function(io, pool, req, res) {
-	// console.log(req.body.buyOrSell);
 	if (req.body.buyOrSell == 'buy'){
 		executeMarketBuy(
 			io,
@@ -160,8 +159,8 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 
 			// if Sell table is empty, post the market order as
 		}
-		});
-	}
+	});
+}
 
 function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
 	var originalReqNumTokens = reqNumTokens;
@@ -263,31 +262,31 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 
 			// if Sell table is empty, post the market order as
 		}
-		});
-	}
-	
-	function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
-		pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1', function(err,data){
-			if (err){
-				console.error(err);
-			}
-			// if buy order(s) exist
-			if ((data.rows.length > 0) && (price >= data.rows[0].price)){
-				// if limit sell -> on buy side; just a market sell
-				executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
-			} else {
-				// insert into the sell table
-					pool.query('INSERT INTO Buy (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
-						if (error){
-							console.log(err);
-						}
-						// trigger function updatingOrders
-						io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
-					});
-			}
-			
-		});
-	};
+	});
+}
+
+function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
+	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1', function(err,data){
+		if (err){
+			console.error(err);
+		}
+		// if buy order(s) exist
+		if ((data.rows.length > 0) && (price >= data.rows[0].price)){
+			// if limit sell -> on buy side; just a market sell
+			executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
+		} else {
+			// insert into the sell table
+				pool.query('INSERT INTO Buy (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
+					if (error){
+						console.log(err);
+					}
+					// trigger function updatingOrders
+					io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
+				});
+		}
+		
+	});
+};
 
 	function executeLimitSell(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 		pool.query('SELECT * FROM Buy ORDER BY price DESC, timestamp_ LIMIT 1', function(err,data){
