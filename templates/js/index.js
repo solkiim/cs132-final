@@ -44,14 +44,15 @@ $(document).ready(function() {
 
 			if (buyOrSell == "sell"){
 				ul = $('#sell-list');
+				ul.append($('<li></li>').html('<div class="sell-time">' + time + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'));
 
 			} else if (buyOrSell == "buy"){
 				ul = $('#buy-list');
-			}
-
-			ul.append($('<li></li>').text(time + ', ' + buyOrSell + ', ' + price + ', ' + numTokens));
+				ul.append($('<li></li>').html('<div class="buy-time">' + time + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'));
 
 			}
+		}
+
 	});
 
 	$('#buyForm').submit(function(event) {
