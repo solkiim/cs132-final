@@ -158,6 +158,9 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 			);
 
 			// if Sell table is empty, post the market order as
+		} else {
+			console.log("hitting");
+			res.json("Error: not enough tokens on orderbook");
 		}
 	});
 }
@@ -175,7 +178,6 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 	pool.query('SELECT * FROM Buy', function(err, data) {
 		
 		if (err) {
-			console.log("Not enough tokens, cannot sell");
 			console.log(err);
 		}
 
@@ -261,6 +263,8 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 			);
 
 			// if Sell table is empty, post the market order as
+		} else {
+			res.json("Error: not enough tokens on orderbook");
 		}
 	});
 }

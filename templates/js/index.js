@@ -58,11 +58,15 @@ $(document).ready(function() {
 	$('#buyForm').submit(function(event) {
 		event.preventDefault();
 
-		$.post('/marketsubmit', $('#buyForm').serialize() + '&tokenSym=' + current_token, function(err, res) {
+		$.post('/marketsubmit', $('#buyForm').serialize() + '&tokenSym=' + current_token + '&username=' + username, function(err, res) {
 			if (err){
 				alert(err);
 			} else {
 				$('#buyForm')[0].reset();
+				console.log(res);
+				if(res == "Error: not enough tokens on orderbook"){
+					alert('Error: not enough tokens on orderbook');
+				}
 			}
 		});
 	});
@@ -70,11 +74,14 @@ $(document).ready(function() {
 	$('#sellForm').submit(function(event) {
 		event.preventDefault();
 
-		$.post('/marketsubmit', $('#sellForm').serialize() + '&tokenSym=' + current_token, function(err, res) {
+		$.post('/marketsubmit', $('#sellForm').serialize() + '&tokenSym=' + current_token + '&username=' + username, function(err, res) {
 			if (err){
 				alert(err);
 			} else {
 				$('#sellForm')[0].reset();
+				if(res == "Error: not enough tokens on orderbook"){
+					alert('Error: not enough tokens on orderbook');
+				}
 			}
 		});
 	});
@@ -82,7 +89,7 @@ $(document).ready(function() {
 	$('#limit-buy-form').submit(function(event){
 		event.preventDefault();
 
-		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token, function(err, res){
+		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token + '&username=' + username, function(err, res){
 			if(err){
 				console.log(err);
 			} else {
@@ -94,7 +101,7 @@ $(document).ready(function() {
 	$('#limit-sell-form').submit(function(event){
 		event.preventDefault();
 
-		$.post('/limitsubmit', $('#limit-sell-form').serialize() + '&tokenSym=' + current_token, function(err, res){
+		$.post('/limitsubmit', $('#limit-sell-form').serialize() + '&tokenSym=' + current_token + '&username=' + username, function(err, res){
 			if(err){
 				console.log(err);
 			} else {
