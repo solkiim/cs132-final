@@ -85,6 +85,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 					'SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1',
 					function(err,data) {
 						if (err){
+							console.log("CANNOT BUY: not enough tokens on sell side");
 							console.error(err);
 						}
 						
@@ -174,7 +175,8 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 	pool.query('SELECT * FROM Buy', function(err, data) {
 		
 		if (err) {
-			console.log("no buy orders; cannot execute market sell");
+			console.log("Not enough tokens, cannot sell");
+			console.log(err);
 		}
 
 		if (data.rows) {
