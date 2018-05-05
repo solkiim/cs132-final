@@ -64,13 +64,13 @@ $(document).ready(function() {
 			if (err){
 				alert(err);
 			} else {
-				$('#buyForm')[0].reset();
-				console.log(res);
 				if(res == "Error: not enough tokens on orderbook"){
 					alert('Error: not enough tokens on orderbook');
 				}
 			}
 		});
+		
+		$('#buyForm')[0].reset();
 	});
 
 	$('#sellForm').submit(function(event) {
@@ -80,12 +80,13 @@ $(document).ready(function() {
 			if (err){
 				alert(err);
 			} else {
-				$('#sellForm')[0].reset();
 				if(res == "Error: not enough tokens on orderbook"){
 					alert('Error: not enough tokens on orderbook');
 				}
 			}
 		});
+		
+		$('#sellForm')[0].reset();
 	});
 
 	$('#limit-buy-form').submit(function(event){
@@ -94,10 +95,10 @@ $(document).ready(function() {
 		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token + '&username=' + username, function(err, res){
 			if(err){
 				console.log(err);
-			} else {
-				$('#limit-buy-form')[0].reset();
 			}
 		});
+		
+		$('#limit-buy-form')[0].reset();
 	});
 
 	$('#limit-sell-form').submit(function(event){
@@ -106,10 +107,10 @@ $(document).ready(function() {
 		$.post('/limitsubmit', $('#limit-sell-form').serialize() + '&tokenSym=' + current_token + '&username=' + username, function(err, res){
 			if(err){
 				console.log(err);
-			} else {
-				$('#limit-sell-form')[0].reset();
 			}
 		});
+		
+		$('#limit-sell-form')[0].reset();
 	});
 
 });
