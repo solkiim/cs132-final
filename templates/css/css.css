@@ -172,9 +172,11 @@ html {
 }
 
 /* LISTINGS */
+/*
 #listings {
     overflow: auto;
 }
+*/
 
 .listing-info h5, .listing-info h6 {
 	font-size: 16px;
@@ -209,6 +211,11 @@ html {
 	width: 60px;
 	float: left;
 	margin-right: 15px;
+}
+
+#listing-scroll {
+    height: 275px;
+    overflow: auto;
 }
 
 .priceinc {
