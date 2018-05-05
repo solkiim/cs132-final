@@ -129,6 +129,11 @@ app.post('/logintierfileupload', function(req, res) {
 	account.logintierfileupload(pool, req, res);
 });
 
+// portfolio
+app.post('/getportfolio', function(req, res) {
+	account.getportfolio(pool, req, res);
+});
+
 // ------------------------------- ROUTES: TRADE -------------------------------
 
 // on signupform submit
