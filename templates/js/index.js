@@ -59,9 +59,10 @@ $(document).ready(function() {
 
 		$.post('/marketsubmit', $('#buyForm').serialize() + '&tokenSym=' + current_token, function(err, res) {
 			if (err){
-				console.error(err);	// dont do this
+				alert(err);
+			} else {
+				$('#buyForm')[0].reset();
 			}
-			console.log(buyOrSell);
 		});
 	});
 
@@ -70,7 +71,9 @@ $(document).ready(function() {
 
 		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token, function(err, res){
 			if(err){
-				console.error(err);	// dont do this
+				alert(err);	// dont do this
+			} else {
+				$('#limit-buy-form')[0].reset();
 			}
 		});
 	});
