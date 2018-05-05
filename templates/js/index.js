@@ -220,11 +220,11 @@ function refresh_news (token_symbol) {
 
 				// add to html list
 				if(date == today) {
-					$('#articles').append("<li> " + time + " : " + text + " ...");
+					$('#articles').append("<li> " + time + " : " + text + " ...</li>");
 				}
 				if (date != today) {
 					date = month+'-'+day+'-'+year;
-					$('#articles').append("<li> " + date + " : " + text + " ...");
+					$('#articles').append("<li> " + date + " : " + text + " ...</li>");
 				}
 			}
 		});
