@@ -250,37 +250,37 @@ html {
 	padding: 0;
 }
 
-#buy-sell > div {
+.buy-form-container, .sell-form-container {
 	width: 45%;
 	display: inline-block;
 	vertical-align: top;
 }
 
-#buy, #limit-buy {
+.buy-form-container {
 	margin-left: 5px;
 }
 
-#sell {
+.sell-form-container {
 	margin-left: 50px;
 }
 
-#buy h2, #sell h2, #limit-buy h2 {
+.buy-form-container h2, .sell-form-container h2 {
 	font-size: 15px;
 	font-weight: 300;
 	margin-top: 6%;
 }
 
-#buyForm input, #sellForm input, #limit-buy-form input {
+.buy-form input, .sell-form input {
 	float: right;
 	width: 300px;
 }
 
-#buyForm input::placeholder, #sellForm input::placeholder, #limit-buy-form input::placeholder {
+.buy-form input::placeholder, .sell-form input::placeholder {
 	text-align: right;
 	padding-right: 5px;
 }
 
-#buyForm input[type=submit], #sellForm input[type=submit], #limit-buy-form input[type=submit] {
+.buy-form input[type=submit], .sell-form input[type=submit] {
 	width: 100%;
 	margin: 0 auto;
 	padding: 5px;
@@ -291,16 +291,12 @@ html {
 	padding-left: 0px;
 }
 
-#buyForm input[type=submit], #limit-buy-form input[type=submit] {
+.buy-form input[type=submit] {
 	background-color: #AEF4B1;
 }
 
-#sellForm input[type=submit] {
+.sell-form input[type=submit] {
 	background-color: #E4C1C0;
-}
-
-#limit-buy {
-	width: 480px;
 }
 
 #wallet {
