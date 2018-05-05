@@ -71,12 +71,25 @@ $(document).ready(function() {
 
 		$.post('/limitsubmit', $('#limit-buy-form').serialize() + '&tokenSym=' + current_token, function(err, res){
 			if(err){
-				alert(err);	// dont do this
+				console.log(err);
 			} else {
 				$('#limit-buy-form')[0].reset();
 			}
 		});
 	});
+
+	$('#limit-sell-form').submit(function(event){
+		event.preventDefault();
+
+		$.post('/limitsubmit', $('#limit-sell-form').serialize() + '&tokenSym=' + current_token, function(err, res){
+			if(err){
+				console.log(err);
+			} else {
+				$('#limit-sell-form')[0].reset();
+			}
+		});
+	});
+
 });
 
 function token_dashboard (token_symbol) {
