@@ -82,7 +82,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 			function(callback) {
 				// check lowest price entry in sell
 				pool.query(
-					'SELECT * FROM Sell ORDER BY price ASC, timestamp_ ASC LIMIT 1',
+					'SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1',
 					function(err,data) {
 						if (err){
 							console.error(err);
@@ -287,7 +287,7 @@ function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderT
 };
 
 	function executeLimitSell(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
-		pool.query('SELECT * FROM Buy ORDER BY price, timestamp_ LIMIT 1', function(err,data){
+		pool.query('SELECT * FROM Buy ORDER BY price DESC, timestamp_ LIMIT 1', function(err,data){
 			if (err){
 				console.error(err);
 			}
