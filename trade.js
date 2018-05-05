@@ -12,6 +12,7 @@ exports.marketsubmit = function(io, pool, req, res) {
 		executeMarketBuy(
 			io,
 			pool,
+			res,
 			req.body.buyOrSell,
 			req.body.tokenSym,
 			req.body.orderType,
@@ -22,6 +23,7 @@ exports.marketsubmit = function(io, pool, req, res) {
 		executeMarketSell(
 			io,
 			pool,
+			res,
 			req.body.buyOrSell,
 			req.body.tokenSym,
 			req.body.orderType,
@@ -36,6 +38,7 @@ exports.limitsubmit = function(io, pool, req, res) {
 		executeLimitBuy(
 			io,
 			pool,
+			res,
 			req.body.numTokens,
 			req.body.price,
 			req.body.tokenSym,
@@ -47,6 +50,7 @@ exports.limitsubmit = function(io, pool, req, res) {
 		executeLimitSell(
 			io,
 			pool,
+			res,
 			req.body.numTokens,
 			req.body.price,
 			req.body.tokenSym,
@@ -59,7 +63,7 @@ exports.limitsubmit = function(io, pool, req, res) {
 
 // ----------------------------- HELPER FUNCTIONS ------------------------------
 
-function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
+function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumTokens, username){
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -72,73 +76,72 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 	pool.query('SELECT * FROM Sell', function(err, data) {
 		
 		if (err) {
-			console.log("no sell orders; cannot execute market buy");
+			console.error("no sell orders; cannot execute market buy");
 		}
-
-		if (data.rows) {
+		
+		if (data.rows.length == 0) {
+			res.json("Error: not enough tokens on orderbook");
+		} else {
 			// until all trades are executed and sell table not empty
-		async.whilst(
-			function() { return reqTokens != 0; },
-			function(callback) {
-				// check lowest price entry in sell
-				pool.query(
-					'SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1',
-					function(err,data) {
-						if (err){
-							console.log("CANNOT BUY: not enough tokens on sell side");
-							console.error(err);
-						}
-						
-						// get that bottom row's numtokens and posted price
-						var sellOrderID = data.rows[0].orderID;
-						var rowTokens = data.rows[0].numTokens;
-						var rowSellPrice = data.rows[0].price;
-						
-						// climb up OR clear
-						if (rowTokens <= reqTokens){
-							// update however many tokens you still gotta clear
-							reqTokens = reqTokens - rowTokens;
-							
-							clearedPrices.push(rowSellPrice);
-							// cleared all the row's tokens
-							clearedNumTokens.push(rowTokens);
-
-							// delete, since all tokens for that order have been cleared
-							pool.query('DELETE FROM Sell WHERE orderID=$1', [sellOrderID], function(err,data){
-								if(err){
-									console.error(err);
-								}
-								callback();
-							});
-
-						// no delete from sell; just updating
-						} else {
-							if (rowTokens > reqTokens){
-								// just insert the difference
-								rowTokens = rowTokens - reqTokens;
+			async.whilst(
+				function() { return reqTokens != 0; },
+				function(callback) {
+					// check lowest price entry in sell
+					pool.query(
+						'SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1',
+						function(err,data) {
+							if (err){
+								console.error(err);
 							}
-							reqTokens = 0;
 							
-							// you're finished
-							clearedNumTokens.push(rowTokens);
-							clearedPrices.push(rowSellPrice);
+							// get that bottom row's numtokens and posted price
+							var sellOrderID = data.rows[0].orderID;
+							var rowTokens = data.rows[0].numTokens;
+							var rowSellPrice = data.rows[0].price;
 							
-							// exposed to sql injection attacks
-							// Update Sell bottom row SET numTokens = rowNumTokens;
-							pool.query("UPDATE Sell WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
-								if(error){
-									console.error(err);
-								}
-								callback();
-							});
-						}
+							// climb up OR clear
+							if (rowTokens <= reqTokens){
+								// update however many tokens you still gotta clear
+								reqTokens = reqTokens - rowTokens;
+								
+								clearedPrices.push(rowSellPrice);
+								// cleared all the row's tokens
+								clearedNumTokens.push(rowTokens);
 
-					});
+								// delete, since all tokens for that order have been cleared
+								pool.query('DELETE FROM Sell WHERE orderID=$1', [sellOrderID], function(err,data){
+									if(err){
+										console.error(err);
+									}
+									callback();
+								});
+
+							// no delete from sell; just updating
+							} else {
+								if (rowTokens > reqTokens){
+									// just insert the difference
+									rowTokens = rowTokens - reqTokens;
+								}
+								reqTokens = 0;
+								
+								// you're finished
+								clearedNumTokens.push(rowTokens);
+								clearedPrices.push(rowSellPrice);
+								
+								// exposed to sql injection attacks
+								// Update Sell bottom row SET numTokens = rowNumTokens;
+								pool.query("UPDATE Sell WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
+									if(error){
+										console.error(err);
+									}
+									callback();
+								});
+							}
+						}
+					);
 				},
 				function (err) {
 					var price = weightedPrice(clearedPrices, clearedNumTokens);
-					console.log("price");
-					console.log(price);
 					var currenttime = Date.now();
 				
 					pool.query(
@@ -146,7 +149,7 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 						[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
 						function(error, data) {
 							if (error){
-								console.log("FAILED to add to database");
+								console.error("FAILED to add to database");
 							}
 				
 							// emit trade graph socket
@@ -156,16 +159,11 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 					);
 				}
 			);
-
-			// if Sell table is empty, post the market order as
-		} else {
-			console.log("hitting");
-			res.json("Error: not enough tokens on orderbook");
 		}
 	});
 }
 
-function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens, username){
+function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNumTokens, username){
 	var originalReqNumTokens = reqNumTokens;
 	var reqTokens = reqNumTokens;
 	
@@ -176,9 +174,8 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 	
 	// don't run this function if no rows in Sell
 	pool.query('SELECT * FROM Buy', function(err, data) {
-		
 		if (err) {
-			console.log(err);
+			console.error(err);
 		}
 
 		if (data.rows) {
@@ -242,8 +239,6 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 				},
 				function (err) {
 					var price = weightedPrice(clearedPrices, clearedNumTokens);
-					console.log("price");
-					console.log(price);
 					var currenttime = Date.now();
 				
 					pool.query(
@@ -251,7 +246,7 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 						[tokenSym, orderType, originalReqNumTokens, price, username, currenttime],
 						function(error, data) {
 							if (error){
-								console.log("FAILED to add to database");
+								console.error(error);
 							}
 				
 							// emit trade graph socket
@@ -269,7 +264,7 @@ function executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqNumToken
 	});
 }
 
-function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
+function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 1', function(err,data){
 		if (err){
 			console.error(err);
@@ -282,7 +277,7 @@ function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderT
 			// insert into the sell table
 				pool.query('INSERT INTO Buy (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
 					if (error){
-						console.log(err);
+						console.error(err);
 					}
 					// trigger function updatingOrders
 					io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
@@ -292,7 +287,7 @@ function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderT
 	});
 };
 
-	function executeLimitSell(io, pool, reqTokens, price, tokenSym, buyOrSell, orderType, username){
+	function executeLimitSell(io, pool, res, reqTokens, price, tokenSym, buyOrSell, orderType, username){
 		pool.query('SELECT * FROM Buy ORDER BY price DESC, timestamp_ LIMIT 1', function(err,data){
 			if (err){
 				console.error(err);
@@ -305,7 +300,7 @@ function executeLimitBuy(io, pool, reqTokens, price, tokenSym, buyOrSell, orderT
 				// insert into the sell table
 					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
 						if (error){
-							console.log(err);
+							console.error(error);
 						}
 						// trigger function updatingOrders
 						io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
