@@ -29,10 +29,12 @@ $(document).ready(function() {
 
 	socket.on('newTradeGraphPoint', function(tokenSym, currenttime, price){
 		if (tokenSym = current_token) {
-			graph_times.shift();
-			graph_times.push(currenttime);
-			graph_prices.shift();
-			graph_prices.push(price);
+			if (graph_times.length >= 20) {
+				graph_times.shift();
+				graph_times.push(currenttime);
+				graph_prices.shift();
+				graph_prices.push(price);
+			}
 			graph_update(current_token);
 		}
 	});
