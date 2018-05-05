@@ -291,26 +291,21 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 			if (err){
 				console.error(err);
 			}
-			// if Sell order(s) exist
-			if (data.rows.length > 0){
-				// if limit buy -> on sell side; just a market buy
-				if (price >= data.rows[0].price) {
-					executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
-					// if limit buy -> on buy side; just post an order
-				} else {
-					// insert into the buy table
-					pool.query('INSERT INTO Buy (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
+			// if buy order(s) exist
+			if ((data.rows.length > 0) && (price >= data.rows[0].price)){
+				// if limit sell -> on buy side; just a market sell
+				executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
+			} else {
+				// insert into the sell table
+					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
 						if (error){
 							console.log(err);
 						}
 						// trigger function updatingOrders
 						io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
 					});
-				}
-			} else {
-				console.log("CANNOT PLACE LIMIT BUY: no sell order yet");
-				return;
 			}
+			
 		});
 	};
 
@@ -320,25 +315,20 @@ function executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqNumTokens
 				console.error(err);
 			}
 			// if buy order(s) exist
-			if (data.rows.length > 0){
+			if ((data.rows.length > 0) && (price >= data.rows[0].price)){
 				// if limit sell -> on buy side; just a market sell
-				if (price >= data.rows[0].price) {
-					executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
-					// if limit buy -> on buy side; just post an order
-				} else {
-					// insert into the sell table
-					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, time], function(error, data) {
+				executeMarketSell(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
+			} else {
+				// insert into the sell table
+					pool.query('INSERT INTO Sell (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
 						if (error){
 							console.log(err);
 						}
 						// trigger function updatingOrders
 						io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
 					});
-				}
-			} else {
-				console.log("CANNOT PLACE LIMIT SELL: no Buy order yet");
-				return;
 			}
+			
 		});
 	};
 	
