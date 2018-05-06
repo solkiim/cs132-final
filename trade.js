@@ -8,21 +8,28 @@ var async = require('async');
 // ----------------------------------- ROUTES ----------------------------------
 
 exports.getorders = function(io, pool, req, res) {
-	// get the lowest price sell
-	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 100', function(err, data) {
-		if(err) {
-			console.error(err);
-		}
-		// res.json(data.rows);
-	});
 
-	// get the highest price buy
-	pool.query('SELECT * FROM Buy ORDER BY price ASC, timestamp_ ASC LIMIT 100', function(err, data) {
-		if(err) {
-			console.error(err);
-		}
-		// res.json(data.rows);
-	});
+	var type = req.body.buyOrSell;
+
+	if (type == "sell"){
+
+		pool.query('SELECT * FROM Sell ORDER BY price DESC, timestamp_ LIMIT 100', function(err, data) {
+			if(err) {
+				console.error(err);
+			}
+			res.json(data.rows);
+		});
+
+	} else {
+
+		pool.query('SELECT * FROM Buy ORDER BY price DESC, timestamp_ LIMIT 100', function(err, data) {
+			if(err) {
+				console.error(err);
+			}
+			res.json(data.rows);
+		});
+
+	}
 
 }
 

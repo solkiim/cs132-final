@@ -136,7 +136,7 @@ app.post('/getportfolio', function(req, res) {
 
 // ------------------------------- ROUTES: TRADE -------------------------------
 
-app.get('/getorders', function(req, res) {
+app.post('/getorders', function(req, res) {
 	trade.getorders(io, pool, req, res);
 });
 
@@ -154,6 +154,10 @@ app.post('/limitsubmit', function(req, res){
 
 app.post('/price-graph', function(req, res) {
 	stockgraph.getPrices(pool, req, res);
+});
+
+app.get('/percentage', function(req, res) {
+	stockgraph.getPercentage(pool, req, res);
 });
 
 
