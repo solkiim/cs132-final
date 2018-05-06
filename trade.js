@@ -150,7 +150,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 								clearedNumTokens.push(rowTokens);
 								clearedPrices.push(rowSellPrice);
 
-								pool.query("UPDATE Sell WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
+								pool.query('UPDATE Sell SET numTokens=$1 WHERE orderID=$2 ', [rowTokens, sellOrderID], function(error,data){
 									if(error){
 										console.error(err);
 									}
@@ -250,7 +250,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 							clearedNumTokens.push(rowTokens);
 							clearedPrices.push(rowSellPrice);
 							
-							pool.query("UPDATE Buy WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
+							pool.query('UPDATE Buy SET numTokens=$1 WHERE orderID=$2 ', [rowTokens, sellOrderID], function(error,data){
 								if(error){
 									console.error(err);
 								}
@@ -291,13 +291,13 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 
 		// if buy order(s) exist
 		if ((data.rows.length > 0) && (price >= data.rows[0].price)){
-			// if limit sell -> on buy side; just a market sell
+			// if limit buy -> on sell side; just a market buy
 			executeMarketBuy(io, pool, buyOrSell, tokenSym, orderType, reqTokens, username);
 		} else {
 			// insert into the sell table
 				pool.query('INSERT INTO Buy (tokenSymbol, orderType, numTokens, price, username, timestamp_) VALUES($1, $2, $3, $4, $5, $6)', [tokenSym, orderType, reqTokens, price, username, Date.now()], function(error, data) {
 					if (error){
-						console.error(err);
+						console.error(error);
 					}
 					
 					// need to also send ID

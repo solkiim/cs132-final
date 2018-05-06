@@ -90,7 +90,6 @@ $(document).ready(function() {
 	});
 
 	socket.on('updateOrderTokens', function(buyOrSell, id, rowTokens) {
-		console.log(buyOrSell, id, rowTokens);
 		if (buyOrSell == "sell"){
 			$('#sell-list #' + id + ' .sell-numTokens').html(rowTokens);
 		} else {
