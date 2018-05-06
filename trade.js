@@ -127,9 +127,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 								// you're finished
 								clearedNumTokens.push(rowTokens);
 								clearedPrices.push(rowSellPrice);
-								
-								// exposed to sql injection attacks
-								// Update Sell bottom row SET numTokens = rowNumTokens;
+
 								pool.query("UPDATE Sell WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
 									if(error){
 										console.error(err);
@@ -151,7 +149,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 							if (error){
 								console.error("FAILED to add to database");
 							}
-				
+							
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
 				
@@ -279,6 +277,14 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 					if (error){
 						console.error(err);
 					}
+					// var today = Date.now();
+					// var hours = today.getHours();
+					// var min = today.getUTCHours();
+					// var secs = today.getUTCSeconds();
+					// var hoursMin = hours + ":" + min + ":" + secs;
+
+					// console.log(hoursMin);
+
 					// trigger function updatingOrders
 					io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
 				});
