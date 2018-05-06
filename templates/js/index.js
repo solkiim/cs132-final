@@ -66,18 +66,15 @@ $(document).ready(function() {
 
 	socket.on('updateOrders', function(orderID, tokenSym, time, buyOrSell, price, numTokens){
 		if (tokenSym = current_token){
-
-			var ul;
+			var time = new Date(order.timestamp_).toLocaleTimeString();
 
 			if (buyOrSell == "sell"){
-				ul = $('#sell-list');
-				ul.append($('<li></li>').html(
+				$('#sell-list').append($('<li></li>').html(
 					'<div id="' + orderID + '" class="sell-time">' + time + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'
 				));
 
 			} else if (buyOrSell == "buy"){
-				ul = $('#buy-list');
-				ul.append($('<li></li>').html(
+				$('#buy-list').append($('<li></li>').html(
 					'<div id="' + orderID + '" class="buy-time">' + time + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'
 				));
 			}
@@ -85,8 +82,6 @@ $(document).ready(function() {
 	});
 
 	socket.on('clearOrder', function(buyOrSell, id){
-		
-
 		if (buyOrSell == "sell"){
 			// console.log("entering delete sell order");
 			$('#sell-list #' + id).remove();
