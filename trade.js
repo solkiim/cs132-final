@@ -154,7 +154,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 									if(error){
 										console.error(err);
 									}
-									io.sockets.emit('updateOrderTokens', buyOrSell, sellOrderID, rowTokens);
+									io.sockets.emit('updateOrderTokens', 'sell', sellOrderID, rowTokens);
 
 									callback();
 								});
@@ -254,7 +254,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 								if(error){
 									console.error(err);
 								}
-								io.sockets.emit('updateOrderTokens', buyOrSell, sellOrderID, rowTokens);
+								io.sockets.emit('updateOrderTokens', 'buy', sellOrderID, rowTokens);
 								callback();
 							});
 						}

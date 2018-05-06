@@ -29,6 +29,10 @@ $(document).ready(function() {
 	// get function for percentage change
 	$.get('/percentage', function(data, status) {
 		for (token_sym in data) {
+			if (token_sym == 'limit') {
+				return;
+			}
+			
 			$('#listing-scroll #' + token_sym + ' .pricechange').remove();
 			
 			var percentage = data[token_sym].toFixed(2);
@@ -88,9 +92,9 @@ $(document).ready(function() {
 	socket.on('updateOrderTokens', function(buyOrSell, id, rowTokens) {
 		console.log(buyOrSell, id, rowTokens);
 		if (buyOrSell == "sell"){
-			$('#sell-list #' + id).html($('<div class="sell-numTokens">' + rowTokens + '</div>'));
+			$('#sell-list #' + id + ' .sell-numTokens').html(rowTokens);
 		} else {
-			$('#buy-list #' + id).html($('<div class="buy-numTokens">' + rowTokens + '</div>'));
+			$('#buy-list #' + id + ' .buy-numTokens').html(rowTokens);
 		}
 	});
 	
