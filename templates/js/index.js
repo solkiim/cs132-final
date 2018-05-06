@@ -69,27 +69,24 @@ $(document).ready(function() {
 			var time = new Date(time).toLocaleTimeString();
 
 			if (buyOrSell == "sell"){
-				$('#sell-list').append($('<li></li>').html(
-					'<div id="' + orderID + '" class="sell-time">' + time + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'
+				$('#sell-list').append($('<li id="' + orderID + '"></li>').html(
+					'<div class="sell-time">' + time + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'
 				));
 
 			} else if (buyOrSell == "buy"){
-				$('#buy-list').append($('<li></li>').html(
-					'<div id="' + orderID + '" class="buy-time">' + time + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'
+				$('#buy-list').append($('<li id="' + orderID + '"></li>').html(
+					'<div class="buy-time">' + time + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'
 				));
 			}
 		}
 	});
 
 	socket.on('clearOrder', function(buyOrSell, id){
-
 		if (buyOrSell == "sell"){
 			$('#sell-list #' + id).remove();
-
-		} else if (buyOrSell == "buy"){
+		} else {
 			$('#buy-list #' + id).remove();
 		}
-		
 	});
 
 	$('#buyForm').submit(function(event) {
@@ -223,19 +220,17 @@ function refresh_orders(token_symbol) {
 			var time = new Date(order.timestamp_).toLocaleTimeString();
 			
 			$('#buy-list').append(
-				$('<li></li>').html('<div id="' + order.orderID + '"" class="buy-time">' + time + '</div><div class="buy-buyorsell">buy</div><div class="buy-price">' + order.price + '</div><div class="buy-numTokens">' + order.numTokens + '</div>')
+				$('<li id="' + order.orderID + '"></li>').html('<div class="buy-time">' + time + '</div><div class="buy-buyorsell">buy</div><div class="buy-price">' + order.price + '</div><div class="buy-numTokens">' + order.numTokens + '</div>')
 			);
 		});
 	});
 	
 	$.post('/getorders', '&tokenSym=' + token_symbol + '&buyOrSell=sell', function(data, status) {
-		console.log(data);
-		
 		data.map(function (order) {
 			var time = new Date(order.timestamp_).toLocaleTimeString();
 			
 			$('#sell-list').append(
-				$('<li></li>').html('<div id="' + order.orderID + '"" class="sell-time">' + time + '</div><div class="sell-buyorsell">sell</div><div class="sell-price">' + order.price + '</div><div class="sell-numTokens">' + order.numTokens + '</div>')
+				$('<li id="' + order.orderID + '"></li>').html('<div class="sell-time">' + time + '</div><div class="sell-buyorsell">sell</div><div class="sell-price">' + order.price + '</div><div class="sell-numTokens">' + order.numTokens + '</div>')
 			);
 		});
 	});
