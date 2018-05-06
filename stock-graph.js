@@ -46,11 +46,29 @@ exports.getPercentage = function(pool, req, res) {
 					var percentages = {};
 					for (latest_token in latest) {
 						percentages[latest_token] = ((latest[latest_token] - second_latest[latest_token]) / second_latest[latest_token]) * 100
+						// console.log(percentages[latest_token])
 					}
 					// console.log(percentages)
 					res.json(percentages);
 				}
 			);
+		}
+	);
+}
+
+exports.getPrice = function(pool, req, res) {
+	pool.query(
+		'SELECT MAX(timestamp_), price, tokenSymbol FROM Trades GROUP BY tokenSymbol',
+		function(err,data){
+			if (err){
+				console.error(err);
+			}
+			// console.log(data);
+			var prices = {};
+			data.rows.map(function(trade) {
+				prices[trade.tokenSymbol] = trade.price;
+			});
+			res.json(prices);
 		}
 	);
 }

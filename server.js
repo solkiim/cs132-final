@@ -160,6 +160,9 @@ app.get('/percentage', function(req, res) {
 	stockgraph.getPercentage(pool, req, res);
 });
 
+app.get('/token-price', function(req, res) {
+	stockgraph.getPrice(pool, req, res);
+});
 
 // -------------------------------- APP: OTHER ---------------------------------
 

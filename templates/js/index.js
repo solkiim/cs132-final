@@ -16,7 +16,37 @@ var graph_prices = [];
 
 $(document).ready(function() {
 
-	// set up dashboard for token
+	$.post('/getorders', function(data, status) {
+
+		data.map(function (order) {
+
+			var id = order.orderID;
+			var tokens = order.numTokens;
+			var price = order.price;
+			var ul;
+
+			var time = order.timestamp_;
+			var hours = time.getHours();
+			var min = time.getUTCHours();
+			var secs = time.getUTCSeconds();
+			var hoursMin = hours + ":" + min + ":" + secs;
+
+			if (buyOrSell == "sell"){
+				ul = $('#sell-list');
+				ul.append($('<li></li>').html('<div id="' + id + '"" class="sell-time">' + hoursMin + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'));
+
+			} else if (buyOrSell == "buy"){
+				ul = $('#buy-list');
+				ul.append($('<li></li>').html('<div id="' + id + '"" class="buy-time">' + hoursMin + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'));
+
+			}
+
+
+		});
+
+
+	});
+
 	token_dashboard(default_token);
 
 	// update dashboard on new token click
@@ -28,6 +58,7 @@ $(document).ready(function() {
 
 	// get function for percentage change
 	$.get('/percentage', function(data, status) {
+
 		for (token_sym in data) {
 			$('#listing-scroll #' + token_sym + ' .pricechange').remove();
 
@@ -35,7 +66,7 @@ $(document).ready(function() {
 
 			if (percentage > 0) {
 				$('#listing-scroll #' + token_sym + ' .listing-info').append(
-					'<h6 class="pricechange priceinc">&#9650; ' + percentage + '%</h6>'
+					'<h6 class="pricechange priceinc">&#9650; ' + Math.abs(percentage) + '%</h6>'
 				);
 			} else if (percentage == 0) {
 				$('#listing-scroll #' + token_sym + ' .listing-info').append(
@@ -43,11 +74,21 @@ $(document).ready(function() {
 				);
 			} else {
 				$('#listing-scroll #' + token_sym + ' .listing-info').append(
-					'<h6 class="pricechange pricedec">&#9660; ' + percentage + '%</h6>'
+					'<h6 class="pricechange pricedec">&#9660; ' + Math.abs(percentage) + '%</h6>'
 				);
 			}
 		}
 	});
+
+
+	$.get('/token-price', function(data, status) {
+		for (token_sym in data) {
+			$('#listing-scroll #' + token_sym + ' .listing-price').html('$'+ data[token_sym]);
+			// $('#buy').attr('$'+ data[token_sym]);
+      //
+			// $('#numTokens').html(data[token_sym]);
+		}
+		});
 
 
 	// get function for prices SQL
@@ -93,7 +134,7 @@ $(document).ready(function() {
 			// console.log($('#buy-list #' + id));
 			$('#buy-list #' + id).remove();
 		}
-		
+
 	});
 
 	$('#buyForm').submit(function(event) {
@@ -221,23 +262,23 @@ function graph_update(token_symbol) {
 function refresh_orders(token_symbol) {
 	$('#buy-list').empty();
 	$('#sell-list').empty();
-	
+
 	$.post('/getorders', '&tokenSym=' + token_symbol + '&buyOrSell=buy', function(data, status) {
 		data.map(function (order) {
 			var time = new Date(order.timestamp_).toLocaleTimeString();
-			
+
 			$('#buy-list').append(
 				$('<li></li>').html('<div id="' + order.orderID + '"" class="buy-time">' + time + '</div><div class="buy-buyorsell">buy</div><div class="buy-price">' + order.price + '</div><div class="buy-numTokens">' + order.numTokens + '</div>')
 			);
 		});
 	});
-	
+
 	$.post('/getorders', '&tokenSym=' + token_symbol + '&buyOrSell=sell', function(data, status) {
-		console.log(data);
-		
+		// console.log(data);
+
 		data.map(function (order) {
 			var time = new Date(order.timestamp_).toLocaleTimeString();
-			
+
 			$('#sell-list').append(
 				$('<li></li>').html('<div id="' + order.orderID + '"" class="sell-time">' + time + '</div><div class="sell-buyorsell">sell</div><div class="sell-price">' + order.price + '</div><div class="sell-numTokens">' + order.numTokens + '</div>')
 			);
