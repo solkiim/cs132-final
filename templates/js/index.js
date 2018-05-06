@@ -30,9 +30,9 @@ $(document).ready(function() {
 	$.get('/percentage', function(data, status) {
 		for (token_sym in data) {
 			$('#listing-scroll #' + token_sym + ' .pricechange').remove();
-
+			
 			var percentage = data[token_sym].toFixed(2);
-
+			
 			if (percentage > 0) {
 				$('#listing-scroll #' + token_sym + ' .listing-info').append(
 					'<h6 class="pricechange priceinc">&#9650; ' + percentage + '%</h6>'
