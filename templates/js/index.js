@@ -87,6 +87,8 @@ $(document).ready(function() {
 			$('#sell-list #' + id).remove();
 
 		} else if (buyOrSell == "buy"){
+			console.log("entering delete buy");
+			console.log($('#buy-list #' + id));
 			$('#buy-list #' + id).remove();
 		}
 		
