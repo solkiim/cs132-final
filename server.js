@@ -24,7 +24,7 @@ app.use(express.static(__dirname + '/templates'));
 app.use('/js', express.static('js'));
 
 // set up database connection
-var pool = db.createPool('sqlite3://parallel.db', {min: 0, max: 1000});
+var pool = db.createPool('sqlite3://parallel-final.db', {min: 0, max: 1000});
 
 // set up server
 var server = http.createServer(app);
