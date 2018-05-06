@@ -8,7 +8,7 @@ var username = sessionStorage.getItem('username');
 // news
 var news_refresh;
 var news_arr = [];
-var num_news = 9;
+var num_news = 20;
 
 // graph
 var graph_times = [];
