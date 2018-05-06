@@ -234,6 +234,10 @@ html {
     font-size: 13;
 }
 
+#sell-list li:nth-child(odd), #buy-list li:nth-child(odd) {
+    background: lightgray;
+}
+
 #orders-sell h4 {
     font-size: 13px;
     float: left;
