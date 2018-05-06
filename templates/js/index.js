@@ -91,16 +91,10 @@ $(document).ready(function() {
 
 	socket.on('clearOrder', function(buyOrSell, id){
 		
-
 		if (buyOrSell == "sell"){
-			// console.log("entering delete sell order");
 			$('#sell-list #' + id).remove();
 
 		} else if (buyOrSell == "buy"){
-			// console.log("entering delete buy order");
-			// console.log(id);
-			// console.log($('#buy-list'));
-			// console.log($('#buy-list #' + id));
 			$('#buy-list #' + id).remove();
 		}
 		
