@@ -10,10 +10,10 @@ var async = require('async');
 exports.getorders = function(io, pool, req, res) {
 
 	var type = req.body.buyOrSell;
-
+	
 	if (type == "sell"){
 
-		pool.query('SELECT * FROM Sell ORDER BY price DESC, timestamp_ LIMIT 100', function(err, data) {
+		pool.query('SELECT * FROM Sell WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ LIMIT 100', [req.body.tokenSym], function(err, data) {
 			if(err) {
 				console.error(err);
 			}
@@ -22,7 +22,7 @@ exports.getorders = function(io, pool, req, res) {
 
 	} else {
 
-		pool.query('SELECT * FROM Buy ORDER BY price DESC, timestamp_ LIMIT 100', function(err, data) {
+		pool.query('SELECT * FROM Buy WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ LIMIT 100', [req.body.tokenSym], function(err, data) {
 			if(err) {
 				console.error(err);
 			}

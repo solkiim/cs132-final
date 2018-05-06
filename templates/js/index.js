@@ -16,35 +16,26 @@ var graph_prices = [];
 
 $(document).ready(function() {
 
-	$.post('/getorders', function(data, status) {
+	$.post('/getorders', '&tokenSym=' + current_token + '&buyOrSell=buy', function(data, status) {
+		data.map(function (order) {
+			var time = new Date(order.timestamp_).toLocaleTimeString();
+			
+			$('#buy-list').append(
+				$('<li></li>').html('<div id="' + order.orderID + '"" class="buy-time">' + time + '</div><div class="buy-buyorsell">buy</div><div class="buy-price">' + order.price + '</div><div class="buy-numTokens">' + order.numTokens + '</div>')
+			);
+		});
+	});
+	
+	$.post('/getorders', '&tokenSym=' + current_token + '&buyOrSell=sell', function(data, status) {
+		console.log(data);
 		
 		data.map(function (order) {
-
-			var id = order.orderID;
-			var tokens = order.numTokens;
-			var price = order.price;
-			var ul;
-
-			var time = order.timestamp_;
-			var hours = time.getHours();
-			var min = time.getUTCHours();
-			var secs = time.getUTCSeconds();
-			var hoursMin = hours + ":" + min + ":" + secs;
-
-			if (buyOrSell == "sell"){
-				ul = $('#sell-list');
-				ul.append($('<li></li>').html('<div id="' + id + '"" class="sell-time">' + hoursMin + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'));
-
-			} else if (buyOrSell == "buy"){
-				ul = $('#buy-list');
-				ul.append($('<li></li>').html('<div id="' + id + '"" class="buy-time">' + hoursMin + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'));
-
-			}
-
-
+			var time = new Date(order.timestamp_).toLocaleTimeString();
+			
+			$('#sell-list').append(
+				$('<li></li>').html('<div id="' + order.orderID + '"" class="sell-time">' + time + '</div><div class="sell-buyorsell">sell</div><div class="sell-price">' + order.price + '</div><div class="sell-numTokens">' + order.numTokens + '</div>')
+			);
 		});
-
-
 	});
 
 	token_dashboard(default_token);
