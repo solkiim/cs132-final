@@ -68,6 +68,11 @@ $(document).ready(function() {
 		if (tokenSym = current_token){
 			var time = new Date(time).toLocaleTimeString();
 
+			var hours = time.getHours();
+			var min = time.getUTCHours();
+			var secs = time.getUTCSeconds();
+			var hoursMin = hours + ":" + min + ":" + secs;
+
 			if (buyOrSell == "sell"){
 				$('#sell-list').append($('<li></li>').html(
 					'<div id="' + orderID + '" class="sell-time">' + time + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'

@@ -293,6 +293,7 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 		if (err){
 			console.error(err);
 		}
+
 		// if buy order(s) exist
 		if ((data.rows.length > 0) && (price >= data.rows[0].price)){
 			// if limit sell -> on buy side; just a market sell
@@ -303,7 +304,7 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 					if (error){
 						console.error(err);
 					}
-
+					
 					// need to also send ID
 					io.sockets.emit('updateOrders', data.lastInsertId, tokenSym, Date.now(), buyOrSell, price, reqTokens);
 				});
