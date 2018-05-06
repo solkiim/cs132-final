@@ -8,29 +8,21 @@ var async = require('async');
 // ----------------------------------- ROUTES ----------------------------------
 
 exports.getorders = function(io, pool, req, res) {
-
-	var type = req.body.buyOrSell;
-	
-	if (type == "sell"){
-
+	if (req.body.buyOrSell == "sell"){
 		pool.query('SELECT * FROM Sell WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ LIMIT 100', [req.body.tokenSym], function(err, data) {
 			if(err) {
 				console.error(err);
 			}
 			res.json(data.rows);
 		});
-
 	} else {
-
 		pool.query('SELECT * FROM Buy WHERE tokenSymbol=$1 ORDER BY price DESC, timestamp_ LIMIT 100', [req.body.tokenSym], function(err, data) {
 			if(err) {
 				console.error(err);
 			}
 			res.json(data.rows);
 		});
-
 	}
-
 }
 
 exports.marketsubmit = function(io, pool, req, res) {
@@ -100,6 +92,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 		
 	// don't run this function if no rows in Sell
 	pool.query('SELECT * FROM Sell', function(err, data) {
+		var orderIDsToClear = [];
 		
 		if (err) {
 			console.error("no sell orders; cannot execute market buy");
@@ -139,6 +132,9 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 									if(err){
 										console.error(err);
 									}
+									
+									io.sockets.emit('clearOrder', 'sell', sellOrderID);
+									
 									callback();
 								});
 
@@ -175,8 +171,6 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 							if (error){
 								console.error("FAILED to add to database");
 							}
-							
-							io.sockets.emit('clearOrder', "buy", data.lastInsertId);
 
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
@@ -238,6 +232,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 								if(err){
 									console.error(err);
 								}
+								io.sockets.emit('clearOrder', 'buy', sellOrderID);
 								callback();
 							});
 
@@ -276,7 +271,6 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 							if (error){
 								console.error(error);
 							}
-							io.sockets.emit('clearOrder', "sell", data.lastInsertId);
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
 				
