@@ -4,6 +4,7 @@ var socket = io.connect('http://localhost:8080');
 var default_token = "Uber";
 var current_token = "Uber";
 var username = sessionStorage.getItem('username');
+console.log(username);
 
 // news
 var news_refresh;
@@ -88,6 +89,23 @@ $(document).ready(function() {
 				));
 			}
 		}
+	});
+
+	socket.on('clearOrder', function(buyOrSell, id){
+		
+
+		if (buyOrSell == "sell"){
+			console.log("entering delete sell order");
+			$('#sell-list #' + id).remove();
+
+		} else if (buyOrSell == "buy"){
+			console.log("entering delete buy order");
+			console.log(id);
+			console.log($('#buy-list'));
+			console.log($('#buy-list #' + id));
+			$('#buy-list #' + id).remove();
+		}
+		
 	});
 
 	$('#buyForm').submit(function(event) {
