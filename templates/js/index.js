@@ -224,8 +224,8 @@ function refresh_news (token_symbol) {
 		articles.map(function(news) {
 			// get the title of article
 			var text = news.description;
-			text = text.substring(0, 43);
-			text = text.fontsize(2);
+			text = text.substring(0, 47);
+			text = text.fontsize(3);
 
 			// get the date of article in standard time
 			var time_stamp = news.publishedAt;
@@ -262,11 +262,11 @@ function refresh_news (token_symbol) {
 
 				// add to html list
 				if(date == today) {
-					$('#articles').append("<li> " + time + " : " + text + " ...</li>");
+					$('#articles').append("<li><span>" + time + "</span> " + text + "...</li>");
 				}
 				if (date != today) {
 					date = month+'-'+day+'-'+year;
-					$('#articles').append("<li> " + date + " : " + text + " ...</li>");
+					$('#articles').append("<li><span>" + date + "</span> " + text + "...</li>");
 				}
 			}
 		});
