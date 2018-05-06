@@ -277,7 +277,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 			);
 
 			// if Sell table is empty, post the market order as
-		} 
+		}
 	});
 }
 
