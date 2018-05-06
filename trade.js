@@ -8,21 +8,28 @@ var async = require('async');
 // ----------------------------------- ROUTES ----------------------------------
 
 exports.getorders = function(io, pool, req, res) {
-	// get the lowest price sell
-	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 100', function(err, data) {
-		if(err) {
-			console.log(err);
-		}
-		// res.json(data.rows);
-	});
 
-	// get the highest price buy
-	pool.query('SELECT * FROM Buy ORDER BY price ASC, timestamp_ ASC LIMIT 100', function(err, data) {
-		if(err) {
-			console.log(err);
-		}
-		// res.json(data.rows);
-	});
+	var type = req.body.buyOrSell;
+
+	if (type == "sell"){
+
+		pool.query('SELECT * FROM Sell ORDER BY price DESC, timestamp_ LIMIT 100', function(err, data) {
+			if(err) {
+				console.error(err);
+			}
+			res.json(data.rows);
+		});
+
+	} else {
+
+		pool.query('SELECT * FROM Buy ORDER BY price DESC, timestamp_ LIMIT 100', function(err, data) {
+			if(err) {
+				console.error(err);
+			}
+			res.json(data.rows);
+		});
+
+	}
 
 }
 
@@ -90,7 +97,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 	var clearedPrices = [];
 	var clearedNumTokens = [];
 	var time;
-	
+		
 	// don't run this function if no rows in Sell
 	pool.query('SELECT * FROM Sell', function(err, data) {
 		
@@ -169,6 +176,8 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 								console.error("FAILED to add to database");
 							}
 							
+							io.sockets.emit('clearOrder', "buy", data.lastInsertId);
+
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
 				
@@ -267,7 +276,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 							if (error){
 								console.error(error);
 							}
-				
+							io.sockets.emit('clearOrder', "sell", data.lastInsertId);
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
 				
@@ -275,8 +284,6 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 					);
 				}
 			);
-
-			// if Sell table is empty, post the market order as
 		}
 	});
 }
@@ -330,7 +337,7 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 	
 	function weightedPrice(clearedPrices, clearedNumTokens){
 		if (clearedPrices.length != clearedNumTokens.length){
-			console.log("error; price & token lengths different");
+			console.error("error; price & token lengths different");
 		}
 		
 		var length = clearedPrices.length;

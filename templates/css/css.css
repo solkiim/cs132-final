@@ -229,8 +229,13 @@ html {
 	overflow: scroll;
 }
 
-#sell-list {
+#sell-list, #buy-list {
     list-style-type: none;
+    font-size: 13;
+}
+
+#sell-list li:nth-child(odd), #buy-list li:nth-child(odd) {
+    background: lightgray;
 }
 
 #orders-sell h4 {
@@ -248,49 +253,45 @@ html {
 }
 
 #orders-sell h4:nth-child(1) {
-    width: 110px;
+    width: 130px;
     margin-right: 5px;
 }
 
 #orders-sell h4:nth-child(2) {
-    width: 80px;
+    width: 100px;
     margin-right: 5px;
 }
 
 #orders-sell h4:nth-child(3) {
-    width: 115px;
+    width: 135px;
     margin-right: 5px;
 }
 
 #orders-sell h4:nth-child(4) {
-    width: 99px;
+    width: 120px;
 }
 
-#sell-list {
-    font-size: 13px;
-}
-
-#sell-list div {
+#sell-list div, #buy-list div {
     float: left;
 }
 
-.sell-time {
-    width: 110px;
-    margin-right: 5px;
+.sell-time, .buy-time {
+    width: 130px;
+    margin-right: 9px;
 }
 
-.sell-buyorsell {
-    width: 80px;
-    margin-right: 5px;
+.sell-buyorsell, .buy-buyorsell {
+    width: 96px;
+    margin-right: 8px;
 }
 
-.sell-price {
-    width: 115px;
-    margin-right: 5px;
+.sell-price, .buy-price {
+    width: 132px;
+    margin-right: 8px;
 }
 
-.sell-numTokens {
-    width: 99px;
+.sell-numTokens, .buy-numTokens {
+    width: 117px;
 }
 
 /* NEWS */
@@ -301,6 +302,11 @@ html {
 
 #articles {
 	list-style-type: none;
+}
+
+#articles span {
+	color: gray;
+	padding-right: 8px;
 }
 
 /* BUY AND SELL */
@@ -314,6 +320,14 @@ html {
 	padding: 0;
 }
 
+.nav-item a:hover, .nav-item a:link, .nav-item a:active {
+	color: gray;
+}
+
+.nav-item a {
+	color: black;
+}
+
 .buy-form-container, .sell-form-container {
 	width: 45%;
 	display: inline-block;
@@ -325,7 +339,7 @@ html {
 }
 
 .sell-form-container {
-	margin-left: 50px;
+	margin-left: 70px;
 }
 
 .buy-form-container h2, .sell-form-container h2 {
@@ -381,8 +395,13 @@ html {
 #wallet h4 {
 	font-size: 14px;
 	position: absolute;
-	right: 30px;
+	right: 32px;
 	font-weight: 300;
+}
+
+#wallet h4 a:active, #wallet h4 a:link, #wallet h4 a:visited, #wallet h4 a:hover {
+	text-decoration: none;
+	color: #4F5C6F;
 }
 
 /* --------------------------------- 404 ---------------------------------- */
@@ -390,7 +409,7 @@ html {
 	width: 50%;
 	height: 330px;
 	margin-left: 15%;
-	margin-top: 11%;
+	margin-top: 13%;
 }
 
 #errormessage h1 {
@@ -488,7 +507,7 @@ html {
 #signup {
 	width: 270px;
 	margin: 0 auto;
-	margin-top: 10%;
+	margin-top: 11%;
 }
 
 #signupform input {
