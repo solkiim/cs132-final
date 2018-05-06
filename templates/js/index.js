@@ -4,7 +4,6 @@ var socket = io.connect('http://localhost:8080');
 var default_token = "Uber";
 var current_token = "Uber";
 var username = sessionStorage.getItem('username');
-console.log(username);
 
 // news
 var news_refresh;

@@ -11,7 +11,7 @@ exports.getorders = function(io, pool, req, res) {
 	// get the lowest price sell
 	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 100', function(err, data) {
 		if(err) {
-			console.log(err);
+			console.error(err);
 		}
 		// res.json(data.rows);
 	});
@@ -19,7 +19,7 @@ exports.getorders = function(io, pool, req, res) {
 	// get the highest price buy
 	pool.query('SELECT * FROM Buy ORDER BY price ASC, timestamp_ ASC LIMIT 100', function(err, data) {
 		if(err) {
-			console.log(err);
+			console.error(err);
 		}
 		// res.json(data.rows);
 	});
@@ -27,7 +27,6 @@ exports.getorders = function(io, pool, req, res) {
 }
 
 exports.marketsubmit = function(io, pool, req, res) {
-	console.log(req.body.username);
 	if (req.body.buyOrSell == 'buy'){
 		executeMarketBuy(
 			io,
@@ -91,7 +90,7 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 	var clearedPrices = [];
 	var clearedNumTokens = [];
 	var time;
-	
+		
 	// don't run this function if no rows in Sell
 	pool.query('SELECT * FROM Sell', function(err, data) {
 		
@@ -331,7 +330,7 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 	
 	function weightedPrice(clearedPrices, clearedNumTokens){
 		if (clearedPrices.length != clearedNumTokens.length){
-			console.log("error; price & token lengths different");
+			console.error("error; price & token lengths different");
 		}
 		
 		var length = clearedPrices.length;
