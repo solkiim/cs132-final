@@ -229,8 +229,9 @@ html {
 	overflow: scroll;
 }
 
-#sell-list {
+#sell-list, #buy-list {
     list-style-type: none;
+    font-size: 13;
 }
 
 #orders-sell h4 {
@@ -266,30 +267,26 @@ html {
     width: 120px;
 }
 
-#sell-list {
-    font-size: 13px;
-}
-
-#sell-list div {
+#sell-list div, #buy-list div {
     float: left;
 }
 
-.sell-time {
+.sell-time, .buy-time {
     width: 130px;
     margin-right: 9px;
 }
 
-.sell-buyorsell {
+.sell-buyorsell, .buy-buyorsell {
     width: 96px;
     margin-right: 8px;
 }
 
-.sell-price {
+.sell-price, .buy-price {
     width: 132px;
     margin-right: 8px;
 }
 
-.sell-numTokens {
+.sell-numTokens, .buy-numTokens {
     width: 117px;
 }
 
