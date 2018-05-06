@@ -156,6 +156,10 @@ app.post('/price-graph', function(req, res) {
 	stockgraph.getPrices(pool, req, res);
 });
 
+app.get('/percentage', function(req, res) {
+	stockgraph.getPercentage(pool, req, res);
+});
+
 
 // -------------------------------- APP: OTHER ---------------------------------
 

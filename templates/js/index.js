@@ -49,12 +49,38 @@ $(document).ready(function() {
 
 	token_dashboard(default_token);
 
+
 	// update dashboard on new token click
 	$('.listing').click(function(event) {
 		var token_symbol = this.id;
 		current_token = token_symbol;
 		token_dashboard(token_symbol);
+
 	})
+
+	// get function for percentage change
+	$.get('/percentage', function(data, status) {
+		for (token_sym in data) {
+			$('#listing-scroll #' + token_sym + ' .pricechange').remove();
+
+			var percentage = data[token_sym].toFixed(2);
+
+			if (percentage > 0) {
+				$('#listing-scroll #' + token_sym + ' .listing-info').append(
+					'<h6 class="pricechange priceinc">&#9650; ' + percentage + '%</h6>'
+				);
+			} else if (percentage == 0) {
+				$('#listing-scroll #' + token_sym + ' .listing-info').append(
+					'<h6 class="pricechange nochange">&#9644;%</h6>'
+				);
+			} else {
+				$('#listing-scroll #' + token_sym + ' .listing-info').append(
+					'<h6 class="pricechange pricedec">&#9660; ' + percentage + '%</h6>'
+				);
+			}
+		}
+	});
+
 
 	// get function for prices SQL
 
@@ -102,7 +128,7 @@ $(document).ready(function() {
 				}
 			}
 		});
-		
+
 		$('#buyForm')[0].reset();
 	});
 
@@ -118,7 +144,7 @@ $(document).ready(function() {
 				}
 			}
 		});
-		
+
 		$('#sellForm')[0].reset();
 	});
 
@@ -130,7 +156,7 @@ $(document).ready(function() {
 				console.log(err);
 			}
 		});
-		
+
 		$('#limit-buy-form')[0].reset();
 	});
 
@@ -142,7 +168,7 @@ $(document).ready(function() {
 				console.log(err);
 			}
 		});
-		
+
 		$('#limit-sell-form')[0].reset();
 	});
 
@@ -160,10 +186,13 @@ function token_dashboard (token_symbol) {
 
 	// get stock graph
 	stock_graph(token_symbol);
+
+
 }
 
 // populate stock graph
 function stock_graph (token_symbol) {
+
 	$('#stock-graphs h3').html(token_symbol);
 
 	$.post('/price-graph', 'current_token=' + token_symbol, function(data, status){
