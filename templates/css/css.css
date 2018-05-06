@@ -225,49 +225,41 @@ html {
 }
 
 /* ORDERS */
-#orders-buy {
-	overflow: scroll;
-}
-
 #sell-list, #buy-list {
     list-style-type: none;
     font-size: 13;
 }
 
-#sell-list li:nth-child(odd), #buy-list li:nth-child(odd) {
-    background: lightgray;
-}
-
-#orders-sell h4 {
+#orders-header h4 {
     font-size: 13px;
     float: left;
 }
 
-#orders-sell h4 {
+#orders-header h4 {
     background-color: #D6E8F2;
     padding: 5px;
 }
 
-#orders-sell h4 {
+#orders-header h4 {
     padding-bottom: 2px;
 }
 
-#orders-sell h4:nth-child(1) {
+#orders-header h4:nth-child(1) {
     width: 130px;
     margin-right: 5px;
 }
 
-#orders-sell h4:nth-child(2) {
+#orders-header h4:nth-child(2) {
     width: 100px;
     margin-right: 5px;
 }
 
-#orders-sell h4:nth-child(3) {
+#orders-header h4:nth-child(3) {
     width: 135px;
     margin-right: 5px;
 }
 
-#orders-sell h4:nth-child(4) {
+#orders-header h4:nth-child(4) {
     width: 120px;
 }
 
