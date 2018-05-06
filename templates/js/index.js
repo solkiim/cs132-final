@@ -66,7 +66,7 @@ $(document).ready(function() {
 
 	socket.on('updateOrders', function(orderID, tokenSym, time, buyOrSell, price, numTokens){
 		if (tokenSym = current_token){
-			var time = new Date(order.timestamp_).toLocaleTimeString();
+			var time = new Date(time).toLocaleTimeString();
 
 			if (buyOrSell == "sell"){
 				$('#sell-list').append($('<li></li>').html(
