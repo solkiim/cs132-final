@@ -16,8 +16,8 @@ var graph_prices = [];
 
 $(document).ready(function() {
 
-	$.get('/getorders', function(data, status) {
-
+	$.post('/getorders', function(data, status) {
+		
 		data.map(function (order) {
 
 			var id = order.orderID;
@@ -94,14 +94,14 @@ $(document).ready(function() {
 		
 
 		if (buyOrSell == "sell"){
-			console.log("entering delete sell order");
+			// console.log("entering delete sell order");
 			$('#sell-list #' + id).remove();
 
 		} else if (buyOrSell == "buy"){
-			console.log("entering delete buy order");
-			console.log(id);
-			console.log($('#buy-list'));
-			console.log($('#buy-list #' + id));
+			// console.log("entering delete buy order");
+			// console.log(id);
+			// console.log($('#buy-list'));
+			// console.log($('#buy-list #' + id));
 			$('#buy-list #' + id).remove();
 		}
 		

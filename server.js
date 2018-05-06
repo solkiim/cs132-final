@@ -136,7 +136,7 @@ app.post('/getportfolio', function(req, res) {
 
 // ------------------------------- ROUTES: TRADE -------------------------------
 
-app.get('/getorders', function(req, res) {
+app.post('/getorders', function(req, res) {
 	trade.getorders(io, pool, req, res);
 });
 
