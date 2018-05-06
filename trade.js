@@ -154,6 +154,8 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 									if(error){
 										console.error(err);
 									}
+									io.sockets.emit('updateOrderTokens', buyOrSell, sellOrderID, rowTokens);
+
 									callback();
 								});
 							}
@@ -248,12 +250,11 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 							clearedNumTokens.push(rowTokens);
 							clearedPrices.push(rowSellPrice);
 							
-							// exposed to sql injection attacks
-							// Update Sell bottom row SET numTokens = rowNumTokens;
 							pool.query("UPDATE Buy WHERE orderID=$1 SET numTokens=$2", [sellOrderID, rowTokens], function(error,data){
 								if(error){
 									console.error(err);
 								}
+								io.sockets.emit('updateOrderTokens', buyOrSell, sellOrderID, rowTokens);
 								callback();
 							});
 						}
