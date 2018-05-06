@@ -27,6 +27,7 @@ exports.getorders = function(io, pool, req, res) {
 }
 
 exports.marketsubmit = function(io, pool, req, res) {
+	console.log(req.body.username);
 	if (req.body.buyOrSell == 'buy'){
 		executeMarketBuy(
 			io,
@@ -169,6 +170,8 @@ function executeMarketBuy(io, pool, res, buyOrSell, tokenSym, orderType, reqNumT
 								console.error("FAILED to add to database");
 							}
 							
+							io.sockets.emit('clearOrder', "buy", data.lastInsertId);
+
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
 				
@@ -267,7 +270,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 							if (error){
 								console.error(error);
 							}
-				
+							io.sockets.emit('clearOrder', "sell", data.lastInsertId);
 							// emit trade graph socket
 							io.sockets.emit('newTradeGraphPoint', tokenSym, currenttime, price);
 				
@@ -275,8 +278,6 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 					);
 				}
 			);
-
-			// if Sell table is empty, post the market order as
 		}
 	});
 }
