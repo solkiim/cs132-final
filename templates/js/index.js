@@ -16,6 +16,37 @@ var graph_prices = [];
 
 $(document).ready(function() {
 
+	$.get('/getorders', function(data, status) {
+
+		data.map(function (order) {
+
+			var id = order.orderID;
+			var tokens = order.numTokens;
+			var price = order.price;
+			var ul;
+
+			var time = order.timestamp_;
+			var hours = time.getHours();
+			var min = time.getUTCHours();
+			var secs = time.getUTCSeconds();
+			var hoursMin = hours + ":" + min + ":" + secs;
+
+			if (buyOrSell == "sell"){
+				ul = $('#sell-list');
+				ul.append($('<li></li>').html('<div id="' + id + '"" class="sell-time">' + hoursMin + '</div><div class="sell-buyorsell">' + buyOrSell + '</div><div class="sell-price">' + price + '</div><div class="sell-numTokens">' + numTokens + '</div>'));
+
+			} else if (buyOrSell == "buy"){
+				ul = $('#buy-list');
+				ul.append($('<li></li>').html('<div id="' + id + '"" class="buy-time">' + hoursMin + '</div><div class="buy-buyorsell">' + buyOrSell + '</div><div class="buy-price">' + price + '</div><div class="buy-numTokens">' + numTokens + '</div>'));
+
+			}
+
+
+		});
+
+
+	});
+
 	token_dashboard(default_token);
 
 	// update dashboard on new token click

@@ -136,6 +136,10 @@ app.post('/getportfolio', function(req, res) {
 
 // ------------------------------- ROUTES: TRADE -------------------------------
 
+app.get('/getorders', function(req, res) {
+	trade.getorders(io, pool, req, res);
+});
+
 // on signupform submit
 app.post('/marketsubmit', function(req, res) {
 	trade.marketsubmit(io, pool, req, res);

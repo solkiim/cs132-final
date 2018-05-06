@@ -7,6 +7,25 @@ var async = require('async');
 
 // ----------------------------------- ROUTES ----------------------------------
 
+exports.getorders = function(io, pool, req, res) {
+	// get the lowest price sell
+	pool.query('SELECT * FROM Sell ORDER BY price, timestamp_ LIMIT 100', function(err, data) {
+		if(err) {
+			console.log(err);
+		}
+		res.json(data.rows);
+	});
+
+	// get the highest price buy
+	pool.query('SELECT * FROM Buy ORDER BY price ASC, timestamp_ ASC LIMIT 100', function(err, data) {
+		if(err) {
+			console.log(err);
+		}
+		res.json(data.rows);
+	});
+
+}
+
 exports.marketsubmit = function(io, pool, req, res) {
 	if (req.body.buyOrSell == 'buy'){
 		executeMarketBuy(
@@ -183,7 +202,7 @@ function executeMarketSell(io, pool, res, buyOrSell, tokenSym, orderType, reqNum
 		async.whilst(
 			function() { return reqTokens != 0; },
 			function(callback) {
-				// check lowest price entry in sell
+				// check highest price in sell
 				pool.query(
 					'SELECT * FROM Buy ORDER BY price ASC, timestamp_ ASC LIMIT 1',
 					function(err,data) {
@@ -277,15 +296,8 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 					if (error){
 						console.error(err);
 					}
-					// var today = Date.now();
-					// var hours = today.getHours();
-					// var min = today.getUTCHours();
-					// var secs = today.getUTCSeconds();
-					// var hoursMin = hours + ":" + min + ":" + secs;
 
-					// console.log(hoursMin);
-
-					// trigger function updatingOrders
+					// need to also send ID
 					io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
 				});
 		}
