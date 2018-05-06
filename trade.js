@@ -13,7 +13,7 @@ exports.getorders = function(io, pool, req, res) {
 		if(err) {
 			console.log(err);
 		}
-		res.json(data.rows);
+		// res.json(data.rows);
 	});
 
 	// get the highest price buy
@@ -21,7 +21,7 @@ exports.getorders = function(io, pool, req, res) {
 		if(err) {
 			console.log(err);
 		}
-		res.json(data.rows);
+		// res.json(data.rows);
 	});
 
 }
@@ -298,7 +298,7 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 					}
 
 					// need to also send ID
-					io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
+					io.sockets.emit('updateOrders', data.lastInsertId, tokenSym, Date.now(), buyOrSell, price, reqTokens);
 				});
 		}
 		
@@ -321,7 +321,7 @@ function executeLimitBuy(io, pool, res, reqTokens, price, tokenSym, buyOrSell, o
 							console.error(error);
 						}
 						// trigger function updatingOrders
-						io.sockets.emit('updateOrders', tokenSym, Date.now(), buyOrSell, price, reqTokens);
+						io.sockets.emit('updateOrders', data.lastInsertId, tokenSym, Date.now(), buyOrSell, price, reqTokens);
 					});
 			}
 			
