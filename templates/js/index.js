@@ -16,37 +16,14 @@ var graph_prices = [];
 
 $(document).ready(function() {
 
-	$.post('/getorders', '&tokenSym=' + current_token + '&buyOrSell=buy', function(data, status) {
-		data.map(function (order) {
-			var time = new Date(order.timestamp_).toLocaleTimeString();
-			
-			$('#buy-list').append(
-				$('<li></li>').html('<div id="' + order.orderID + '"" class="buy-time">' + time + '</div><div class="buy-buyorsell">buy</div><div class="buy-price">' + order.price + '</div><div class="buy-numTokens">' + order.numTokens + '</div>')
-			);
-		});
-	});
-	
-	$.post('/getorders', '&tokenSym=' + current_token + '&buyOrSell=sell', function(data, status) {
-		console.log(data);
-		
-		data.map(function (order) {
-			var time = new Date(order.timestamp_).toLocaleTimeString();
-			
-			$('#sell-list').append(
-				$('<li></li>').html('<div id="' + order.orderID + '"" class="sell-time">' + time + '</div><div class="sell-buyorsell">sell</div><div class="sell-price">' + order.price + '</div><div class="sell-numTokens">' + order.numTokens + '</div>')
-			);
-		});
-	});
-
+	// set up dashboard for token
 	token_dashboard(default_token);
-
 
 	// update dashboard on new token click
 	$('.listing').click(function(event) {
 		var token_symbol = this.id;
 		current_token = token_symbol;
 		token_dashboard(token_symbol);
-
 	})
 
 	// get function for percentage change
@@ -91,6 +68,11 @@ $(document).ready(function() {
 		if (tokenSym = current_token){
 
 			var ul;
+
+			var hours = time.getHours();
+			var min = time.getUTCHours();
+			var secs = time.getUTCSeconds();
+			var hoursMin = hours + ":" + min + ":" + secs;
 
 			if (buyOrSell == "sell"){
 				ul = $('#sell-list');
@@ -195,7 +177,8 @@ function token_dashboard (token_symbol) {
 	// get stock graph
 	stock_graph(token_symbol);
 
-
+	// refresh orders list
+	refresh_orders(token_symbol);
 }
 
 // populate stock graph
@@ -243,6 +226,33 @@ function graph_update(token_symbol) {
 		},
 	}
 });
+}
+
+function refresh_orders(token_symbol) {
+	$('#buy-list').empty();
+	$('#sell-list').empty();
+	
+	$.post('/getorders', '&tokenSym=' + token_symbol + '&buyOrSell=buy', function(data, status) {
+		data.map(function (order) {
+			var time = new Date(order.timestamp_).toLocaleTimeString();
+			
+			$('#buy-list').append(
+				$('<li></li>').html('<div id="' + order.orderID + '"" class="buy-time">' + time + '</div><div class="buy-buyorsell">buy</div><div class="buy-price">' + order.price + '</div><div class="buy-numTokens">' + order.numTokens + '</div>')
+			);
+		});
+	});
+	
+	$.post('/getorders', '&tokenSym=' + token_symbol + '&buyOrSell=sell', function(data, status) {
+		console.log(data);
+		
+		data.map(function (order) {
+			var time = new Date(order.timestamp_).toLocaleTimeString();
+			
+			$('#sell-list').append(
+				$('<li></li>').html('<div id="' + order.orderID + '"" class="sell-time">' + time + '</div><div class="sell-buyorsell">sell</div><div class="sell-price">' + order.price + '</div><div class="sell-numTokens">' + order.numTokens + '</div>')
+			);
+		});
+	});
 }
 
 // refresh news
