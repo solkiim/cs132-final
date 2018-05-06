@@ -101,6 +101,11 @@ $(document).ready(function() {
 
 			var ul;
 
+			var hours = time.getHours();
+			var min = time.getUTCHours();
+			var secs = time.getUTCSeconds();
+			var hoursMin = hours + ":" + min + ":" + secs;
+
 			if (buyOrSell == "sell"){
 				ul = $('#sell-list');
 				ul.append($('<li></li>').html(
